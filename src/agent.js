@@ -31,29 +31,31 @@ function NotionAgent(options) {
   }
 
   /**
-   * API: /api/v3/loadPageChunk
-   * @param {string} pageId - The page id to request.
+   * Execute a raw call to /api/v3/loadPageChunk
+   * @param {string} pageID - The page ID to request.
+   * @param {number} chunkNo - The chunk number to request.
+   * @param {object} cursor - The cursor.
    * @returns {Promise.<object>} JSON object from response.
    */
-  this.loadPageChunk = async (pageId) => {
+  this.loadPageChunk = async (pageID, chunkNo, cursor) => {
 
-    assert(pageId, strings.PAGEID_NOT_FOUND)
+    assert(pageID, strings.PAGEID_NOT_FOUND)
 
-    const api = 'loadPageChunk'
-    log(`Sending request: ${api}`)
+    const apiURL = pathBase + 'loadPageChunk'
+    log(`Sending request: ${apiURL}`)
 
     const requestData = JSON.stringify({
-      "pageId": pageId,
-      "limit": 50,
-      "cursor": { "stack": [] },
-      "chunkNumber": 0,
+      "pageId": pageID,
+      "limit": cursor ? 30 : 50,
+      "cursor": cursor ? cursor : { "stack": [] },
+      "chunkNumber": chunkNo ? chunkNo : 0,
       "verticalColumns": false
     })
 
     Object.defineProperty(
       agentOptions,
       'path',
-      { writable: true, value: pathBase + api }
+      { writable: true, value: apiURL }
     )
 
     Object.defineProperty(
@@ -67,20 +69,161 @@ function NotionAgent(options) {
   }
 
   /**
-   * API: /api/v3/getAssetsJson
+   * Execute a raw call to /api/v3/getAssetsJson
    * @returns {Promise.<object>} JSON object from response.
    */
   this.getAssetsJson = async () => {
 
-    const api = 'getAssetsJson'
-    log(`Sending request: ${api}`)
+    const apiURL = pathBase + 'getAssetsJson'
+    log(`Sending request: ${apiURL}`)
 
     const requestData = JSON.stringify({})
 
     Object.defineProperty(
       agentOptions,
       'path',
-      { writable: true, value: pathBase + api }
+      { writable: true, value: apiURL }
+    )
+
+    Object.defineProperty(
+      agentOptions.headers,
+      'content-length',
+      { writable: true, value: requestData.length }
+    )
+
+    return await makeRequest(agentOptions, requestData)
+
+  }
+
+  /**
+   * A request object in the requests array for getRecordValues.
+   * @typedef {object} RecordRequest
+   * @property {string} table - The table to query.
+   * @property {string} id - ID of a item.
+   */
+
+  /**
+   * Execute a raw call to /api/v3/getRecordValues
+   * @param {RecordRequest[]} requests - The requests to make.
+   * @returns {Promise.<object>} JSON object from response.
+   */
+  this.getRecordValues = async (requests) => {
+
+    assert(Array.isArray(requests), strings.IDS_NOT_ARRAY)
+
+    const apiURL = pathBase + 'getRecordValues'
+    log(`Sending request: ${apiURL}`)
+
+    const requestData = JSON.stringify({
+      "requests": requests.map((request) => {
+        return {
+          "table": request.table,
+          "id": request.id
+        }
+      })
+    })
+
+    Object.defineProperty(
+      agentOptions,
+      'path',
+      { writable: true, value: apiURL }
+    )
+
+    Object.defineProperty(
+      agentOptions.headers,
+      'content-length',
+      { writable: true, value: requestData.length }
+    )
+
+    return await makeRequest(agentOptions, requestData)
+
+  }
+
+  /**
+   * Execute a raw call to /api/v3/loadUserContent
+   * @returns {Promise.<object>} JSON object from response.
+   */
+  this.loadUserContent = async () => {
+
+    const apiURL = pathBase + 'loadUserContent'
+    log(`Sending request: ${apiURL}`)
+
+    const requestData = JSON.stringify({})
+
+    Object.defineProperty(
+      agentOptions,
+      'path',
+      { writable: true, value: apiURL }
+    )
+
+    Object.defineProperty(
+      agentOptions.headers,
+      'content-length',
+      { writable: true, value: requestData.length }
+    )
+
+    return await makeRequest(agentOptions, requestData)
+
+  }
+
+  /**
+   * An aggregate query.
+   * @typedef AggregateQuery
+   * @property {string} id
+   * @property {string} type
+   * @property {string} property
+   * @property {string} view_type
+   * @property {string} aggregation_type
+   */
+
+  /**
+   * Info of a user.
+   * @typedef User
+   * @property {string} timeZone
+   * @property {string} locale
+   */
+
+  /**
+   * Execute a raw call to /api/v3/queryCollection
+   * @param {string} collectionID
+   * @param {string} collectionViewID
+   * @param {AggregateQuery[]} aggregateQueries
+   * @param {User} user
+   * @returns {Promise.<object>} JSON object from response.
+   */
+  this.queryCollection = async (collectionID, collectionViewID, aggregateQueries, user) => {
+
+    assert(collectionID, strings.COLLECTION_ID_NOT_FOUND)
+    assert(collectionViewID, strings.COLLECTION_VIEW_ID_NOT_FOUND)
+    assert(Array.isArray(aggregateQueries), strings.AGGREGATEQUERIES_NOT_ARRAY)
+    assert(user.timeZone, strings.USER_TIMEZONE_NOT_FOUND)
+    assert(user.locale, strings.USER_LOCALE_NOT_FOUND)
+
+    const apiURL = pathBase + 'queryCollection'
+    log(`Sending request: ${apiURL}`)
+
+    const requestData = JSON.stringify({
+      "collectionId": collectionID,
+      "collectionViewId": collectionViewID,
+      "query": {
+        "aggregate": aggregateQueries,
+        "filter_operator": "and",
+        "filter": [],
+        "sort": []
+      },
+      "loader": {
+        "type": "table",
+        "limit": 70,
+        "userTimeZone": user.timeZone,
+        "userLocale": user.locale,
+        "loadContentCover": true
+      }
+    })
+
+    Object.defineProperty(
+      agentOptions,
+      'path',
+      { writable: true, value: apiURL }
     )
 
     Object.defineProperty(

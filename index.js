@@ -14,7 +14,7 @@ async function main() {
     let pageId = ''
     let page = await agent.loadPageChunk(pageId)
     let assets = await agent.getAssetsJson()
-    fs.writeFileSync(`PageChunk_${pageId}.json`, JSON.stringify(page), { encoding: 'utf-8' })
+    fs.writeFileSync(`PageChunk.json`, JSON.stringify(page), { encoding: 'utf-8' })
     fs.writeFileSync(`Assets.json`, JSON.stringify(assets), { encoding: 'utf-8' })
   } catch (error) {
     console.error(error)
