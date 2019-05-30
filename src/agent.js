@@ -11,23 +11,48 @@ function NotionAgent(options) {
 
   const cookie = options.cookie
   const pathBase = '/api/v3/'
-  const agentOptions = {
-    hostname: 'www.notion.so',
-    port: 443,
-    path: '',
-    method: 'POST',
-    authority: 'www.notion.so',
-    headers: {
-      'accept': '*/*',
-      'accept-language': 'en-US,en;q=0.9',
-      'accept-encoding': 'gzip, deflate',
-      'content-length': 0,
-      'content-type': 'application/json',
-      'cookie': cookie,
-      'origin': 'https://www.notion.so',
-      'referer': 'https://www.notion.so',
-      'user-agent': strings.REQUEST_USER_AGENT
+
+  /**
+   * Make a request to Notion API.
+   * @param {string} apiURL - Notion API URL.
+   * @param {string} requestData - Request body.
+   * @returns {Promise.<object>} JSON object from response.
+   */
+  function makeRequestToNotion(apiURL, requestData) {
+
+    const agentOptions = {
+      hostname: 'www.notion.so',
+      port: 443,
+      path: '',
+      method: 'POST',
+      authority: 'www.notion.so',
+      headers: {
+        'accept': '*/*',
+        'accept-language': 'en-US,en;q=0.9',
+        'accept-encoding': 'gzip, deflate',
+        'content-length': 0,
+        'content-type': 'application/json',
+        'cookie': cookie,
+        'origin': 'https://www.notion.so',
+        'referer': 'https://www.notion.so',
+        'user-agent': strings.REQUEST_USER_AGENT
+      }
     }
+
+    Object.defineProperty(
+      agentOptions,
+      'path',
+      { writable: true, value: apiURL }
+    )
+
+    Object.defineProperty(
+      agentOptions.headers,
+      'content-length',
+      { writable: true, value: requestData.length }
+    )
+
+    return makeRequest(agentOptions, requestData)
+
   }
 
   /**
@@ -37,7 +62,7 @@ function NotionAgent(options) {
    * @param {object} cursor - The cursor.
    * @returns {Promise.<object>} JSON object from response.
    */
-  this.loadPageChunk = async (pageID, chunkNo, cursor) => {
+  this.loadPageChunk = (pageID, chunkNo, cursor) => {
 
     assert(pageID, strings.PAGEID_NOT_FOUND)
 
@@ -52,19 +77,7 @@ function NotionAgent(options) {
       "verticalColumns": false
     })
 
-    Object.defineProperty(
-      agentOptions,
-      'path',
-      { writable: true, value: apiURL }
-    )
-
-    Object.defineProperty(
-      agentOptions.headers,
-      'content-length',
-      { writable: true, value: requestData.length }
-    )
-
-    return await makeRequest(agentOptions, requestData)
+    return makeRequestToNotion(apiURL, requestData)
 
   }
 
@@ -72,26 +85,14 @@ function NotionAgent(options) {
    * Execute a raw call to /api/v3/getAssetsJson
    * @returns {Promise.<object>} JSON object from response.
    */
-  this.getAssetsJson = async () => {
+  this.getAssetsJson = () => {
 
     const apiURL = pathBase + 'getAssetsJson'
     log(`Sending request: ${apiURL}`)
 
     const requestData = JSON.stringify({})
 
-    Object.defineProperty(
-      agentOptions,
-      'path',
-      { writable: true, value: apiURL }
-    )
-
-    Object.defineProperty(
-      agentOptions.headers,
-      'content-length',
-      { writable: true, value: requestData.length }
-    )
-
-    return await makeRequest(agentOptions, requestData)
+    return makeRequestToNotion(apiURL, requestData)
 
   }
 
@@ -107,7 +108,7 @@ function NotionAgent(options) {
    * @param {RecordRequest[]} requests - The requests to make.
    * @returns {Promise.<object>} JSON object from response.
    */
-  this.getRecordValues = async (requests) => {
+  this.getRecordValues = (requests) => {
 
     assert(Array.isArray(requests), strings.IDS_NOT_ARRAY)
 
@@ -123,19 +124,7 @@ function NotionAgent(options) {
       })
     })
 
-    Object.defineProperty(
-      agentOptions,
-      'path',
-      { writable: true, value: apiURL }
-    )
-
-    Object.defineProperty(
-      agentOptions.headers,
-      'content-length',
-      { writable: true, value: requestData.length }
-    )
-
-    return await makeRequest(agentOptions, requestData)
+    return makeRequestToNotion(apiURL, requestData)
 
   }
 
@@ -143,26 +132,14 @@ function NotionAgent(options) {
    * Execute a raw call to /api/v3/loadUserContent
    * @returns {Promise.<object>} JSON object from response.
    */
-  this.loadUserContent = async () => {
+  this.loadUserContent = () => {
 
     const apiURL = pathBase + 'loadUserContent'
     log(`Sending request: ${apiURL}`)
 
     const requestData = JSON.stringify({})
 
-    Object.defineProperty(
-      agentOptions,
-      'path',
-      { writable: true, value: apiURL }
-    )
-
-    Object.defineProperty(
-      agentOptions.headers,
-      'content-length',
-      { writable: true, value: requestData.length }
-    )
-
-    return await makeRequest(agentOptions, requestData)
+    return makeRequestToNotion(apiURL, requestData)
 
   }
 
@@ -191,7 +168,7 @@ function NotionAgent(options) {
    * @param {User} user
    * @returns {Promise.<object>} JSON object from response.
    */
-  this.queryCollection = async (collectionID, collectionViewID, aggregateQueries, user) => {
+  this.queryCollection = (collectionID, collectionViewID, aggregateQueries, user) => {
 
     assert(collectionID, strings.COLLECTION_ID_NOT_FOUND)
     assert(collectionViewID, strings.COLLECTION_VIEW_ID_NOT_FOUND)
@@ -220,19 +197,7 @@ function NotionAgent(options) {
       }
     })
 
-    Object.defineProperty(
-      agentOptions,
-      'path',
-      { writable: true, value: apiURL }
-    )
-
-    Object.defineProperty(
-      agentOptions.headers,
-      'content-length',
-      { writable: true, value: requestData.length }
-    )
-
-    return await makeRequest(agentOptions, requestData)
+    return makeRequestToNotion(apiURL, requestData)
 
   }
 
