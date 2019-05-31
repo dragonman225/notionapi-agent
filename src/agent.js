@@ -20,17 +20,18 @@ function NotionAgent(options) {
    */
   function makeRequestToNotion(apiURL, requestData) {
 
+    /* Options passed to https.request(). */
     const agentOptions = {
       hostname: 'www.notion.so',
       port: 443,
-      path: '',
+      path: apiURL,
       method: 'POST',
       authority: 'www.notion.so',
       headers: {
         'accept': '*/*',
         'accept-language': 'en-US,en;q=0.9',
         'accept-encoding': 'gzip, deflate',
-        'content-length': 0,
+        'content-length': requestData.length,
         'content-type': 'application/json',
         'cookie': cookie,
         'origin': 'https://www.notion.so',
@@ -38,18 +39,6 @@ function NotionAgent(options) {
         'user-agent': strings.REQUEST_USER_AGENT
       }
     }
-
-    Object.defineProperty(
-      agentOptions,
-      'path',
-      { writable: true, value: apiURL }
-    )
-
-    Object.defineProperty(
-      agentOptions.headers,
-      'content-length',
-      { writable: true, value: requestData.length }
-    )
 
     return makeRequest(agentOptions, requestData)
 
