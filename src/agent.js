@@ -190,4 +190,41 @@ function NotionAgent(options) {
 
   }
 
+  /**
+   * An operation to Notion document.
+   * @typedef Operation
+   * @property {string} id - The ID of the block where the operation apply.
+   * @property {string} table - Usually "block".
+   * @property {string[]} path - Property path relative to the block itself.
+   * @property {string} command - The operation type. e.g. "set", "update".
+   * @property {any[]} args - The arguments of the command.
+   */
+
+  /**
+   * Execute a raw call to /api/v3/submitTransaction
+   * @param {Operation[]} operations
+   * @returns {Promise.<object>} JSON object from response. Normally {}.
+   */
+  this.submitTransaction = (operations) => {
+
+    assert(Array.isArray(operations))
+    operations.forEach(operation => {
+      assert(operation.id)
+      assert(operation.table)
+      assert(operation.path)
+      assert(operation.command)
+      assert(operation.args)
+    })
+
+    const apiURL = pathBase + 'submitTransaction'
+    log(`Sending request: ${apiURL}`)
+
+    const requestData = JSON.stringify({
+      "operations": operations
+    })
+
+    return makeRequestToNotion(apiURL, requestData)
+
+  }
+
 }

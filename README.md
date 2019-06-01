@@ -97,7 +97,7 @@ Execute a raw call to /api/v3/getRecordValues
   [
     {
       "table": "block",
-      "id": "cbf2b645-ffff-ffff-ffff-f851e8cfed93"
+      "id": "cbf2b645-xxxx-xxxx-xxxx-xxxxe8cfed93"
     }
   ]
   ```
@@ -155,3 +155,27 @@ Execute a raw call to /api/v3/queryCollection
 #### Returns : 
 
 Data in a collection.
+
+
+
+### `submitTransaction(operations)`
+
+Execute a raw call to /api/v3/submitTransaction
+
+* `operations` - (required) The operations to submit. See below for example.
+
+  ```javascript
+  [
+    {
+      "id":"cda54abd-xxxx-xxxx-xxxx-xxxx65c4a5e2",
+      "table":"block",
+      "path":["properties","title"],
+      "command":"set",
+      "args":[["test",[["h","yellow_background"]]]]
+    }
+  ]
+  ```
+
+#### Returns : 
+
+Normally an empty object.
