@@ -6,7 +6,7 @@ module.exports = makeRequest
 
 /**
  * Send a https request and get the response.
- * @param {object} options - Options passed to https.request().
+ * @param {Object} options - Options passed to https.request().
  * @param {*} payload - Request body.
  * @returns {Promise.<*>} Response from remote.
  */
@@ -47,9 +47,10 @@ function makeRequest(options, payload) {
         } else if (encoding === 'deflate') {
           buffer = zlib.inflateSync(buffer)
         }
-        buffer = JSON.parse(buffer)
+        buffer = parseJSON(buffer)
         resolve(buffer)
       })
+
     })
 
     /**
@@ -65,4 +66,17 @@ function makeRequest(options, payload) {
     req.write(payload)
     req.end()
   })
+}
+
+/**
+ * Failsafe JSON.parse() wrapper.
+ * @param {*} str - Payload to parse.
+ * @returns {Object} Parsed object when success, undefined when fail.
+ */
+function parseJSON(str) {
+  try {
+    return JSON.parse(str)
+  } catch (error) {
+    return void 0
+  }
 }
