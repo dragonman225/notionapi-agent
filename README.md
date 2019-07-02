@@ -16,24 +16,19 @@
 ## Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/dragonman225/notionapi-agent.git
-# Or, install as a dependency. Then, you can use "require('notionapi-agent')".
+# Install master branch of git repo from Github.
 npm i dragonman225/notionapi-agent
-# Also from NPM registry
+# Install latest release from NPM registry
 npm i notionapi-agent
 ```
 
 ## Quickstart
 
-An example script is included in the repository. See `index.js`.
+An example script is included in the repository. See `test/agent.spec.js`.
 Or you can take a look at the below code block.
 
 ```javascript
 const fs = require('fs')
-/* If you clone this git repo: */
-const NotionAgent = require('./src/agent')
-/* If you install as a dependency: */
 const NotionAgent = require('notionapi-agent')
 
 /* Fill in your cookie. */
@@ -49,8 +44,8 @@ async function main() {
     let pageId = ''
     let page = await agent.loadPageChunk(pageId)
     let assets = await agent.getAssetsJson()
-    fs.writeFileSync(`PageChunk.json`, JSON.stringify(page), { encoding: 'utf-8' })
-    fs.writeFileSync(`Assets.json`, JSON.stringify(assets), { encoding: 'utf-8' })
+    fs.writeFileSync(`PageChunk.json`, JSON.stringify(page.data), { encoding: 'utf-8' })
+    fs.writeFileSync(`Assets.json`, JSON.stringify(assets.data), { encoding: 'utf-8' })
   } catch (error) {
     console.error(error)
   }
@@ -63,25 +58,42 @@ The API requests are asynchronous, and I wrapped them with `Promise`, so you can
 
 ## Instance Options
 
-* `cookie` - (required) Your cookie. You can obtain that with a browser: Open devtool, switch to **Network** tab, reload page, find a request whose **Request URL** contains `https://www.notion.so/api/v3/`, look at its **Request Headers** section, you will find **cookie**.
-  * **The library only sents the cookie to `www.notion.so:443`**, refer to `src/agent.js` and `src/make-request.js` for details.
-  * It may be possible to use only part of the cookie to authenticate, or even no need to authenticate for public pages, but in current stage my priority is to make things work, so I just use the whole cookie, the same as what browsers do.
+* `cookie` - (optional) Your cookie. You can obtain that with a browser: Open devtool, switch to **Network** tab, reload page, find a request whose **Request URL** contains `https://www.notion.so/api/v3/`, look at its **Request Headers** section, you will find **cookie**.
+  * When cookie is not provided, only data of public pages can be get, and only partial API works.
+  * **The library only sents the cookie to `www.notion.so:443`**, refer to `lib/agent.js` for details.
+  * It may be possible to use only `token_v2` of the cookie to authenticate,  but I haven't test it, for now I just use the whole cookie, mimic the browser's behavior.
 
 ## API Methods
 
-After creating an instance, you can use the following methods.
+All methods return `Promise` that will resolve with the following structure :
+
+```javascript
+{
+  statusCode: Number // HTTP status code.
+  data: Object // Object parsed from JSON response.
+}
+```
+
+Note that if raw response from Notion is not JSON, the above `data` field will be an empty object.
+
+
 
 ### `loadPageChunk(pageID, chunkNo, cursor)`
 
 Execute a raw call to `/api/v3/loadPageChunk`
 
-* `pageId` - (required) An ID string.
+* `pageID` - (required) An ID string.
 * `chunkNo` - (optional, default: `0`)
 * `cursor` - (optional, default: `{ "stack": [] }`)
 
 #### Returns : 
 
-One chunk of a page.
+```javascript
+{
+  statusCode: Number // HTTP status code.
+  data: Object // One chunk of the page.
+}
+```
 
 
 
@@ -93,7 +105,12 @@ Execute a raw call to `/api/v3/getAssetsJson`
 
 #### Returns : 
 
-Paths to all assets like images, scripts, etc.
+```javascript
+{
+  statusCode: Number // HTTP status code.
+  data: Object // Paths to all assets like images, scripts, etc.
+}
+```
 
 
 
@@ -112,10 +129,14 @@ Execute a raw call to /api/v3/getRecordValues
   ]
   ```
 
-
 #### Returns : 
 
-Content of requested blocks, collection_views, etc.
+```javascript
+{
+  statusCode: Number // HTTP status code.
+  data: Object // Content of requested blocks, collection_views, etc.
+}
+```
 
 
 
@@ -127,7 +148,12 @@ Execute a raw call to /api/v3/loadUserContent
 
 #### Returns : 
 
-Everything about a user : identity information, settings.
+```javascript
+{
+  statusCode: Number // HTTP status code.
+  data: Object // Everything about a user: identity information, settings.
+}
+```
 
 
 
@@ -164,7 +190,12 @@ Execute a raw call to /api/v3/queryCollection
 
 #### Returns : 
 
-Data in a collection.
+```javascript
+{
+  statusCode: Number // HTTP status code.
+  data: Object // Data in a collection.
+}
+```
 
 
 
@@ -188,4 +219,9 @@ Execute a raw call to /api/v3/submitTransaction
 
 #### Returns : 
 
-Normally an empty object.
+```javascript
+{
+  statusCode: Number // HTTP status code.
+  data: Object // Normally an empty object.
+}
+```
