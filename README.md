@@ -1,10 +1,8 @@
 # notionapi-agent
 
-> This is an unofficial Javascript API client for [Notion.so](https://www.notion.so).
->
-> Currently some essential read APIs and one write API are included.
->
-> The library is meant to provide a basic abstraction, so all returned data are unaltered JSON objects from Notion.
+Unofficial Node.js API client for [Notion.so](https://www.notion.so).
+
+> This is a work-in-progress project. If you need to use Notion's API in production, I recommend waiting for their official release.
 
 ## Documentation
 
@@ -16,10 +14,10 @@
 ## Installation
 
 ```bash
+# Install latest release from NPM registry.
+npm i notionapi-agent
 # Install master branch of git repo from Github.
 npm i dragonman225/notionapi-agent
-# Install latest release from NPM registry
-npm i notionapi-agent
 ```
 
 ## Quickstart
@@ -31,9 +29,9 @@ Or you can take a look at the below code block.
 const fs = require('fs')
 const NotionAgent = require('notionapi-agent')
 
-/* Fill in your cookie. */
+/* Fill in your token. */
 const options = {
-  cookie: ''
+  token: ''
 }
 
 const agent = new NotionAgent(options)
@@ -54,14 +52,11 @@ async function main() {
 main()
 ```
 
-The API requests are asynchronous, and I wrapped them with `Promise`, so you can use `async` / `await` to interact with them.
+The API requests are asynchronous and are implemented with `Promise`.
 
 ## Instance Options
 
-* `cookie` - (optional) Your cookie. You can obtain that with a browser: Open devtool, switch to **Network** tab, reload page, find a request whose **Request URL** contains `https://www.notion.so/api/v3/`, look at its **Request Headers** section, you will find **cookie**.
-  * When cookie is not provided, only data of public pages can be get, and only partial API works.
-  * **The library only sents the cookie to `www.notion.so:443`**, refer to `lib/agent.js` for details.
-  * It may be possible to use only `token_v2` of the cookie to authenticate,  but I haven't test it, for now I just use the whole cookie, mimic the browser's behavior.
+* `token` - (optional) The Notion API token to access your private pages. If you only need to access public pages, this can be empty. Follow this [guide](docs/obtain_token.md) to obtain your token.
 
 ## API Methods
 
@@ -82,9 +77,9 @@ Note that if raw response from Notion is not JSON, the above `data` field will b
 
 Execute a raw call to `/api/v3/loadPageChunk`
 
-* `pageID` - (required) An ID string.
-* `chunkNo` - (optional, default: `0`)
-* `cursor` - (optional, default: `{ "stack": [] }`)
+* `pageID` - (required, String) A page ID, dashed version.
+* `chunkNo` - (optional, Number, default: `0`)
+* `cursor` - (optional, Object, default: `{ "stack": [] }`)
 
 #### Returns : 
 
@@ -118,7 +113,7 @@ Execute a raw call to `/api/v3/getAssetsJson`
 
 Execute a raw call to /api/v3/getRecordValues
 
-* `requests` - (required) See below example.
+* `requests` - (required, Object) See below example.
 
   ```javascript
   [
@@ -161,11 +156,11 @@ Execute a raw call to /api/v3/loadUserContent
 
 Execute a raw call to /api/v3/queryCollection
 
-* `collectionID` - (required) An ID string.
+* `collectionID` - (required, String) A collection ID.
 
-* `collectionViewID` - (required) An ID string.
+* `collectionViewID` - (required, String) A collectionView ID.
 
-* `aggregateQueries` - (required) See below example.
+* `aggregateQueries` - (required, Object) See below example.
 
   ```javascript
   [
@@ -203,7 +198,7 @@ Execute a raw call to /api/v3/queryCollection
 
 Execute a raw call to /api/v3/submitTransaction
 
-* `operations` - (required) The operations to submit. See below for example.
+* `operations` - (required, Object) The operations to submit. See below for example.
 
   ```javascript
   [

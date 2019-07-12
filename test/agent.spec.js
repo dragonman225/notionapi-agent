@@ -2,9 +2,9 @@ const fs = require('fs')
 const path = require('path')
 const NotionAgent = require('../lib/agent')
 
-/* Fill in your cookie. */
+/* Fill in your token. */
 const options = {
-  cookie: ''
+  token: ''
 }
 
 const agent = new NotionAgent(options)
