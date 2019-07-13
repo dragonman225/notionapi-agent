@@ -6,7 +6,7 @@
 
 2. Open developer tools.
 
-   ![](/mnt/data/Sync/Web/Projects/notion-collection/notionapi-agent/docs/images/open_dev_tool.png)
+   ![](images/open_dev_tool.png)
 
 3. Go to **Application** tab, open **Cookies** toggle on the left sidebar, click **https://www.notion.so**.
 
