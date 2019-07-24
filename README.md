@@ -57,6 +57,8 @@ The API requests are asynchronous and are implemented with `Promise`.
 ## Instance Options
 
 * `token` - (optional) The Notion API token to access your private pages. If you only need to access public pages, this can be empty. Follow this [guide](docs/obtain_token.md) to obtain your token.
+* `timeZone` - (optional) Default to `Asia/Taipei`.
+* `locale` - (optional) Default to `en`.
 
 ## API Methods
 
@@ -152,7 +154,7 @@ Execute a raw call to /api/v3/loadUserContent
 
 
 
-### `queryCollection(collectionID, collectionViewID, aggregateQueries, user)`
+### `queryCollection(collectionID, collectionViewID, aggregateQueries)`
 
 Execute a raw call to /api/v3/queryCollection
 
@@ -172,15 +174,6 @@ Execute a raw call to /api/v3/queryCollection
       "aggregation_type":"not_empty"
     }
   ]
-  ```
-
-* `user` - (required) See below example.
-
-  ```javascript
-  {
-    timeZone: "Asia/Taipei",
-    locale: 'en'
-  }
   ```
 
 #### Returns : 
