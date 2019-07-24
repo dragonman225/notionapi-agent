@@ -4,7 +4,7 @@ const NotionAgent = require('../lib/agent')
 
 /* Fill in your token. */
 const options = {
-  token: ''
+  
 }
 
 const agent = new NotionAgent(options)
