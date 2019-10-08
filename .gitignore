@@ -21,4 +21,5 @@ node_modules/
 
 # Project
 test/*
-!test/agent.spec.js
+!test/index.spec.ts
+pnpm-lock.yaml

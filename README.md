@@ -10,6 +10,7 @@ Unofficial Node.js API client for [Notion.so](https://www.notion.so).
 * [Quickstart](#Quickstart)
 * [Instance Options](#Instance-Options)
 * [API Methods](#API-Methods)
+* [Note](#Note)
 
 ## Installation
 
@@ -27,7 +28,7 @@ Or you can take a look at the below code block.
 
 ```javascript
 const fs = require('fs')
-const NotionAgent = require('notionapi-agent')
+const { NotionAgent } = require('notionapi-agent')
 
 /* Fill in your token. */
 const options = {
@@ -60,10 +61,11 @@ The API requests are asynchronous and are implemented with `Promise`.
 * `timeZone` - (optional) User's timezone, default: `Asia/Taipei`.
 * `locale` - (optional) User's locale, default: `en`.
 * `suppressWarning` - (optional) Whether to hide warnings, default: `false`.
+* `verbose` - (optional) Whether to show status messages, default: `true`.
 
 ## API Methods
 
-All methods return `Promise` that will resolve with the following structure :
+All methods return `Promise` that will resolve with the following object :
 
 ```javascript
 {
@@ -72,7 +74,7 @@ All methods return `Promise` that will resolve with the following structure :
 }
 ```
 
-Note that if raw response from Notion is not JSON, the above `data` field will be an empty object.
+If raw response from Notion is not JSON, the `data` property will be an empty object.
 
 
 
@@ -214,3 +216,9 @@ Execute a raw call to /api/v3/submitTransaction
   data: Object // Normally an empty object.
 }
 ```
+
+## Note
+
+### Project Structure
+
+![project structure graph](report/deps_graph.svg)

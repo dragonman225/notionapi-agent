@@ -1,10 +1,10 @@
-const fs = require('fs')
-const path = require('path')
-const NotionAgent = require('../lib/agent')
+import * as fs from 'fs'
+import * as path from 'path'
+import { NotionAgent } from '../src'
 
 /* Fill in your token. */
 const options = {
-  
+  token: ''
 }
 
 const agent = new NotionAgent(options)

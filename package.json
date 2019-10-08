@@ -2,9 +2,14 @@
   "name": "notionapi-agent",
   "version": "0.5.2",
   "description": "Unofficial Notion.so API client.",
-  "main": "lib/agent.js",
+  "main": "dist/index.js",
+  "types": "dist/index",
   "scripts": {
-    "test": "node test/agent.spec.js"
+    "build": "tsc && npm run report:deps_graph",
+    "test": "ts-node test/index.spec.ts",
+    "release": "npm run build && npm publish",
+    "report:deps_graph": "npx depcruise --exclude '^node_modules' --output-type dot --prefix 'https://github.com/dragonman225/notionapi-agent/tree/master/' src/index.ts | dot -T svg > report/deps_graph.svg",
+    "upgrade": "pnpm i typescript@latest eslint@latest dependency-cruiser@latest @typescript-eslint/parser@latest @typescript-eslint/eslint-plugin@latest @types/node@latest ts-node@latest @dnpr/make-request@latest --save-exact"
   },
   "repository": {
     "type": "git",
@@ -19,11 +24,21 @@
   ],
   "author": "dragonman225",
   "license": "MIT",
+  "dependencies": {
+    "@dnpr/make-request": "0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "12.7.11",
+    "@typescript-eslint/eslint-plugin": "2.3.3",
+    "@typescript-eslint/parser": "2.3.3",
+    "dependency-cruiser": "5.2.0",
+    "eslint": "6.5.1",
+    "ts-node": "8.4.1",
+    "typescript": "3.6.3"
+  },
   "bugs": {
     "url": "https://github.com/dragonman225/notionapi-agent/issues"
   },
   "homepage": "https://github.com/dragonman225/notionapi-agent",
-  "dependencies": {
-    "@dnpr/make-request": "^0.1.0"
-  }
+  "typeScriptVersion": "3.6"
 }
