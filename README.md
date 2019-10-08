@@ -1,16 +1,33 @@
 # notionapi-agent
 
+![version](https://img.shields.io/npm/v/notionapi-agent.svg?style=flat-square&color=007acc&label=version) ![language](https://img.shields.io/badge/language-typescript-blue.svg?style=flat-square) ![license](https://img.shields.io/github/license/dragonman225/notionapi-agent.svg?style=flat-square&label=license&color=08CE5D)
+
 Unofficial Node.js API client for [Notion.so](https://www.notion.so).
 
 > This is a work-in-progress project. If you need to use Notion's API in production, I recommend waiting for their official release.
 
 ## Documentation
 
+* [Announcement](#Announcement)
 * [Installation](#Installation)
 * [Quickstart](#Quickstart)
 * [Instance Options](#Instance-Options)
 * [API Methods](#API-Methods)
 * [Note](#Note)
+
+## Announcement
+
+When using v0.6.0+, import this library with
+
+```javascript
+const { NotionAgent } = require('notionapi-agent')
+```
+
+Instead of
+
+```javascript
+const NotionAgent = require('notionapi-agent')
+```
 
 ## Installation
 
