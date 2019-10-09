@@ -75,7 +75,7 @@ The API requests are asynchronous and are implemented with `Promise`.
 ## Instance Options
 
 * `token` - (optional) The Notion API token to access your private pages. If you only need to access public pages, this can be empty. Follow this [guide](docs/obtain_token.md) to obtain your token.
-* `timeZone` - (optional) User's timezone, default: `Asia/Taipei`.
+* `timezone` - (optional) User's timezone, default: `Asia/Taipei`.
 * `locale` - (optional) User's locale, default: `en`.
 * `suppressWarning` - (optional) Whether to hide warnings, default: `false`.
 * `verbose` - (optional) Whether to show status messages, default: `true`.
