@@ -135,7 +135,7 @@ Execute a raw call to `/api/v3/getAssetsJson`
 
 Execute a raw call to /api/v3/getRecordValues
 
-* `requests` - (required, Object) See below example.
+* `requests` - (required, Array of [RecordRequest](https://github.com/dragonman225/notionapi-agent/blob/3f671fbb2c7efb6cd5ff9b13e50baba766cb3600/src/index.ts#L35)) See below example.
 
   ```javascript
   [
@@ -182,7 +182,7 @@ Execute a raw call to /api/v3/queryCollection
 
 * `collectionViewID` - (required, String) A collectionView ID.
 
-* `aggregateQueries` - (required, Object) See below example.
+* `aggregateQueries` - (required, Array of [AggregateQuery](https://github.com/dragonman225/notionapi-agent/blob/3f671fbb2c7efb6cd5ff9b13e50baba766cb3600/src/index.ts#L49)) See below example.
 
   ```javascript
   [
@@ -211,7 +211,7 @@ Execute a raw call to /api/v3/queryCollection
 
 Execute a raw call to /api/v3/submitTransaction
 
-* `operations` - (required, Object) The operations to submit. See below for example.
+* `operations` - (required, Array of [DocumentOperation](https://github.com/dragonman225/notionapi-agent/blob/3f671fbb2c7efb6cd5ff9b13e50baba766cb3600/src/index.ts#L66)) The operations to submit. See below for example.
 
   ```javascript
   [
