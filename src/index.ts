@@ -107,7 +107,7 @@ class NotionAgent {
     timezone: 'Asia/Taipei',
     locale: 'en',
     suppressWarning: false,
-    verbose: true
+    verbose: false
   }) {
     this.token = opts.token || ''
     this.timezone = opts.timezone || 'Asia/Taipei'
@@ -115,7 +115,7 @@ class NotionAgent {
     this.suppressWarning = (typeof opts.suppressWarning === 'undefined')
       ? false : opts.suppressWarning
     this.verbose = (typeof opts.verbose === 'undefined')
-      ? true : opts.verbose
+      ? false : opts.verbose
 
     if (!this.suppressWarning && this.token.length === 0) {
       log(strings.NO_TOKEN_WARNING)
