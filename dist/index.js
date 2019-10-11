@@ -3,29 +3,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/* Library imports ------------------------------------------------------*/
+/*************************************************************************
+ * Library imports                                                       *
+ *************************************************************************/
 const assert_1 = __importDefault(require("assert"));
 const make_request_1 = require("@dnpr/make-request");
 const utils_1 = require("./utils");
 const strings_1 = require("./strings");
-/* Constants ------------------------------------------------------------*/
+/*************************************************************************
+ * Constants                                                             *
+ *************************************************************************/
 const API_BASE = '/api/v3';
-/* Notion.so data structures --------------------------------------------*/
-/**
- * Error response from Notion.so
- * @typedef NotionError
- * @property {string} errorId
- * @property {string} name
- * @property {string} message
- * @property {string} status
- */
-// type NotionError = {
-//   errorId: string
-//   name: string
-//   message: string
-//   status: string
-// }
-/* NotionAgent implementation -------------------------------------------*/
+/*************************************************************************
+ * NotionAgent implementation                                            *
+ *************************************************************************/
 /* An agent to interact with Notion.so's HTTP API */
 class NotionAgent {
     constructor(opts = {
@@ -33,7 +24,7 @@ class NotionAgent {
         timezone: 'Asia/Taipei',
         locale: 'en',
         suppressWarning: false,
-        verbose: true
+        verbose: false
     }) {
         this.token = opts.token || '';
         this.timezone = opts.timezone || 'Asia/Taipei';
@@ -41,7 +32,7 @@ class NotionAgent {
         this.suppressWarning = (typeof opts.suppressWarning === 'undefined')
             ? false : opts.suppressWarning;
         this.verbose = (typeof opts.verbose === 'undefined')
-            ? true : opts.verbose;
+            ? false : opts.verbose;
         if (!this.suppressWarning && this.token.length === 0) {
             utils_1.log(strings_1.strings.NO_TOKEN_WARNING);
         }
@@ -51,7 +42,7 @@ class NotionAgent {
      * @param pageID - The page ID to request.
      * @param chunkNo - The chunk number to request.
      * @param cursor - The cursor.
-     * @returns JSON object from response.
+     * @returns HTTP status code and JSON object from response.
      */
     loadPageChunk(pageID, chunkNo = 0, cursor = { "stack": [] }) {
         assert_1.default(pageID, strings_1.strings.PAGEID_NOT_FOUND);
@@ -67,7 +58,7 @@ class NotionAgent {
     } // loadPageChunk
     /**
      * Execute a raw call to /api/v3/getAssetsJson
-     * @returns JSON object from response.
+     * @returns HTTP status code and JSON object from response.
      */
     getAssetsJson() {
         const apiURL = API_BASE + '/getAssetsJson';
@@ -77,7 +68,7 @@ class NotionAgent {
     /**
      * Execute a raw call to /api/v3/getRecordValues
      * @param requests - The requests to make.
-     * @returns JSON object from response.
+     * @returns HTTP status code and JSON object from response.
      */
     getRecordValues(requests) {
         assert_1.default(Array.isArray(requests), strings_1.strings.IDS_NOT_ARRAY);
@@ -94,7 +85,7 @@ class NotionAgent {
     } // getRecordValues
     /**
      * Execute a raw call to /api/v3/loadUserContent
-     * @returns JSON object from response.
+     * @returns HTTP status code and JSON object from response.
      */
     loadUserContent() {
         const apiURL = API_BASE + '/loadUserContent';
@@ -106,7 +97,7 @@ class NotionAgent {
      * @param collectionID
      * @param collectionViewID
      * @param aggregateQueries
-     * @returns JSON object from response.
+     * @returns HTTP status code and JSON object from response.
      */
     queryCollection(collectionID, collectionViewID, aggregateQueries) {
         assert_1.default(collectionID, strings_1.strings.COLLECTION_ID_NOT_FOUND);
@@ -134,7 +125,7 @@ class NotionAgent {
     /**
      * Execute a raw call to /api/v3/submitTransaction
      * @param operations
-     * @returns JSON object from response. Normally {}.
+     * @returns HTTP status code and JSON object from response.
      */
     submitTransaction(operations) {
         assert_1.default(Array.isArray(operations));
@@ -155,7 +146,7 @@ class NotionAgent {
      * Make a request to Notion API.
      * @param apiURL - Notion API URL.
      * @param requestData - Request body.
-     * @returns JSON object from response.
+     * @returns HTTP status code and JSON object from response.
      */
     async makeRequestToNotion(apiURL, requestData) {
         /* Options passed to https.request(). */

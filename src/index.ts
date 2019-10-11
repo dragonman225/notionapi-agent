@@ -1,14 +1,19 @@
-/* Library imports ------------------------------------------------------*/
+/*************************************************************************
+ * Library imports                                                       *
+ *************************************************************************/
 import assert from 'assert'
 import { makeHTTPSRequest } from '@dnpr/make-request'
 import { log, parseJSON } from './utils'
 import { strings } from './strings'
 
-/* Constants ------------------------------------------------------------*/
+/*************************************************************************
+ * Constants                                                             *
+ *************************************************************************/
 const API_BASE = '/api/v3'
 
-/* NotionAgent data structures ------------------------------------------*/
-
+/*************************************************************************
+ * NotionAgent data structures                                           *
+ *************************************************************************/
 /**
  * Options of NotionAgent constructor
  * @typedef AgentOptions
@@ -18,7 +23,7 @@ const API_BASE = '/api/v3'
  * @property {boolean} suppressWarning - Whether to hide warnings
  * @property {boolean} verbose - Whether to show status messages
  */
-type AgentOptions = {
+export interface AgentOptions {
   token?: string
   timezone?: string
   locale?: string
@@ -32,26 +37,9 @@ type AgentOptions = {
  * @property {string} id - ID of a item
  * @property {string} table - The table to query
  */
-type RecordRequest = {
+export interface RecordRequest {
   id: string
   table: string
-}
-
-/**
- * An aggregate query
- * @typedef AggregateQuery
- * @property {string} id
- * @property {string} type
- * @property {string} property
- * @property {string} view_type
- * @property {string} aggregation_type 
- */
-type AggregateQuery = {
-  id: string
-  type: string
-  property: string
-  view_type: string
-  aggregation_type: string
 }
 
 /**
@@ -63,7 +51,7 @@ type AggregateQuery = {
  * @property {string} command - The operation type. e.g. "set", "update"
  * @property {any[]} args - The arguments of the command
  */
-type DocumentOperation = {
+export interface DocumentOperation {
   id: string
   table: string
   path: string[]
@@ -71,29 +59,314 @@ type DocumentOperation = {
   args: any[]
 }
 
+/*************************************************************************
+ * Notion.so data structures                                             *
+ *************************************************************************/
+/* API interface --------------------------------------------------------*/
+/** /api/v3/getAssetsJson response */
+export interface GetAssetsJsonResponse {
+  entry: string
+  files: AssetFile[]
+  headersWhitelist: string[]
+  proxyServerPathPrefixes: string[]
+  version: string
+}
 
+/** /api/v3/getRecordValues response */
+export interface GetRecordValuesResponse {
+  results: any[]
+}
 
-/* Notion.so data structures --------------------------------------------*/
+/** /api/v3/loadPageChunk response */
+export interface LoadPageChunkResponse {
+  recordMap: RecordMap
+  cursor: Cursor
+}
+
+export interface AssetFile {
+  hash: string
+  path: string
+  size: number
+}
+
+export interface RecordMap {
+  block: {
+    [key: string]: {
+      role: string
+      value: BlockRecord
+    }
+  }
+  collection: {
+    [key: string]: {
+      role: string
+      value: CollectionRecord
+    }
+  }
+  collection_view: {
+    [key: string]: {
+      role: string
+      value: CollectionViewRecord
+    }
+  }
+  notion_user: {
+    [key: string]: {
+      role: string
+      value: NotionUserRecord
+    }
+  }
+  space: {
+    [key: string]: {
+      role: string
+      value: SpaceRecord
+    }
+  }
+}
+
+export interface Cursor {
+  stack: []
+}
+
+/* Block Record ---------------------------------------------------------*/
+export interface BlockRecord {
+  id: string
+  version: number
+  type: string
+  view_ids?: string[]
+  collection_id?: string
+  properties?: BlockProperties
+  format?: BlockFormat
+  permissions?: Permission[]
+  content?: string[]
+  created_by: string
+  created_time: number
+  last_edited_by: string
+  last_edited_time: number
+  parent_id: string
+  parent_table: string
+  alive: boolean
+  copied_from?: string
+}
+
+export interface BlockProperties {
+  link?: {
+    0: { 0: string } // bookmark
+  }
+  title?: StyledString[] // text, heading, list, bookmark
+  description?: {
+    0: { 0: string } // bookmark
+  }
+  checked?: {
+    0: { 0: 'Yes' | 'No' } // to_do
+  }
+  source?: {
+    0: { 0: string } // audio
+  }
+  language?: {
+    0: { 0: string } // code
+  }
+}
 
 /**
- * Error response from Notion.so
+ * For non-boolean properties, test with 
+ *  <property> || <default_value>.
+ * 
+ * For boolean properties, test with 
+ *  typeof <property> !== 'undefined' ? <property> : <default_value> 
+ *  because we have to distinguish `false` and `undefined`.
+ */
+export interface BlockFormat {
+  block_color?: string
+  block_width?: number // image, video
+  block_height?: number // codepen
+  block_locked?: boolean
+  block_full_width?: boolean // image, video
+  block_page_width?: boolean // image, video
+  block_aspect_ratio?: number // video
+  block_preserve_scale?: boolean // video
+  block_locked_by?: string
+  bookmark_icon?: string // bookmark
+  bookmark_cover?: string // bookmark
+  code_wrap?: boolean // code
+  column_ratio?: number // column
+  display_source?: string // image, video
+  page_icon?: string
+  page_cover?: string
+  page_full_width?: boolean
+  page_cover_position?: number
+}
+
+/* Collection Record ----------------------------------------------------*/
+export interface CollectionRecord {
+  id: string
+  name: {
+    0: { 0: string }
+  }
+  icon?: string
+  cover?: string
+  description?: StyledString[]
+  format?: CollectionFormat
+  parent_id: string
+  parent_table: string
+  schema: {
+    [key: string]: CollectionColumnInfo
+  }
+  version: number
+  alive: boolean
+}
+
+export interface CollectionFormat {
+  collection_cover_position?: number
+}
+
+export interface CollectionColumnInfo {
+  name: string
+  options: CollectionColumnOption[]
+  type: string
+}
+
+export interface CollectionColumnOption {
+  id: string
+  color: string
+  value: string
+}
+
+/* CollectionView Record ------------------------------------------------*/
+export interface CollectionViewRecord {
+  alive: boolean
+  format: CollectionViewFormat
+  id: string
+  name: string
+  page_sort: string[]
+  parent_id: string
+  parent_table: string
+  query: Query
+  type: string
+  version: number
+}
+
+export interface CollectionViewFormat {
+  table_properties?: TableProperty[]
+  table_wrap?: boolean
+  gallery_properties?: GalleryProperty[]
+  gallery_cover?: { type: string }
+  gallery_cover_aspect?: string
+  gallery_title_visible?: boolean
+}
+
+export interface TableProperty {
+  width: number
+  visible: boolean
+  property: string
+}
+
+export interface GalleryProperty {
+  visible: boolean
+  property: string
+}
+
+/* NotionUser Record ----------------------------------------------------*/
+export interface NotionUserRecord {
+  id: string
+  version: number
+  email: string
+  given_name: string
+  family_name: string
+  profile_photo: string
+  onboarding_completed: boolean
+  mobile_onboarding_completed: boolean
+  clipper_onboarding_completed: boolean
+}
+
+/* Space Record ---------------------------------------------------------*/
+export interface SpaceRecord {
+  id: string
+  version: number
+  name: string
+  permissions: Permission[]
+  beta_enabled: boolean
+  pages: string[]
+  created_by: string
+  created_time: number
+  last_edited_by: string
+  last_edited_time: number
+}
+
+/* Basic structure ------------------------------------------------------*/
+export interface Permission {
+  role: string
+  type: string
+  user_id: string
+  allow_duplicate?: boolean
+  allow_search_engine_indexing?: boolean
+}
+
+export interface StyledString {
+  0: string
+  1?: TextStyle[]
+}
+
+export interface TextStyle {
+  0: string
+  1?: string | InlineDate
+}
+
+export interface InlineDate {
+  type: string
+  start_date: string
+  date_format: string
+}
+
+/** Query */
+export interface Query {
+  sort: SortQuery[]
+  aggregate?: AggregateQuery[]
+  filter: []
+  filter_operator: string
+}
+
+/** A sort query */
+export interface SortQuery {
+  id: string
+  type: string
+  property: string
+  direction: string
+}
+
+/**
+ * An aggregate query
+ * @typedef AggregateQuery
+ * @property {string} id
+ * @property {string} type
+ * @property {string} property
+ * @property {string} view_type
+ * @property {string} aggregation_type 
+ */
+export interface AggregateQuery {
+  id: string
+  type: string
+  property: string
+  view_type: string
+  aggregation_type: string
+}
+
+/**
+ * Error response when HTTP statusCode is 401
  * @typedef NotionError
  * @property {string} errorId
  * @property {string} name
  * @property {string} message
  * @property {string} status
  */
-// type NotionError = {
-//   errorId: string
-//   name: string
-//   message: string
-//   status: string
-// }
+export interface NotionError {
+  errorId: string
+  name: string
+  message: string
+  status: string
+}
 
-
-
-/* NotionAgent implementation -------------------------------------------*/
-
+/*************************************************************************
+ * NotionAgent implementation                                            *
+ *************************************************************************/
 /* An agent to interact with Notion.so's HTTP API */
 class NotionAgent {
   token: string
@@ -129,13 +402,16 @@ class NotionAgent {
    * @param pageID - The page ID to request.
    * @param chunkNo - The chunk number to request.
    * @param cursor - The cursor.
-   * @returns JSON object from response.
+   * @returns HTTP status code and JSON object from response.
    */
   loadPageChunk(
     pageID: string,
     chunkNo: number = 0,
     cursor = { "stack": [] }
-  ) {
+  ): Promise<{
+    statusCode: number,
+    data: LoadPageChunkResponse | NotionError
+  }> {
 
     assert(pageID, strings.PAGEID_NOT_FOUND)
 
@@ -157,9 +433,12 @@ class NotionAgent {
 
   /**
    * Execute a raw call to /api/v3/getAssetsJson
-   * @returns JSON object from response.
+   * @returns HTTP status code and JSON object from response.
    */
-  getAssetsJson() {
+  getAssetsJson(): Promise<{
+    statusCode: number,
+    data: GetAssetsJsonResponse | NotionError
+  }> {
 
     const apiURL = API_BASE + '/getAssetsJson'
 
@@ -174,9 +453,14 @@ class NotionAgent {
   /**
    * Execute a raw call to /api/v3/getRecordValues
    * @param requests - The requests to make.
-   * @returns JSON object from response.
+   * @returns HTTP status code and JSON object from response.
    */
-  getRecordValues(requests: RecordRequest[]) {
+  getRecordValues(
+    requests: RecordRequest[]
+  ): Promise<{
+    statusCode: number,
+    data: GetRecordValuesResponse | NotionError
+  }> {
 
     assert(Array.isArray(requests), strings.IDS_NOT_ARRAY)
 
@@ -199,7 +483,7 @@ class NotionAgent {
 
   /**
    * Execute a raw call to /api/v3/loadUserContent
-   * @returns JSON object from response.
+   * @returns HTTP status code and JSON object from response.
    */
   loadUserContent() {
 
@@ -218,7 +502,7 @@ class NotionAgent {
    * @param collectionID
    * @param collectionViewID
    * @param aggregateQueries
-   * @returns JSON object from response.
+   * @returns HTTP status code and JSON object from response.
    */
   queryCollection(
     collectionID: string,
@@ -258,7 +542,7 @@ class NotionAgent {
   /**
    * Execute a raw call to /api/v3/submitTransaction
    * @param operations
-   * @returns JSON object from response. Normally {}.
+   * @returns HTTP status code and JSON object from response.
    */
   submitTransaction(operations: DocumentOperation[]) {
 
@@ -287,7 +571,7 @@ class NotionAgent {
    * Make a request to Notion API.
    * @param apiURL - Notion API URL.
    * @param requestData - Request body.
-   * @returns JSON object from response.
+   * @returns HTTP status code and JSON object from response.
    */
   private async makeRequestToNotion(
     apiURL: string,
