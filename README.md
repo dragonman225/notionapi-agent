@@ -17,6 +17,12 @@ Unofficial Node.js API client for [Notion.so](https://www.notion.so).
 
 ## Announcement
 
+### [2019.10.13]
+
+I finished TypeScript definitions for all APIs exposed by this agent. Hope this will make development easier !
+
+### [2019.10.08]
+
 When using v0.6.0+, import this library with
 
 ```javascript
@@ -40,37 +46,11 @@ npm i dragonman225/notionapi-agent
 
 ## Quickstart
 
-An example script is included in the repository. See `test/agent.spec.js`.
-Or you can take a look at the below code block.
+[JavaScript Example](https://github.com/dragonman225/notionapi-agent/blob/master/docs/example.js)
 
-```javascript
-const fs = require('fs')
-const { NotionAgent } = require('notionapi-agent')
+[TypeScript Example](https://github.com/dragonman225/notionapi-agent/blob/master/docs/example.ts)
 
-/* Fill in your token. */
-const options = {
-  token: ''
-}
-
-const agent = new NotionAgent(options)
-
-async function main() {
-  try {
-    /* Fill in a page id. */
-    let pageId = ''
-    let page = await agent.loadPageChunk(pageId)
-    let assets = await agent.getAssetsJson()
-    fs.writeFileSync(`PageChunk.json`, JSON.stringify(page.data), { encoding: 'utf-8' })
-    fs.writeFileSync(`Assets.json`, JSON.stringify(assets.data), { encoding: 'utf-8' })
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-main()
-```
-
-The API requests are asynchronous and are implemented with `Promise`.
+You can also take a look at [the test script](https://github.com/dragonman225/notionapi-agent/blob/master/test/index.spec.ts).
 
 ## Instance Options
 
@@ -78,7 +58,7 @@ The API requests are asynchronous and are implemented with `Promise`.
 * `timezone` - (optional) User's timezone, default: `Asia/Taipei`.
 * `locale` - (optional) User's locale, default: `en`.
 * `suppressWarning` - (optional) Whether to hide warnings, default: `false`.
-* `verbose` - (optional) Whether to show status messages, default: `true`.
+* `verbose` - (optional) Whether to show status messages, default: `false`.
 
 ## API Methods
 
@@ -86,12 +66,13 @@ All methods return `Promise` that will resolve with the following object :
 
 ```javascript
 {
-  statusCode: Number // HTTP status code.
-  data: Object // Object parsed from JSON response.
+  statusCode: Number // HTTP status code
+  data: APIResponse // When HTTP status code is 200
+      | ErrorResponse // When HTTP status code is not 200
 }
 ```
 
-If raw response from Notion is not JSON, the `data` property will be an empty object.
+* If raw response from Notion is not JSON, the `data` property will be an empty object.
 
 
 
@@ -108,7 +89,7 @@ Execute a raw call to `/api/v3/loadPageChunk`
 ```javascript
 {
   statusCode: Number // HTTP status code.
-  data: Object // One chunk of the page.
+  data: LoadPageChunkResponse | ErrorResponse
 }
 ```
 
@@ -125,7 +106,7 @@ Execute a raw call to `/api/v3/getAssetsJson`
 ```javascript
 {
   statusCode: Number // HTTP status code.
-  data: Object // Paths to all assets like images, scripts, etc.
+  data: GetAssetsJsonResponse | ErrorResponse
 }
 ```
 
@@ -135,7 +116,7 @@ Execute a raw call to `/api/v3/getAssetsJson`
 
 Execute a raw call to /api/v3/getRecordValues
 
-* `requests` - (required, Array of [RecordRequest](https://github.com/dragonman225/notionapi-agent/blob/3f671fbb2c7efb6cd5ff9b13e50baba766cb3600/src/index.ts#L35)) See below example.
+* `requests` - (required, Array of [RecordRequest](https://github.com/dragonman225/notionapi-agent/blob/6f1b8530179235b5949c83f591719231d481df9f/src/index.ts#L142)) See below example.
 
   ```javascript
   [
@@ -151,7 +132,7 @@ Execute a raw call to /api/v3/getRecordValues
 ```javascript
 {
   statusCode: Number // HTTP status code.
-  data: Object // Content of requested blocks, collection_views, etc.
+  data: GetRecordValuesResponse | ErrorResponse
 }
 ```
 
@@ -168,7 +149,7 @@ Execute a raw call to /api/v3/loadUserContent
 ```javascript
 {
   statusCode: Number // HTTP status code.
-  data: Object // Everything about a user: identity information, settings.
+  data: LoadUserContentResponse | ErrorResponse
 }
 ```
 
@@ -182,7 +163,7 @@ Execute a raw call to /api/v3/queryCollection
 
 * `collectionViewID` - (required, String) A collectionView ID.
 
-* `aggregateQueries` - (required, Array of [AggregateQuery](https://github.com/dragonman225/notionapi-agent/blob/3f671fbb2c7efb6cd5ff9b13e50baba766cb3600/src/index.ts#L49)) See below example.
+* `aggregateQueries` - (required, Array of [AggregateQuery](https://github.com/dragonman225/notionapi-agent/blob/6f1b8530179235b5949c83f591719231d481df9f/src/index.ts#L421)) See below example.
 
   ```javascript
   [
@@ -201,7 +182,7 @@ Execute a raw call to /api/v3/queryCollection
 ```javascript
 {
   statusCode: Number // HTTP status code.
-  data: Object // Data in a collection.
+  data: QueryCollectionResponse | ErrorResponse
 }
 ```
 
@@ -211,7 +192,7 @@ Execute a raw call to /api/v3/queryCollection
 
 Execute a raw call to /api/v3/submitTransaction
 
-* `operations` - (required, Array of [DocumentOperation](https://github.com/dragonman225/notionapi-agent/blob/3f671fbb2c7efb6cd5ff9b13e50baba766cb3600/src/index.ts#L66)) The operations to submit. See below for example.
+* `operations` - (required, Array of [DocumentOperation](https://github.com/dragonman225/notionapi-agent/blob/6f1b8530179235b5949c83f591719231d481df9f/src/index.ts#L156)) The operations to submit. See below for example.
 
   ```javascript
   [
@@ -230,7 +211,7 @@ Execute a raw call to /api/v3/submitTransaction
 ```javascript
 {
   statusCode: Number // HTTP status code.
-  data: Object // Normally an empty object.
+  data: SubmitTransactionResponse | ErrorResponse
 }
 ```
 
