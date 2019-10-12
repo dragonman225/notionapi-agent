@@ -31,6 +31,108 @@ export interface AgentOptions {
   verbose?: boolean
 }
 
+/*************************************************************************
+ * Notion.so data structures                                             *
+ *************************************************************************/
+/* API structures -------------------------------------------------------*/
+/** /api/v3/getAssetsJson response 
+ * @typedef GetAssetsJsonResponse
+ * @property {string} entry - Path to HTML index
+ * @property {AssetFile[]} files - Assets such as scripts, stylesheets, images
+ * @property {string[]} headersWhitelist - A list of HTTP headers
+ * @property {string[]} proxyServerPathPrefixes - A list of HTTP paths
+ * @property {string} version - The version of Notion app
+ */
+export interface GetAssetsJsonResponse {
+  entry: string
+  files: AssetFile[]
+  headersWhitelist: string[]
+  proxyServerPathPrefixes: string[]
+  version: string
+}
+
+/** /api/v3/getRecordValues response */
+export interface GetRecordValuesResponse {
+  results: Record[]
+}
+
+/** /api/v3/loadPageChunk response */
+export interface LoadPageChunkResponse {
+  recordMap: {
+    block: { [key: string]: Record & { value: Block } }
+    collection: { [key: string]: Record & { value: Collection } }
+    collection_view: { [key: string]: Record & { value: CollectionView } }
+    notion_user: { [key: string]: Record & { value: User } }
+    space: { [key: string]: Record & { value: Space } }
+  }
+  cursor: Cursor
+}
+
+/** /api/v3/loadUserContent response */
+export interface LoadUserContentResponse {
+  recordMap: {
+    notion_user: { [key: string]: Record & { value: User } }
+    user_root: { [key: string]: Record & { value: UserRoot } }
+    user_settings: { [key: string]: Record & { value: UserSettings } }
+    space_view: { [key: string]: Record & { value: SpaceView } }
+    space: { [key: string]: Record & { value: Space } }
+    block: { [key: string]: Record & { value: Block } }
+    collection: { [key: string]: Record & { value: Collection } }
+  }
+}
+
+/** /api/v3/queryCollection response */
+export interface QueryCollectionResponse {
+  result: {
+    type: string
+    blockIds: string[]
+    aggregationResults: AggregationResult[]
+    total: number
+  }
+  recordMap: {
+    collection: { [key: string]: Record & { value: Collection } }
+    collection_view: { [key: string]: Record & { value: CollectionView } }
+    block: { [key: string]: Record & { value: Block } }
+    space: { [key: string]: Record & { value: Space } }
+  }
+}
+
+/** /api/v3/submitTransaction response */
+export interface SubmitTransactionResponse {
+  // empty
+}
+
+/**
+ * Error response when HTTP statusCode is 401
+ * @typedef ErrorResponse
+ * @property {string} errorId
+ * @property {string} name
+ * @property {string} message
+ * @property {string} status
+ */
+export interface ErrorResponse {
+  errorId: string
+  name: string
+  message: string
+  status: string
+}
+
+/* API-related structures -----------------------------------------------*/
+export interface AssetFile {
+  hash: string
+  path: string
+  size: number
+}
+
+export interface Record {
+  role: string
+  value: Block | Collection | CollectionView | User | UserRoot | UserSettings | Space | SpaceView
+}
+
+export interface Cursor {
+  stack: []
+}
+
 /**
  * A request object in getRecordValues' `requests` array
  * @typedef RecordRequest
@@ -59,75 +161,8 @@ export interface DocumentOperation {
   args: any[]
 }
 
-/*************************************************************************
- * Notion.so data structures                                             *
- *************************************************************************/
-/* API interface --------------------------------------------------------*/
-/** /api/v3/getAssetsJson response */
-export interface GetAssetsJsonResponse {
-  entry: string
-  files: AssetFile[]
-  headersWhitelist: string[]
-  proxyServerPathPrefixes: string[]
-  version: string
-}
-
-/** /api/v3/getRecordValues response */
-export interface GetRecordValuesResponse {
-  results: any[]
-}
-
-/** /api/v3/loadPageChunk response */
-export interface LoadPageChunkResponse {
-  recordMap: RecordMap
-  cursor: Cursor
-}
-
-export interface AssetFile {
-  hash: string
-  path: string
-  size: number
-}
-
-export interface RecordMap {
-  block: {
-    [key: string]: {
-      role: string
-      value: BlockRecord
-    }
-  }
-  collection: {
-    [key: string]: {
-      role: string
-      value: CollectionRecord
-    }
-  }
-  collection_view: {
-    [key: string]: {
-      role: string
-      value: CollectionViewRecord
-    }
-  }
-  notion_user: {
-    [key: string]: {
-      role: string
-      value: NotionUserRecord
-    }
-  }
-  space: {
-    [key: string]: {
-      role: string
-      value: SpaceRecord
-    }
-  }
-}
-
-export interface Cursor {
-  stack: []
-}
-
 /* Block Record ---------------------------------------------------------*/
-export interface BlockRecord {
+export interface Block {
   id: string
   version: number
   type: string
@@ -196,7 +231,7 @@ export interface BlockFormat {
 }
 
 /* Collection Record ----------------------------------------------------*/
-export interface CollectionRecord {
+export interface Collection {
   id: string
   name: {
     0: { 0: string }
@@ -231,7 +266,7 @@ export interface CollectionColumnOption {
 }
 
 /* CollectionView Record ------------------------------------------------*/
-export interface CollectionViewRecord {
+export interface CollectionView {
   alive: boolean
   format: CollectionViewFormat
   id: string
@@ -264,8 +299,8 @@ export interface GalleryProperty {
   property: string
 }
 
-/* NotionUser Record ----------------------------------------------------*/
-export interface NotionUserRecord {
+/* User Record ----------------------------------------------------------*/
+export interface User {
   id: string
   version: number
   email: string
@@ -277,8 +312,34 @@ export interface NotionUserRecord {
   clipper_onboarding_completed: boolean
 }
 
+/* UserRoot Record ------------------------------------------------------*/
+export interface UserRoot {
+  id: string
+  version: number
+  space_views: string[]
+  left_spaces: string[]
+}
+
+/* UserSettings Record --------------------------------------------------*/
+export interface UserSettings {
+  id: string
+  version: number
+  settings: {
+    locale: string
+    persona: string
+    use_case: string
+    time_zone: string
+    user_case: string
+    signup_time: number
+    used_android_app: boolean
+    start_day_of_week: number
+    used_mobile_web_app: boolean
+    used_desktop_web_app: boolean
+  }
+}
+
 /* Space Record ---------------------------------------------------------*/
-export interface SpaceRecord {
+export interface Space {
   id: string
   version: number
   name: string
@@ -291,7 +352,23 @@ export interface SpaceRecord {
   last_edited_time: number
 }
 
-/* Basic structure ------------------------------------------------------*/
+/* SpaceView Record -----------------------------------------------------*/
+export interface SpaceView {
+  id: string
+  version: number
+  space_id: string
+  parent_id: string
+  parent_table: string
+  alive: boolean
+  notify_mobile: boolean
+  notify_desktop: boolean
+  notify_email: boolean
+  visited_templates: string[]
+  sidebar_hidden_templates: string[]
+  created_getting_started: boolean
+}
+
+/* Record-related structures --------------------------------------------*/
 export interface Permission {
   role: string
   type: string
@@ -349,19 +426,9 @@ export interface AggregateQuery {
   aggregation_type: string
 }
 
-/**
- * Error response when HTTP statusCode is 401
- * @typedef NotionError
- * @property {string} errorId
- * @property {string} name
- * @property {string} message
- * @property {string} status
- */
-export interface NotionError {
-  errorId: string
-  name: string
-  message: string
-  status: string
+export interface AggregationResult {
+  id: string
+  value: number
 }
 
 /*************************************************************************
@@ -410,7 +477,7 @@ class NotionAgent {
     cursor = { "stack": [] }
   ): Promise<{
     statusCode: number,
-    data: LoadPageChunkResponse | NotionError
+    data: LoadPageChunkResponse | ErrorResponse
   }> {
 
     assert(pageID, strings.PAGEID_NOT_FOUND)
@@ -437,7 +504,7 @@ class NotionAgent {
    */
   getAssetsJson(): Promise<{
     statusCode: number,
-    data: GetAssetsJsonResponse | NotionError
+    data: GetAssetsJsonResponse | ErrorResponse
   }> {
 
     const apiURL = API_BASE + '/getAssetsJson'
@@ -459,7 +526,7 @@ class NotionAgent {
     requests: RecordRequest[]
   ): Promise<{
     statusCode: number,
-    data: GetRecordValuesResponse | NotionError
+    data: GetRecordValuesResponse | ErrorResponse
   }> {
 
     assert(Array.isArray(requests), strings.IDS_NOT_ARRAY)
@@ -485,7 +552,10 @@ class NotionAgent {
    * Execute a raw call to /api/v3/loadUserContent
    * @returns HTTP status code and JSON object from response.
    */
-  loadUserContent() {
+  loadUserContent(): Promise<{
+    statusCode: number,
+    data: LoadUserContentResponse | ErrorResponse
+  }> {
 
     const apiURL = API_BASE + '/loadUserContent'
 
@@ -508,7 +578,10 @@ class NotionAgent {
     collectionID: string,
     collectionViewID: string,
     aggregateQueries: AggregateQuery[]
-  ) {
+  ): Promise<{
+    statusCode: number
+    data: QueryCollectionResponse | ErrorResponse
+  }> {
 
     assert(collectionID, strings.COLLECTION_ID_NOT_FOUND)
     assert(collectionViewID, strings.COLLECTION_VIEW_ID_NOT_FOUND)
@@ -544,7 +617,12 @@ class NotionAgent {
    * @param operations
    * @returns HTTP status code and JSON object from response.
    */
-  submitTransaction(operations: DocumentOperation[]) {
+  submitTransaction(
+    operations: DocumentOperation[]
+  ): Promise<{
+    statusCode: number
+    data: SubmitTransactionResponse | ErrorResponse
+  }> {
 
     assert(Array.isArray(operations))
     operations.forEach(operation => {

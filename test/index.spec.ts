@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { NotionAgent, LoadPageChunkResponse, NotionError, GetAssetsJsonResponse } from '../src'
+import { NotionAgent, LoadPageChunkResponse, ErrorResponse, GetAssetsJsonResponse, LoadUserContentResponse } from '../src'
 
 /* Fill in your token. */
 const options = {
@@ -21,7 +21,7 @@ async function main() {
       page.data = page.data as LoadPageChunkResponse
       console.log(`Blocks: ${page.data.recordMap.block}\n`)
     } else {
-      page.data = page.data as NotionError
+      page.data = page.data as ErrorResponse
       console.log(`Error: ${page.data.message}\n`)
     }
 
@@ -30,15 +30,22 @@ async function main() {
     console.log(`Remote response ${assets.statusCode}`)
     if (page.statusCode === 200) {
       assets.data = assets.data as GetAssetsJsonResponse
-      console.log(`Blocks: ${assets.data.version}\n`)
+      console.log(`Version: ${assets.data.version}\n`)
     } else {
-      assets.data = assets.data as NotionError
+      assets.data = assets.data as ErrorResponse
       console.log(`Error: ${assets.data.message}\n`)
     }
 
     console.log('Calling loadUserContent')
     let userContent = await agent.loadUserContent()
     console.log(`Remote response ${userContent.statusCode}`)
+    if (userContent.statusCode === 200) {
+      userContent.data = userContent.data as LoadUserContentResponse
+      console.log(`Error: ${userContent.data.recordMap.notion_user}\n`)
+    } else {
+      userContent.data = userContent.data as ErrorResponse
+      console.log(`Error: ${userContent.data.message}\n`)
+    }
 
     /** Save response data. */
     let pageChunkFile = path.join(__dirname, 'PageChunk.json')
