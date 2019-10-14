@@ -3,7 +3,7 @@
   "version": "0.6.1",
   "description": "Unofficial Notion.so API client.",
   "main": "dist/index.js",
-  "types": "dist/index",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc && npm run report:deps_graph",
     "test": "ts-node test/index.spec.ts",
@@ -29,13 +29,13 @@
     "@dnpr/make-request": "0.1.0"
   },
   "devDependencies": {
-    "@types/node": "12.7.11",
+    "@types/node": "12.7.12",
     "@typescript-eslint/eslint-plugin": "2.3.3",
     "@typescript-eslint/parser": "2.3.3",
     "dependency-cruiser": "5.2.0",
     "eslint": "6.5.1",
     "ts-node": "8.4.1",
-    "typescript": "3.6.3"
+    "typescript": "3.6.4"
   },
   "bugs": {
     "url": "https://github.com/dragonman225/notionapi-agent/issues"
