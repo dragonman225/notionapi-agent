@@ -143,6 +143,22 @@ class NotionAgent {
         return this.makeRequestToNotion(apiURL, requestData);
     } // submitTransaction
     /**
+     * Get snapshots list of a block
+     * @param blockId
+     * @param size - Number of snapshots to get
+     * @returns HTTP status code and JSON object from response.
+     */
+    getSnapshotsList(blockId, size) {
+        assert_1.default(blockId);
+        assert_1.default(size);
+        const apiURL = API_BASE + '/getSnapshotsList';
+        const requestData = JSON.stringify({
+            blockId,
+            size
+        });
+        return this.makeRequestToNotion(apiURL, requestData);
+    } // getSnapshotsList
+    /**
      * Make a request to Notion API.
      * @param apiURL - Notion API URL.
      * @param requestData - Request body.

@@ -102,6 +102,11 @@ export interface SubmitTransactionResponse {
   // empty
 }
 
+/** /api/v3/getSnapshotsList response when HTTP statusCode is 200 */
+export interface GetSnapshotsListResponse {
+  snapshots: Snapshot[]
+}
+
 /**
  * /api/v3/xxx response when HTTP statusCode is not 200
  * @typedef ErrorResponse
@@ -193,7 +198,7 @@ export interface DocumentOperation {
   args: any[]
 }
 
-/* Block Record ---------------------------------------------------------*/
+/* Block ----------------------------------------------------------------*/
 export interface Block {
   id: string
   version: number
@@ -262,7 +267,7 @@ export interface BlockFormat {
   page_cover_position?: number
 }
 
-/* Collection Record ----------------------------------------------------*/
+/* Collection -----------------------------------------------------------*/
 export interface Collection {
   id: string
   name: {
@@ -297,7 +302,7 @@ export interface CollectionColumnOption {
   value: string
 }
 
-/* CollectionView Record ------------------------------------------------*/
+/* CollectionView -------------------------------------------------------*/
 export interface CollectionView {
   alive: boolean
   format: CollectionViewFormat
@@ -331,7 +336,7 @@ export interface GalleryProperty {
   property: string
 }
 
-/* NotionUser Record ----------------------------------------------------*/
+/* NotionUser -----------------------------------------------------------*/
 export interface NotionUser {
   id: string
   version: number
@@ -344,7 +349,7 @@ export interface NotionUser {
   clipper_onboarding_completed: boolean
 }
 
-/* UserRoot Record ------------------------------------------------------*/
+/* UserRoot -------------------------------------------------------------*/
 export interface UserRoot {
   id: string
   version: number
@@ -352,7 +357,7 @@ export interface UserRoot {
   left_spaces: string[]
 }
 
-/* UserSettings Record --------------------------------------------------*/
+/* UserSettings ---------------------------------------------------------*/
 export interface UserSettings {
   id: string
   version: number
@@ -370,7 +375,7 @@ export interface UserSettings {
   }
 }
 
-/* Space Record ---------------------------------------------------------*/
+/* Space ----------------------------------------------------------------*/
 export interface Space {
   id: string
   version: number
@@ -384,7 +389,7 @@ export interface Space {
   last_edited_time: number
 }
 
-/* SpaceView Record -----------------------------------------------------*/
+/* SpaceView ------------------------------------------------------------*/
 export interface SpaceView {
   id: string
   version: number
@@ -398,6 +403,19 @@ export interface SpaceView {
   visited_templates: string[]
   sidebar_hidden_templates: string[]
   created_getting_started: boolean
+}
+
+/* Snapshot -------------------------------------------------------------*/
+export interface Snapshot {
+  id: string
+  version: number
+  last_version: number
+  parent_table: string
+  parent_id: string
+  timestamp: number
+  inline_collection_block_ids: string[] | null
+  collection_ids: string[] | null
+  author_ids: string[]
 }
 
 /* Record-related structures --------------------------------------------*/
@@ -674,6 +692,36 @@ class NotionAgent {
     return this.makeRequestToNotion(apiURL, requestData)
 
   } // submitTransaction
+
+
+
+  /**
+   * Get snapshots list of a block
+   * @param blockId 
+   * @param size - Number of snapshots to get
+   * @returns HTTP status code and JSON object from response.
+   */
+  getSnapshotsList(
+    blockId: string,
+    size: number
+  ): Promise<{
+    statusCode: number,
+    data: GetSnapshotsListResponse | ErrorResponse
+  }> {
+
+    assert(blockId)
+    assert(size)
+
+    const apiURL = API_BASE + '/getSnapshotsList'
+
+    const requestData = JSON.stringify({
+      blockId,
+      size
+    })
+
+    return this.makeRequestToNotion(apiURL, requestData)
+
+  } // getSnapshotsList
 
 
 
