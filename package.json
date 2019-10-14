@@ -1,6 +1,6 @@
 {
   "name": "notionapi-agent",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Unofficial Notion.so API client.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
