@@ -143,9 +143,9 @@ class NotionAgent {
         return this.makeRequestToNotion(apiURL, requestData);
     } // submitTransaction
     /**
-     * Get snapshots list of a block
+     * Get snapshots list of a block (/api/v3/getSnapshotsList)
      * @param blockId
-     * @param size - Number of snapshots to get
+     * @param size - Max number of snapshots to get
      * @returns HTTP status code and JSON object from response.
      */
     getSnapshotsList(blockId, size) {
@@ -158,6 +158,29 @@ class NotionAgent {
         });
         return this.makeRequestToNotion(apiURL, requestData);
     } // getSnapshotsList
+    /**
+     * Get activity log of a block (/api/v3/getActivityLog)
+     * @param navigableBlockId - ID of a page or collection_view_page block.
+     *                         Other blocks don't have meaningful responses.
+     * @param size - Max number of activities to get.
+     * @param spaceId - The workspace ID of the navigableBlock.
+     * @param collectionId - ID of a collection. Only effective when
+     *                     navigableBlock is a collection_view_page.
+     * @returns HTTP status code and JSON object from response.
+     */
+    getActivityLog(navigableBlockId, size, spaceId, collectionId) {
+        assert_1.default(navigableBlockId);
+        assert_1.default(size);
+        assert_1.default(spaceId);
+        const apiURL = API_BASE + '/getActivityLog';
+        const requestData = JSON.stringify({
+            navigableBlockId,
+            size,
+            spaceId,
+            collectionId
+        });
+        return this.makeRequestToNotion(apiURL, requestData);
+    } // getActivityLog
     /**
      * Make a request to Notion API.
      * @param apiURL - Notion API URL.

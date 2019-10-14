@@ -107,6 +107,20 @@ export interface GetSnapshotsListResponse {
   snapshots: Snapshot[]
 }
 
+/** /api/v3/getSnapshotsList response when HTTP statusCode is 200 */
+export interface GetActivityLogResponse {
+  activityIds: string[]
+  recordMap: {
+    block: { [key: string]: BlockRecord }
+    space: { [key: string]: SpaceRecord }
+    notion_user: { [key: string]: NotionUserRecord }
+    collection: { [key: string]: CollectionRecord }
+    activity: { [key: string]: ActivityRecord }
+    follow: { [key: string]: FollowRecord }
+    slack_integration: { [key: string]: SlackIntegrationRecord }
+  }
+}
+
 /**
  * /api/v3/xxx response when HTTP statusCode is not 200
  * @typedef ErrorResponse
@@ -131,7 +145,7 @@ export interface AssetFile {
 
 export interface Record {
   role: string
-  value: Block | Collection | CollectionView | NotionUser | UserRoot | UserSettings | Space | SpaceView
+  value: Block | Collection | CollectionView | NotionUser | UserRoot | UserSettings | Space | SpaceView | Activity | Follow | SlackIntegration
 }
 
 export interface BlockRecord extends Record {
@@ -164,6 +178,18 @@ export interface SpaceRecord extends Record {
 
 export interface SpaceViewRecord extends Record {
   value: SpaceView
+}
+
+export interface ActivityRecord extends Record {
+  value: Activity
+}
+
+export interface FollowRecord extends Record {
+  value: Follow
+}
+
+export interface SlackIntegrationRecord extends Record {
+  value: SlackIntegration
 }
 
 export interface Cursor {
@@ -416,6 +442,81 @@ export interface Snapshot {
   inline_collection_block_ids: string[] | null
   collection_ids: string[] | null
   author_ids: string[]
+}
+
+/* Activity -------------------------------------------------------------*/
+// TODO: This section is incomplete
+/**
+ * If the activity is collection-related, it has additional 
+ * collection_id property, also all its edits are collection-related
+ */
+export interface Activity {
+  id: string
+  version: number
+  index: number
+  type: string // block-edited, collection-view-edited
+  parent_table: string
+  parent_id: string
+  start_time: string
+  end_time: string
+  invalid: boolean
+  space_id: string
+  navigable_block_id: string
+  collection_id?: string
+  edits: Edit[]
+}
+
+/**
+ * If the edited block is a page in a collection, it has additional 
+ * block_schema and collection_id property
+ */
+export interface Edit {
+  type: string // block-created, block-changed, collection-view-created, collection-view-changed
+  block_id: string
+  space_id: string
+  user_ids: string[]
+  timestamp: number
+  block_data: {}
+  block_schema?: {
+    [key: string]: CollectionColumnInfo
+  }
+  collection_id?: string
+  navigable_block_id: string
+}
+
+/**
+ * A "block-created" edit
+ */
+export interface BlockCreatedEdit extends Edit {
+  type: 'block-created'
+  block_data: {
+    block_value: Block
+  }
+}
+
+/**
+ * A "block-changed" edit
+ */
+export interface BlockChangedEdit extends Edit {
+  type: 'block-changed'
+  block_data: {
+    after: { block_value: Block }
+    before: { block_value: Block }
+  }
+}
+
+/* Follow ---------------------------------------------------------------*/
+export interface Follow {
+  id: string
+  version: number
+  following: boolean
+  user_id: string
+  navigable_block_id: string
+  created_time: number
+}
+
+/* SlackIntegration -----------------------------------------------------*/
+export interface SlackIntegration {
 }
 
 /* Record-related structures --------------------------------------------*/
@@ -696,9 +797,9 @@ class NotionAgent {
 
 
   /**
-   * Get snapshots list of a block
+   * Get snapshots list of a block (/api/v3/getSnapshotsList)
    * @param blockId 
-   * @param size - Number of snapshots to get
+   * @param size - Max number of snapshots to get
    * @returns HTTP status code and JSON object from response.
    */
   getSnapshotsList(
@@ -722,6 +823,45 @@ class NotionAgent {
     return this.makeRequestToNotion(apiURL, requestData)
 
   } // getSnapshotsList
+
+
+
+  /**
+   * Get activity log of a block (/api/v3/getActivityLog)
+   * @param navigableBlockId - ID of a page or collection_view_page block.
+   *                         Other blocks don't have meaningful responses.
+   * @param size - Max number of activities to get.
+   * @param spaceId - The workspace ID of the navigableBlock.
+   * @param collectionId - ID of a collection. Only effective when 
+   *                     navigableBlock is a collection_view_page.
+   * @returns HTTP status code and JSON object from response.
+   */
+  getActivityLog(
+    navigableBlockId: string,
+    size: number,
+    spaceId: string,
+    collectionId?: string
+  ): Promise<{
+    statusCode: number,
+    data: GetActivityLogResponse | ErrorResponse
+  }> {
+
+    assert(navigableBlockId)
+    assert(size)
+    assert(spaceId)
+
+    const apiURL = API_BASE + '/getActivityLog'
+
+    const requestData = JSON.stringify({
+      navigableBlockId,
+      size,
+      spaceId,
+      collectionId
+    })
+
+    return this.makeRequestToNotion(apiURL, requestData)
+
+  } // getActivityLog
 
 
 
