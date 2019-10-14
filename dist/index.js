@@ -160,7 +160,6 @@ class NotionAgent {
                 'accept': '*/*',
                 'accept-language': 'en-US,en;q=0.9',
                 'accept-encoding': 'gzip, deflate',
-                'content-length': requestData.length,
                 'content-type': 'application/json',
                 'cookie': `token_v2=${this.token}`,
                 'origin': 'https://www.notion.so',
