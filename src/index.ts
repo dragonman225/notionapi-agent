@@ -35,10 +35,10 @@ export interface AgentOptions {
  * Notion.so data structures                                             *
  *************************************************************************/
 /* API structures -------------------------------------------------------*/
-/** /api/v3/getAssetsJson response 
+/** /api/v3/getAssetsJson response when HTTP statusCode is 200
  * @typedef GetAssetsJsonResponse
  * @property {string} entry - Path to HTML index
- * @property {AssetFile[]} files - Assets such as scripts, stylesheets, images
+ * @property {AssetFile[]} files - Such as scripts, stylesheets, images
  * @property {string[]} headersWhitelist - A list of HTTP headers
  * @property {string[]} proxyServerPathPrefixes - A list of HTTP paths
  * @property {string} version - The version of Notion app
@@ -51,37 +51,37 @@ export interface GetAssetsJsonResponse {
   version: string
 }
 
-/** /api/v3/getRecordValues response */
+/** /api/v3/getRecordValues response when HTTP statusCode is 200 */
 export interface GetRecordValuesResponse {
   results: Record[]
 }
 
-/** /api/v3/loadPageChunk response */
+/** /api/v3/loadPageChunk response when HTTP statusCode is 200 */
 export interface LoadPageChunkResponse {
   recordMap: {
-    block: { [key: string]: Record & { value: Block } }
-    collection: { [key: string]: Record & { value: Collection } }
-    collection_view: { [key: string]: Record & { value: CollectionView } }
-    notion_user: { [key: string]: Record & { value: User } }
-    space: { [key: string]: Record & { value: Space } }
+    block: { [key: string]: BlockRecord }
+    collection: { [key: string]: CollectionRecord }
+    collection_view: { [key: string]: CollectionViewRecord }
+    notion_user: { [key: string]: NotionUserRecord }
+    space: { [key: string]: SpaceRecord }
   }
   cursor: Cursor
 }
 
-/** /api/v3/loadUserContent response */
+/** /api/v3/loadUserContent response when HTTP statusCode is 200 */
 export interface LoadUserContentResponse {
   recordMap: {
-    notion_user: { [key: string]: Record & { value: User } }
-    user_root: { [key: string]: Record & { value: UserRoot } }
-    user_settings: { [key: string]: Record & { value: UserSettings } }
-    space_view: { [key: string]: Record & { value: SpaceView } }
-    space: { [key: string]: Record & { value: Space } }
-    block: { [key: string]: Record & { value: Block } }
-    collection: { [key: string]: Record & { value: Collection } }
+    notion_user: { [key: string]: NotionUserRecord }
+    user_root: { [key: string]: UserRootRecord }
+    user_settings: { [key: string]: UserSettingsRecord }
+    space_view: { [key: string]: SpaceViewRecord }
+    space: { [key: string]: SpaceRecord }
+    block: { [key: string]: BlockRecord }
+    collection: { [key: string]: CollectionRecord }
   }
 }
 
-/** /api/v3/queryCollection response */
+/** /api/v3/queryCollection response when HTTP statusCode is 200 */
 export interface QueryCollectionResponse {
   result: {
     type: string
@@ -90,20 +90,20 @@ export interface QueryCollectionResponse {
     total: number
   }
   recordMap: {
-    collection: { [key: string]: Record & { value: Collection } }
-    collection_view: { [key: string]: Record & { value: CollectionView } }
-    block: { [key: string]: Record & { value: Block } }
-    space: { [key: string]: Record & { value: Space } }
+    collection: { [key: string]: CollectionRecord }
+    collection_view: { [key: string]: CollectionViewRecord }
+    block: { [key: string]: BlockRecord }
+    space: { [key: string]: SpaceRecord }
   }
 }
 
-/** /api/v3/submitTransaction response */
+/** /api/v3/submitTransaction response when HTTP statusCode is 200 */
 export interface SubmitTransactionResponse {
   // empty
 }
 
 /**
- * Error response when HTTP statusCode is 401
+ * /api/v3/xxx response when HTTP statusCode is not 200
  * @typedef ErrorResponse
  * @property {string} errorId
  * @property {string} name
@@ -126,7 +126,39 @@ export interface AssetFile {
 
 export interface Record {
   role: string
-  value: Block | Collection | CollectionView | User | UserRoot | UserSettings | Space | SpaceView
+  value: Block | Collection | CollectionView | NotionUser | UserRoot | UserSettings | Space | SpaceView
+}
+
+export interface BlockRecord extends Record {
+  value: Block
+}
+
+export interface CollectionRecord extends Record {
+  value: Collection
+}
+
+export interface CollectionViewRecord extends Record {
+  value: CollectionView
+}
+
+export interface NotionUserRecord extends Record {
+  value: NotionUser
+}
+
+export interface UserRootRecord extends Record {
+  value: UserRoot
+}
+
+export interface UserSettingsRecord extends Record {
+  value: UserSettings
+}
+
+export interface SpaceRecord extends Record {
+  value: Space
+}
+
+export interface SpaceViewRecord extends Record {
+  value: SpaceView
 }
 
 export interface Cursor {
@@ -299,8 +331,8 @@ export interface GalleryProperty {
   property: string
 }
 
-/* User Record ----------------------------------------------------------*/
-export interface User {
+/* NotionUser Record ----------------------------------------------------*/
+export interface NotionUser {
   id: string
   version: number
   email: string
@@ -690,7 +722,7 @@ class NotionAgent {
   } // makeRequestToNotion
 } // NotionAgent
 
-
-
-/* NotionAgent exports --------------------------------------------------*/
+/*************************************************************************
+ * Module exports                                                        *
+ *************************************************************************/
 export { NotionAgent }
