@@ -193,7 +193,13 @@ export interface SlackIntegrationRecord extends Record {
 }
 
 export interface Cursor {
-  stack: []
+  stack: StackItem[][]
+}
+
+export interface StackItem {
+  table: string
+  id: string
+  index: number
 }
 
 /**
@@ -624,8 +630,8 @@ class NotionAgent {
    */
   loadPageChunk(
     pageID: string,
-    chunkNo: number = 0,
-    cursor = { "stack": [] }
+    chunkNo?: number,
+    cursor?: Cursor
   ): Promise<{
     statusCode: number,
     data: LoadPageChunkResponse | ErrorResponse
@@ -635,11 +641,17 @@ class NotionAgent {
 
     const apiURL = API_BASE + '/loadPageChunk'
 
+    const goodCursor = chunkNo
+      ? cursor
+        ? cursor // cursor is truthy, trust the user
+        : { "stack": [] } // cursor is falsy, use default cursor
+      : { "stack": [] } // chunkNo is falsy, use default cursor
+
     const requestData = JSON.stringify({
       "pageId": pageID,
       "limit": 50,
-      "cursor": cursor,
-      "chunkNumber": chunkNo,
+      "cursor": goodCursor,
+      "chunkNumber": chunkNo ? chunkNo : 0,
       "verticalColumns": false
     })
 
