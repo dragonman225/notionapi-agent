@@ -12,7 +12,7 @@ function log(..._arguments: any[]) {
  * @param str - Payload to parse.
  * @returns Parsed object when success, undefined when fail.
  */
-function parseJSON(str: string) {
+function parseJSON(str: string): any {
   try {
     return JSON.parse(str)
   } catch (error) {

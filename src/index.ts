@@ -3,60 +3,62 @@
  *************************************************************************/
 import assert from 'assert'
 import { makeHTTPSRequest } from '@dnpr/make-request'
-import { log, parseJSON } from './utils'
+import { Logger } from '@dnpr/logger'
+import { parseJSON } from './utils'
 import { strings } from './strings'
+
+const log = new Logger('notionapi-agent')
 
 /*************************************************************************
  * Constants                                                             *
  *************************************************************************/
+const NOTION_HOST = 'www.notion.so'
 const API_BASE = '/api/v3'
 
 /*************************************************************************
  * NotionAgent data structures                                           *
  *************************************************************************/
-/**
- * Options of NotionAgent constructor
- * @typedef AgentOptions
- * @property {string} token - Login token (`token_v2` field in cookie)
- * @property {string} timezone - User's timezone
- * @property {string} locale - User's locale
- * @property {boolean} suppressWarning - Whether to hide warnings
- * @property {boolean} verbose - Whether to show status messages
- */
+
+ /** Options for {@link NotionAgent} constructor. */
 export interface AgentOptions {
+  /** Login token (`token_v2` field in cookie). */
   token?: string
+  /** User's timezone. */
   timezone?: string
+  /** User's locale. */
   locale?: string
+  /** Whether to hide warnings. */
   suppressWarning?: boolean
+  /** Whether to show status messages. */
   verbose?: boolean
 }
 
 /*************************************************************************
  * Notion.so data structures                                             *
  *************************************************************************/
+
 /* API structures -------------------------------------------------------*/
-/** /api/v3/getAssetsJson response when HTTP statusCode is 200
- * @typedef GetAssetsJsonResponse
- * @property {string} entry - Path to HTML index
- * @property {AssetFile[]} files - Such as scripts, stylesheets, images
- * @property {string[]} headersWhitelist - A list of HTTP headers
- * @property {string[]} proxyServerPathPrefixes - A list of HTTP paths
- * @property {string} version - The version of Notion app
- */
+
+/** HTTP 200 response of /api/v3/getAssetsJson. */
 export interface GetAssetsJsonResponse {
+  /** Path to HTML index. */
   entry: string
+  /** Such as scripts, stylesheets, images. */
   files: AssetFile[]
+  /** A list of HTTP headers. */
   headersWhitelist: string[]
+  /** A list of HTTP paths. */
   proxyServerPathPrefixes: string[]
+  /** The version of Notion. */
   version: string
 }
 
-/** /api/v3/getRecordValues response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/getRecordValues. */
 export interface GetRecordValuesResponse {
   results: Record[]
 }
 
-/** /api/v3/loadPageChunk response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/loadPageChunk. */
 export interface LoadPageChunkResponse {
   recordMap: {
     block: { [key: string]: BlockRecord }
@@ -68,7 +70,7 @@ export interface LoadPageChunkResponse {
   cursor: Cursor
 }
 
-/** /api/v3/loadUserContent response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/loadUserContent. */
 export interface LoadUserContentResponse {
   recordMap: {
     notion_user: { [key: string]: NotionUserRecord }
@@ -81,7 +83,7 @@ export interface LoadUserContentResponse {
   }
 }
 
-/** /api/v3/queryCollection response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/queryCollection. */
 export interface QueryCollectionResponse {
   result: {
     type: string
@@ -97,17 +99,17 @@ export interface QueryCollectionResponse {
   }
 }
 
-/** /api/v3/submitTransaction response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/submitTransaction. */
 export interface SubmitTransactionResponse {
-  // empty
+  /** empty */
 }
 
-/** /api/v3/getSnapshotsList response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/getSnapshotsList. */
 export interface GetSnapshotsListResponse {
   snapshots: Snapshot[]
 }
 
-/** /api/v3/getSnapshotsList response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/getSnapshotsList. */
 export interface GetActivityLogResponse {
   activityIds: string[]
   recordMap: {
@@ -121,19 +123,57 @@ export interface GetActivityLogResponse {
   }
 }
 
-/**
- * /api/v3/xxx response when HTTP statusCode is not 200
- * @typedef ErrorResponse
- * @property {string} errorId
- * @property {string} name
- * @property {string} message
- * @property {string} status
- */
+/** Notion-style error structure. */
 export interface ErrorResponse {
+  /** 
+   * An ID in uuid v4 format if the error is from Notion. "none" if it's
+   * from NotionAgent.
+   */
   errorId: string
+  /** "none" if the error is from NotionAgent. */
   name: string
+  /** The message describing the error. */
   message: string
+  /** "none" if the error is from NotionAgent. */
   status: string
+}
+
+/** NotionAgent API return value structures. */
+export interface MakeRequestToNotionReturns {
+  error?: ErrorResponse
+  data?: any
+}
+
+export interface GetAssetsJsonReturns extends MakeRequestToNotionReturns {
+  data?: GetAssetsJsonResponse
+}
+
+export interface GetRecordValuesReturns extends MakeRequestToNotionReturns {
+  data?: GetRecordValuesResponse
+}
+
+export interface LoadPageChunkReturns extends MakeRequestToNotionReturns {
+  data?: LoadPageChunkResponse
+}
+
+export interface LoadUserContentReturns extends MakeRequestToNotionReturns {
+  data?: LoadUserContentResponse
+}
+
+export interface QueryCollectionReturns extends MakeRequestToNotionReturns {
+  data?: QueryCollectionResponse
+}
+
+export interface SubmitTransactionReturns extends MakeRequestToNotionReturns {
+  data?: SubmitTransactionResponse
+}
+
+export interface GetSnapshotsListReturns extends MakeRequestToNotionReturns {
+  data?: GetSnapshotsListResponse
+}
+
+export interface GetActivityLogReturns extends MakeRequestToNotionReturns {
+  data?: GetActivityLogResponse
 }
 
 /* API-related structures -----------------------------------------------*/
@@ -271,6 +311,8 @@ export interface BlockProperties {
 }
 
 /**
+ * Describe the format of a {@link Block}
+ * 
  * For non-boolean properties, test with 
  *  <property> || <default_value>.
  * 
@@ -454,7 +496,7 @@ export interface Snapshot {
 // TODO: This section is incomplete
 /**
  * If the activity is collection-related, it has additional 
- * collection_id property, also all its edits are collection-related
+ * collection_id property, also all its edits are collection-related.
  */
 export interface Activity {
   id: string
@@ -591,13 +633,14 @@ export interface AggregationResult {
 /*************************************************************************
  * NotionAgent implementation                                            *
  *************************************************************************/
-/* An agent to interact with Notion.so's HTTP API */
-class NotionAgent {
-  token: string
-  timezone: string
-  locale: string
-  suppressWarning: boolean
-  verbose: boolean
+/**
+ * A class that wraps Notion.so's HTTP API as JavaScript functions.
+ */
+export class NotionAgent {
+  private token: string
+  private timezone: string
+  private locale: string
+  private suppressWarning: boolean
 
   constructor(opts: AgentOptions = {
     token: '',
@@ -611,31 +654,35 @@ class NotionAgent {
     this.locale = opts.locale || 'en'
     this.suppressWarning = (typeof opts.suppressWarning === 'undefined')
       ? false : opts.suppressWarning
-    this.verbose = (typeof opts.verbose === 'undefined')
-      ? false : opts.verbose
+
+    if (opts.verbose) log.setLogLevel('verbose')
 
     if (!this.suppressWarning && this.token.length === 0) {
-      log(strings.NO_TOKEN_WARNING)
+      log.warn(strings.NO_TOKEN_WARNING)
     }
   }
 
 
 
   /**
-   * Execute a raw call to /api/v3/loadPageChunk
-   * @param pageID - The page ID to request.
-   * @param chunkNo - The chunk number to request.
-   * @param cursor - The cursor.
-   * @returns HTTP status code and JSON object from response.
+   * Make a POST request to /api/v3/loadPageChunk for one chunk of a page.
+   * 
+   * @remarks
+   * The chunk contains only top level blocks.
+   * 
+   * @param pageID - The ID (with dashes) of a page.
+   * @param chunkNo - The chunk number. Starting from 0, add 1 for each 
+   * chunk received. Specify 0 or neglect this parameter for the first 
+   * chunk.
+   * @param cursor - The {@link Cursor} returned by Notion in the last chunk. 
+   * Neglect this parameter for the first chunk.
+   * @returns An object containing response data and error.
    */
   loadPageChunk(
     pageID: string,
     chunkNo?: number,
     cursor?: Cursor
-  ): Promise<{
-    statusCode: number,
-    data: LoadPageChunkResponse | ErrorResponse
-  }> {
+  ): Promise<LoadPageChunkReturns> {
 
     assert(pageID, strings.PAGEID_NOT_FOUND)
 
@@ -647,13 +694,13 @@ class NotionAgent {
         : { "stack": [] } // cursor is falsy, use default cursor
       : { "stack": [] } // chunkNo is falsy, use default cursor
 
-    const requestData = JSON.stringify({
+    const requestData = {
       "pageId": pageID,
       "limit": 50,
       "cursor": goodCursor,
       "chunkNumber": chunkNo ? chunkNo : 0,
       "verticalColumns": false
-    })
+    }
 
     return this.makeRequestToNotion(apiURL, requestData)
 
@@ -662,17 +709,14 @@ class NotionAgent {
 
 
   /**
-   * Execute a raw call to /api/v3/getAssetsJson
-   * @returns HTTP status code and JSON object from response.
+   * Make a POST request to /api/v3/getAssetsJson for assets list.
+   * @returns An object containing response data and error.
    */
-  getAssetsJson(): Promise<{
-    statusCode: number,
-    data: GetAssetsJsonResponse | ErrorResponse
-  }> {
+  getAssetsJson(): Promise<GetAssetsJsonReturns> {
 
     const apiURL = API_BASE + '/getAssetsJson'
 
-    const requestData = JSON.stringify({})
+    const requestData = {}
 
     return this.makeRequestToNotion(apiURL, requestData)
 
@@ -681,29 +725,27 @@ class NotionAgent {
 
 
   /**
-   * Execute a raw call to /api/v3/getRecordValues
-   * @param requests - The requests to make.
-   * @returns HTTP status code and JSON object from response.
+   * Make a POST request to /api/v3/getRecordValues for some records.
+   * @param requests - Each request specifies which record to get from
+   * what table.
+   * @returns An object containing response data and error.
    */
   getRecordValues(
     requests: RecordRequest[]
-  ): Promise<{
-    statusCode: number,
-    data: GetRecordValuesResponse | ErrorResponse
-  }> {
+  ): Promise<GetRecordValuesReturns> {
 
     assert(Array.isArray(requests), strings.IDS_NOT_ARRAY)
 
     const apiURL = API_BASE + '/getRecordValues'
 
-    const requestData = JSON.stringify({
+    const requestData = {
       "requests": requests.map((request) => {
         return {
           "table": request.table,
           "id": request.id
         }
       })
-    })
+    }
 
     return this.makeRequestToNotion(apiURL, requestData)
 
@@ -712,17 +754,14 @@ class NotionAgent {
 
 
   /**
-   * Execute a raw call to /api/v3/loadUserContent
-   * @returns HTTP status code and JSON object from response.
+   * Make a POST request to /api/v3/loadUserContent for user details.
+   * @returns An object containing response data and error.
    */
-  loadUserContent(): Promise<{
-    statusCode: number,
-    data: LoadUserContentResponse | ErrorResponse
-  }> {
+  loadUserContent(): Promise<LoadUserContentReturns> {
 
     const apiURL = API_BASE + '/loadUserContent'
 
-    const requestData = JSON.stringify({})
+    const requestData = {}
 
     return this.makeRequestToNotion(apiURL, requestData)
 
@@ -731,27 +770,25 @@ class NotionAgent {
 
 
   /**
-   * Execute a raw call to /api/v3/queryCollection
+   * Make a POST request to /api/v3/queryCollection for data of a 
+   * collection under a view.
    * @param collectionID
    * @param collectionViewID
    * @param aggregateQueries
-   * @returns HTTP status code and JSON object from response.
+   * @returns An object containing response data and error.
    */
   queryCollection(
     collectionID: string,
     collectionViewID: string,
     aggregateQueries: AggregateQuery[]
-  ): Promise<{
-    statusCode: number
-    data: QueryCollectionResponse | ErrorResponse
-  }> {
+  ): Promise<QueryCollectionReturns> {
 
     assert(collectionID, strings.COLLECTION_ID_NOT_FOUND)
     assert(collectionViewID, strings.COLLECTION_VIEW_ID_NOT_FOUND)
 
     const apiURL = API_BASE + '/queryCollection'
 
-    const requestData = JSON.stringify({
+    const requestData = {
       "collectionId": collectionID,
       "collectionViewId": collectionViewID,
       "query": {
@@ -767,7 +804,7 @@ class NotionAgent {
         "userLocale": this.locale,
         "loadContentCover": true
       }
-    })
+    }
 
     return this.makeRequestToNotion(apiURL, requestData)
 
@@ -776,16 +813,14 @@ class NotionAgent {
 
 
   /**
-   * Execute a raw call to /api/v3/submitTransaction
+   * Make a POST request to /api/v3/submitTransaction to write some 
+   * changes.
    * @param operations
-   * @returns HTTP status code and JSON object from response.
+   * @returns An object containing response data and error.
    */
   submitTransaction(
     operations: DocumentOperation[]
-  ): Promise<{
-    statusCode: number
-    data: SubmitTransactionResponse | ErrorResponse
-  }> {
+  ): Promise<SubmitTransactionReturns> {
 
     assert(Array.isArray(operations))
     operations.forEach(operation => {
@@ -798,9 +833,9 @@ class NotionAgent {
 
     const apiURL = API_BASE + '/submitTransaction'
 
-    const requestData = JSON.stringify({
+    const requestData = {
       "operations": operations
-    })
+    }
 
     return this.makeRequestToNotion(apiURL, requestData)
 
@@ -809,28 +844,26 @@ class NotionAgent {
 
 
   /**
-   * Get snapshots list of a block (/api/v3/getSnapshotsList)
-   * @param blockId 
-   * @param size - Max number of snapshots to get
-   * @returns HTTP status code and JSON object from response.
+   * Make a POST request to /api/v3/getSnapshotsList to read snapshots of 
+   * a block.
+   * @param blockId - ID of a block.
+   * @param size - Max number of snapshots to get.
+   * @returns An object containing response data and error.
    */
   getSnapshotsList(
     blockId: string,
     size: number
-  ): Promise<{
-    statusCode: number,
-    data: GetSnapshotsListResponse | ErrorResponse
-  }> {
+  ): Promise<GetSnapshotsListReturns> {
 
     assert(blockId)
     assert(size)
 
     const apiURL = API_BASE + '/getSnapshotsList'
 
-    const requestData = JSON.stringify({
+    const requestData = {
       blockId,
       size
-    })
+    }
 
     return this.makeRequestToNotion(apiURL, requestData)
 
@@ -839,24 +872,23 @@ class NotionAgent {
 
 
   /**
-   * Get activity log of a block (/api/v3/getActivityLog)
-   * @param navigableBlockId - ID of a page or collection_view_page block.
-   *                         Other blocks don't have meaningful responses.
+   * Make a POST request to /api/v3/getActivityLog to read activity log of 
+   * a block.
+   * @param navigableBlockId - ID of a "page" or "collection_view_page" 
+   * block. ID of other type of block doesn't results in meaningful 
+   * responses.
    * @param size - Max number of activities to get.
    * @param spaceId - The workspace ID of the navigableBlock.
    * @param collectionId - ID of a collection. Only effective when 
-   *                     navigableBlock is a collection_view_page.
-   * @returns HTTP status code and JSON object from response.
+   * navigableBlock is a "collection_view_page" block.
+   * @returns An object containing response data and error.
    */
   getActivityLog(
     navigableBlockId: string,
     size: number,
     spaceId: string,
     collectionId?: string
-  ): Promise<{
-    statusCode: number,
-    data: GetActivityLogResponse | ErrorResponse
-  }> {
+  ): Promise<GetActivityLogReturns> {
 
     assert(navigableBlockId)
     assert(size)
@@ -878,50 +910,65 @@ class NotionAgent {
 
 
   /**
-   * Make a request to Notion API.
-   * @param apiURL - Notion API URL.
-   * @param requestData - Request body.
-   * @returns HTTP status code and JSON object from response.
+   * Make a request to Notion's API.
+   * @param apiPath - API path.
+   * @param requestData - Request object, which will be stringify as JSON.
+   * @returns An object containing response data and error.
    */
   private async makeRequestToNotion(
-    apiURL: string,
-    requestData: string
-  ): Promise<{ statusCode: number, data: any }> {
+    apiPath: string,
+    requestData: any
+  ) {
 
-    /* Options passed to https.request(). */
+    /* Options for https.request(). */
     const httpOptions = {
-      hostname: 'www.notion.so',
+      hostname: NOTION_HOST,
       port: 443,
-      path: apiURL,
+      path: apiPath,
       method: 'POST',
-      authority: 'www.notion.so',
+      authority: NOTION_HOST,
       headers: {
         'accept': '*/*',
         'accept-language': 'en-US,en;q=0.9',
         'accept-encoding': 'gzip, deflate',
         'content-type': 'application/json',
         'cookie': `token_v2=${this.token}`,
-        'origin': 'https://www.notion.so',
-        'referer': 'https://www.notion.so',
+        'origin': 'https://' + NOTION_HOST,
+        'referer': 'https://' + NOTION_HOST,
         'user-agent': strings.REQUEST_USER_AGENT
       }
     }
 
-    if (this.verbose)
-      log(`Request ${apiURL}, data ${requestData.slice(0, 40)} ...`)
-
-    let res = await makeHTTPSRequest(httpOptions, requestData)
-    let resParsed = {
-      statusCode: res.statusCode as number,
-      data: parseJSON(res.responseBuffer)
+    /** Stringify request data. */
+    let payload
+    try {
+      payload = JSON.stringify(requestData)
+    } catch (error) {
+      /** Use Notion's error structure. */
+      return {
+        error: {
+          errorId: 'none',
+          message: 'Fail to stringify request data to JSON.',
+          name: 'none',
+          status: 'none'
+        }
+      }
     }
 
-    return resParsed
+    /** Verbose logging. */
+    log.verbose(`Request ${apiPath}, data ${payload.slice(0, 40)} ...`)
+
+    /** Make the request. */
+    let res = await makeHTTPSRequest(httpOptions, payload)
+    if (res.statusCode === 200) {
+      return {
+        data: parseJSON(res.responseBuffer)
+      }
+    } else {
+      return {
+        error: parseJSON(res.responseBuffer)
+      }
+    }
 
   } // makeRequestToNotion
 } // NotionAgent
-
-/*************************************************************************
- * Module exports                                                        *
- *************************************************************************/
-export { NotionAgent }
