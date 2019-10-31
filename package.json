@@ -7,6 +7,7 @@
   "scripts": {
     "build": "tsc && npm run report:deps_graph && npm run build:doc",
     "build:doc": "typedoc --out docs --mode modules src/",
+    "deploy:doc": "git subtree push --prefix docs origin gh-pages",
     "test": "ts-node test/index.spec.ts",
     "test:example": "ts-node docs/example.ts && node docs/example.js",
     "release": "npm run build && npm publish",
