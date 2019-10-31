@@ -5,8 +5,8 @@ const strings = {
     NO_TOKEN_WARNING: 'Without a token, only data of public pages can be get, also some APIs may not work.',
     PAGEID_NOT_FOUND: 'You need to provide a page ID.',
     IDS_NOT_ARRAY: 'Block IDs should be an array.',
-    COLLECTION_ID_NOT_FOUND: 'You need to provide a collection ID',
-    COLLECTION_VIEW_ID_NOT_FOUND: 'You need to provide a collection_view ID',
+    COLLECTION_ID_NOT_FOUND: 'You need to provide a collection ID.',
+    COLLECTION_VIEW_ID_NOT_FOUND: 'You need to provide a collection_view ID.',
     AGGREGATEQUERIES_NOT_ARRAY: 'Aggregate queries should be an array.'
 };
 exports.strings = strings;

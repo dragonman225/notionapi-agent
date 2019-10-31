@@ -1,45 +1,40 @@
 /*************************************************************************
  * NotionAgent data structures                                           *
  *************************************************************************/
-/**
- * Options of NotionAgent constructor
- * @typedef AgentOptions
- * @property {string} token - Login token (`token_v2` field in cookie)
- * @property {string} timezone - User's timezone
- * @property {string} locale - User's locale
- * @property {boolean} suppressWarning - Whether to hide warnings
- * @property {boolean} verbose - Whether to show status messages
- */
+/** Options for {@link NotionAgent} constructor. */
 export interface AgentOptions {
+    /** Login token (`token_v2` field in cookie) {@link https://github.com/dragonman225/notionapi-agent/blob/master/obtain_token/obtain_token.md | Tutorial}. */
     token?: string;
+    /** User's timezone. */
     timezone?: string;
+    /** User's locale. */
     locale?: string;
+    /** Whether to hide warnings. */
     suppressWarning?: boolean;
+    /** Whether to show status messages. */
     verbose?: boolean;
 }
 /*************************************************************************
  * Notion.so data structures                                             *
  *************************************************************************/
-/** /api/v3/getAssetsJson response when HTTP statusCode is 200
- * @typedef GetAssetsJsonResponse
- * @property {string} entry - Path to HTML index
- * @property {AssetFile[]} files - Such as scripts, stylesheets, images
- * @property {string[]} headersWhitelist - A list of HTTP headers
- * @property {string[]} proxyServerPathPrefixes - A list of HTTP paths
- * @property {string} version - The version of Notion app
- */
+/** HTTP 200 response of /api/v3/getAssetsJson. */
 export interface GetAssetsJsonResponse {
+    /** Path to HTML index. */
     entry: string;
+    /** Such as scripts, stylesheets, images. */
     files: AssetFile[];
+    /** A list of HTTP headers. */
     headersWhitelist: string[];
+    /** A list of HTTP paths. */
     proxyServerPathPrefixes: string[];
+    /** The version of Notion. */
     version: string;
 }
-/** /api/v3/getRecordValues response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/getRecordValues. */
 export interface GetRecordValuesResponse {
     results: Record[];
 }
-/** /api/v3/loadPageChunk response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/loadPageChunk. */
 export interface LoadPageChunkResponse {
     recordMap: {
         block: {
@@ -60,7 +55,7 @@ export interface LoadPageChunkResponse {
     };
     cursor: Cursor;
 }
-/** /api/v3/loadUserContent response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/loadUserContent. */
 export interface LoadUserContentResponse {
     recordMap: {
         notion_user: {
@@ -86,7 +81,7 @@ export interface LoadUserContentResponse {
         };
     };
 }
-/** /api/v3/queryCollection response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/queryCollection. */
 export interface QueryCollectionResponse {
     result: {
         type: string;
@@ -109,14 +104,14 @@ export interface QueryCollectionResponse {
         };
     };
 }
-/** /api/v3/submitTransaction response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/submitTransaction. */
 export interface SubmitTransactionResponse {
 }
-/** /api/v3/getSnapshotsList response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/getSnapshotsList. */
 export interface GetSnapshotsListResponse {
     snapshots: Snapshot[];
 }
-/** /api/v3/getSnapshotsList response when HTTP statusCode is 200 */
+/** HTTP 200 response of /api/v3/getSnapshotsList. */
 export interface GetActivityLogResponse {
     activityIds: string[];
     recordMap: {
@@ -143,19 +138,48 @@ export interface GetActivityLogResponse {
         };
     };
 }
-/**
- * /api/v3/xxx response when HTTP statusCode is not 200
- * @typedef ErrorResponse
- * @property {string} errorId
- * @property {string} name
- * @property {string} message
- * @property {string} status
- */
+/** Notion-style error structure. */
 export interface ErrorResponse {
+    /**
+     * An ID in uuid v4 format if the error is from Notion. "none" if it's
+     * from NotionAgent.
+     */
     errorId: string;
+    /** "none" if the error is from NotionAgent. */
     name: string;
+    /** The message describing the error. */
     message: string;
+    /** "none" if the error is from NotionAgent. */
     status: string;
+}
+/** NotionAgent API return value structures. */
+export interface MakeRequestToNotionReturns {
+    error?: ErrorResponse;
+    data?: any;
+}
+export interface GetAssetsJsonReturns extends MakeRequestToNotionReturns {
+    data?: GetAssetsJsonResponse;
+}
+export interface GetRecordValuesReturns extends MakeRequestToNotionReturns {
+    data?: GetRecordValuesResponse;
+}
+export interface LoadPageChunkReturns extends MakeRequestToNotionReturns {
+    data?: LoadPageChunkResponse;
+}
+export interface LoadUserContentReturns extends MakeRequestToNotionReturns {
+    data?: LoadUserContentResponse;
+}
+export interface QueryCollectionReturns extends MakeRequestToNotionReturns {
+    data?: QueryCollectionResponse;
+}
+export interface SubmitTransactionReturns extends MakeRequestToNotionReturns {
+    data?: SubmitTransactionResponse;
+}
+export interface GetSnapshotsListReturns extends MakeRequestToNotionReturns {
+    data?: GetSnapshotsListResponse;
+}
+export interface GetActivityLogReturns extends MakeRequestToNotionReturns {
+    data?: GetActivityLogResponse;
 }
 export interface AssetFile {
     hash: string;
@@ -281,6 +305,8 @@ export interface BlockProperties {
     };
 }
 /**
+ * Describe the format of a {@link Block}
+ *
  * For non-boolean properties, test with
  *  <property> || <default_value>.
  *
@@ -443,7 +469,7 @@ export interface Snapshot {
 }
 /**
  * If the activity is collection-related, it has additional
- * collection_id property, also all its edits are collection-related
+ * collection_id property, also all its edits are collection-related.
  */
 export interface Activity {
     id: string;
@@ -567,103 +593,90 @@ export interface AggregationResult {
 /*************************************************************************
  * NotionAgent implementation                                            *
  *************************************************************************/
-declare class NotionAgent {
-    token: string;
-    timezone: string;
-    locale: string;
-    suppressWarning: boolean;
-    verbose: boolean;
+/**
+ * A class that wraps Notion.so's HTTP API as JavaScript functions.
+ */
+export declare class NotionAgent {
+    private token;
+    private timezone;
+    private locale;
+    private suppressWarning;
     constructor(opts?: AgentOptions);
     /**
-     * Execute a raw call to /api/v3/loadPageChunk
-     * @param pageID - The page ID to request.
-     * @param chunkNo - The chunk number to request.
-     * @param cursor - The cursor.
-     * @returns HTTP status code and JSON object from response.
+     * Make a POST request to /api/v3/loadPageChunk for one chunk of a page.
+     *
+     * @remarks
+     * The chunk contains only top level blocks.
+     *
+     * @param pageID - The ID (with dashes) of a page.
+     * @param chunkNo - The chunk number. Starting from 0, add 1 for each
+     * chunk received. Specify 0 or neglect this parameter for the first
+     * chunk.
+     * @param cursor - The {@link Cursor} returned by Notion in the last chunk.
+     * Neglect this parameter for the first chunk.
+     * @returns An object containing response data and error.
      */
-    loadPageChunk(pageID: string, chunkNo?: number, cursor?: Cursor): Promise<{
-        statusCode: number;
-        data: LoadPageChunkResponse | ErrorResponse;
-    }>;
+    loadPageChunk(pageID: string, chunkNo?: number, cursor?: Cursor): Promise<LoadPageChunkReturns>;
     /**
-     * Execute a raw call to /api/v3/getAssetsJson
-     * @returns HTTP status code and JSON object from response.
+     * Make a POST request to /api/v3/getAssetsJson for assets list.
+     * @returns An object containing response data and error.
      */
-    getAssetsJson(): Promise<{
-        statusCode: number;
-        data: GetAssetsJsonResponse | ErrorResponse;
-    }>;
+    getAssetsJson(): Promise<GetAssetsJsonReturns>;
     /**
-     * Execute a raw call to /api/v3/getRecordValues
-     * @param requests - The requests to make.
-     * @returns HTTP status code and JSON object from response.
+     * Make a POST request to /api/v3/getRecordValues for some records.
+     * @param requests - Each request specifies which record to get from
+     * what table.
+     * @returns An object containing response data and error.
      */
-    getRecordValues(requests: RecordRequest[]): Promise<{
-        statusCode: number;
-        data: GetRecordValuesResponse | ErrorResponse;
-    }>;
+    getRecordValues(requests: RecordRequest[]): Promise<GetRecordValuesReturns>;
     /**
-     * Execute a raw call to /api/v3/loadUserContent
-     * @returns HTTP status code and JSON object from response.
+     * Make a POST request to /api/v3/loadUserContent for user details.
+     * @returns An object containing response data and error.
      */
-    loadUserContent(): Promise<{
-        statusCode: number;
-        data: LoadUserContentResponse | ErrorResponse;
-    }>;
+    loadUserContent(): Promise<LoadUserContentReturns>;
     /**
-     * Execute a raw call to /api/v3/queryCollection
+     * Make a POST request to /api/v3/queryCollection for data of a
+     * collection under a view.
      * @param collectionID
      * @param collectionViewID
      * @param aggregateQueries
-     * @returns HTTP status code and JSON object from response.
+     * @returns An object containing response data and error.
      */
-    queryCollection(collectionID: string, collectionViewID: string, aggregateQueries: AggregateQuery[]): Promise<{
-        statusCode: number;
-        data: QueryCollectionResponse | ErrorResponse;
-    }>;
+    queryCollection(collectionID: string, collectionViewID: string, aggregateQueries: AggregateQuery[]): Promise<QueryCollectionReturns>;
     /**
-     * Execute a raw call to /api/v3/submitTransaction
+     * Make a POST request to /api/v3/submitTransaction to write some
+     * changes.
      * @param operations
-     * @returns HTTP status code and JSON object from response.
+     * @returns An object containing response data and error.
      */
-    submitTransaction(operations: DocumentOperation[]): Promise<{
-        statusCode: number;
-        data: SubmitTransactionResponse | ErrorResponse;
-    }>;
+    submitTransaction(operations: DocumentOperation[]): Promise<SubmitTransactionReturns>;
     /**
-     * Get snapshots list of a block (/api/v3/getSnapshotsList)
-     * @param blockId
-     * @param size - Max number of snapshots to get
-     * @returns HTTP status code and JSON object from response.
+     * Make a POST request to /api/v3/getSnapshotsList to read snapshots of
+     * a block.
+     * @param blockId - ID of a block.
+     * @param size - Max number of snapshots to get.
+     * @returns An object containing response data and error.
      */
-    getSnapshotsList(blockId: string, size: number): Promise<{
-        statusCode: number;
-        data: GetSnapshotsListResponse | ErrorResponse;
-    }>;
+    getSnapshotsList(blockId: string, size: number): Promise<GetSnapshotsListReturns>;
     /**
-     * Get activity log of a block (/api/v3/getActivityLog)
-     * @param navigableBlockId - ID of a page or collection_view_page block.
-     *                         Other blocks don't have meaningful responses.
+     * Make a POST request to /api/v3/getActivityLog to read activity log of
+     * a block.
+     * @param navigableBlockId - ID of a "page" or "collection_view_page"
+     * block. ID of other type of block doesn't results in meaningful
+     * responses.
      * @param size - Max number of activities to get.
      * @param spaceId - The workspace ID of the navigableBlock.
      * @param collectionId - ID of a collection. Only effective when
-     *                     navigableBlock is a collection_view_page.
-     * @returns HTTP status code and JSON object from response.
+     * navigableBlock is a "collection_view_page" block.
+     * @returns An object containing response data and error.
      */
-    getActivityLog(navigableBlockId: string, size: number, spaceId: string, collectionId?: string): Promise<{
-        statusCode: number;
-        data: GetActivityLogResponse | ErrorResponse;
-    }>;
+    getActivityLog(navigableBlockId: string, size: number, spaceId: string, collectionId?: string): Promise<GetActivityLogReturns>;
     /**
-     * Make a request to Notion API.
-     * @param apiURL - Notion API URL.
-     * @param requestData - Request body.
-     * @returns HTTP status code and JSON object from response.
+     * Make a request to Notion's API.
+     * @param apiPath - API path.
+     * @param requestData - Request object, which will be stringify as JSON.
+     * @returns An object containing response data and error.
      */
     private makeRequestToNotion;
 }
-/*************************************************************************
- * Module exports                                                        *
- *************************************************************************/
-export { NotionAgent };
 //# sourceMappingURL=index.d.ts.map

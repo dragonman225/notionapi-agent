@@ -8,16 +8,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
  *************************************************************************/
 const assert_1 = __importDefault(require("assert"));
 const make_request_1 = require("@dnpr/make-request");
+const logger_1 = require("@dnpr/logger");
 const utils_1 = require("./utils");
 const strings_1 = require("./strings");
+const log = new logger_1.Logger('notionapi-agent');
 /*************************************************************************
  * Constants                                                             *
  *************************************************************************/
+const NOTION_HOST = 'www.notion.so';
 const API_BASE = '/api/v3';
 /*************************************************************************
  * NotionAgent implementation                                            *
  *************************************************************************/
-/* An agent to interact with Notion.so's HTTP API */
+/**
+ * A class that wraps Notion.so's HTTP API as JavaScript functions.
+ */
 class NotionAgent {
     constructor(opts = {
         token: '',
@@ -31,18 +36,25 @@ class NotionAgent {
         this.locale = opts.locale || 'en';
         this.suppressWarning = (typeof opts.suppressWarning === 'undefined')
             ? false : opts.suppressWarning;
-        this.verbose = (typeof opts.verbose === 'undefined')
-            ? false : opts.verbose;
+        if (opts.verbose)
+            log.setLogLevel('verbose');
         if (!this.suppressWarning && this.token.length === 0) {
-            utils_1.log(strings_1.strings.NO_TOKEN_WARNING);
+            log.warn(strings_1.strings.NO_TOKEN_WARNING);
         }
     }
     /**
-     * Execute a raw call to /api/v3/loadPageChunk
-     * @param pageID - The page ID to request.
-     * @param chunkNo - The chunk number to request.
-     * @param cursor - The cursor.
-     * @returns HTTP status code and JSON object from response.
+     * Make a POST request to /api/v3/loadPageChunk for one chunk of a page.
+     *
+     * @remarks
+     * The chunk contains only top level blocks.
+     *
+     * @param pageID - The ID (with dashes) of a page.
+     * @param chunkNo - The chunk number. Starting from 0, add 1 for each
+     * chunk received. Specify 0 or neglect this parameter for the first
+     * chunk.
+     * @param cursor - The {@link Cursor} returned by Notion in the last chunk.
+     * Neglect this parameter for the first chunk.
+     * @returns An object containing response data and error.
      */
     loadPageChunk(pageID, chunkNo, cursor) {
         assert_1.default(pageID, strings_1.strings.PAGEID_NOT_FOUND);
@@ -52,63 +64,65 @@ class NotionAgent {
                 ? cursor // cursor is truthy, trust the user
                 : { "stack": [] } // cursor is falsy, use default cursor
             : { "stack": [] }; // chunkNo is falsy, use default cursor
-        const requestData = JSON.stringify({
+        const requestData = {
             "pageId": pageID,
             "limit": 50,
             "cursor": goodCursor,
             "chunkNumber": chunkNo ? chunkNo : 0,
             "verticalColumns": false
-        });
+        };
         return this.makeRequestToNotion(apiURL, requestData);
     } // loadPageChunk
     /**
-     * Execute a raw call to /api/v3/getAssetsJson
-     * @returns HTTP status code and JSON object from response.
+     * Make a POST request to /api/v3/getAssetsJson for assets list.
+     * @returns An object containing response data and error.
      */
     getAssetsJson() {
         const apiURL = API_BASE + '/getAssetsJson';
-        const requestData = JSON.stringify({});
+        const requestData = {};
         return this.makeRequestToNotion(apiURL, requestData);
     } // getAssetsJson
     /**
-     * Execute a raw call to /api/v3/getRecordValues
-     * @param requests - The requests to make.
-     * @returns HTTP status code and JSON object from response.
+     * Make a POST request to /api/v3/getRecordValues for some records.
+     * @param requests - Each request specifies which record to get from
+     * what table.
+     * @returns An object containing response data and error.
      */
     getRecordValues(requests) {
         assert_1.default(Array.isArray(requests), strings_1.strings.IDS_NOT_ARRAY);
         const apiURL = API_BASE + '/getRecordValues';
-        const requestData = JSON.stringify({
+        const requestData = {
             "requests": requests.map((request) => {
                 return {
                     "table": request.table,
                     "id": request.id
                 };
             })
-        });
+        };
         return this.makeRequestToNotion(apiURL, requestData);
     } // getRecordValues
     /**
-     * Execute a raw call to /api/v3/loadUserContent
-     * @returns HTTP status code and JSON object from response.
+     * Make a POST request to /api/v3/loadUserContent for user details.
+     * @returns An object containing response data and error.
      */
     loadUserContent() {
         const apiURL = API_BASE + '/loadUserContent';
-        const requestData = JSON.stringify({});
+        const requestData = {};
         return this.makeRequestToNotion(apiURL, requestData);
     } // loadUserContent
     /**
-     * Execute a raw call to /api/v3/queryCollection
+     * Make a POST request to /api/v3/queryCollection for data of a
+     * collection under a view.
      * @param collectionID
      * @param collectionViewID
      * @param aggregateQueries
-     * @returns HTTP status code and JSON object from response.
+     * @returns An object containing response data and error.
      */
     queryCollection(collectionID, collectionViewID, aggregateQueries) {
         assert_1.default(collectionID, strings_1.strings.COLLECTION_ID_NOT_FOUND);
         assert_1.default(collectionViewID, strings_1.strings.COLLECTION_VIEW_ID_NOT_FOUND);
         const apiURL = API_BASE + '/queryCollection';
-        const requestData = JSON.stringify({
+        const requestData = {
             "collectionId": collectionID,
             "collectionViewId": collectionViewID,
             "query": {
@@ -124,13 +138,14 @@ class NotionAgent {
                 "userLocale": this.locale,
                 "loadContentCover": true
             }
-        });
+        };
         return this.makeRequestToNotion(apiURL, requestData);
     } // queryCollection
     /**
-     * Execute a raw call to /api/v3/submitTransaction
+     * Make a POST request to /api/v3/submitTransaction to write some
+     * changes.
      * @param operations
-     * @returns HTTP status code and JSON object from response.
+     * @returns An object containing response data and error.
      */
     submitTransaction(operations) {
         assert_1.default(Array.isArray(operations));
@@ -142,36 +157,39 @@ class NotionAgent {
             assert_1.default(operation.args);
         });
         const apiURL = API_BASE + '/submitTransaction';
-        const requestData = JSON.stringify({
+        const requestData = {
             "operations": operations
-        });
+        };
         return this.makeRequestToNotion(apiURL, requestData);
     } // submitTransaction
     /**
-     * Get snapshots list of a block (/api/v3/getSnapshotsList)
-     * @param blockId
-     * @param size - Max number of snapshots to get
-     * @returns HTTP status code and JSON object from response.
+     * Make a POST request to /api/v3/getSnapshotsList to read snapshots of
+     * a block.
+     * @param blockId - ID of a block.
+     * @param size - Max number of snapshots to get.
+     * @returns An object containing response data and error.
      */
     getSnapshotsList(blockId, size) {
         assert_1.default(blockId);
         assert_1.default(size);
         const apiURL = API_BASE + '/getSnapshotsList';
-        const requestData = JSON.stringify({
+        const requestData = {
             blockId,
             size
-        });
+        };
         return this.makeRequestToNotion(apiURL, requestData);
     } // getSnapshotsList
     /**
-     * Get activity log of a block (/api/v3/getActivityLog)
-     * @param navigableBlockId - ID of a page or collection_view_page block.
-     *                         Other blocks don't have meaningful responses.
+     * Make a POST request to /api/v3/getActivityLog to read activity log of
+     * a block.
+     * @param navigableBlockId - ID of a "page" or "collection_view_page"
+     * block. ID of other type of block doesn't results in meaningful
+     * responses.
      * @param size - Max number of activities to get.
      * @param spaceId - The workspace ID of the navigableBlock.
      * @param collectionId - ID of a collection. Only effective when
-     *                     navigableBlock is a collection_view_page.
-     * @returns HTTP status code and JSON object from response.
+     * navigableBlock is a "collection_view_page" block.
+     * @returns An object containing response data and error.
      */
     getActivityLog(navigableBlockId, size, spaceId, collectionId) {
         assert_1.default(navigableBlockId);
@@ -187,38 +205,60 @@ class NotionAgent {
         return this.makeRequestToNotion(apiURL, requestData);
     } // getActivityLog
     /**
-     * Make a request to Notion API.
-     * @param apiURL - Notion API URL.
-     * @param requestData - Request body.
-     * @returns HTTP status code and JSON object from response.
+     * Make a request to Notion's API.
+     * @param apiPath - API path.
+     * @param requestData - Request object, which will be stringify as JSON.
+     * @returns An object containing response data and error.
      */
-    async makeRequestToNotion(apiURL, requestData) {
-        /* Options passed to https.request(). */
+    async makeRequestToNotion(apiPath, requestData) {
+        /* Options for https.request(). */
         const httpOptions = {
-            hostname: 'www.notion.so',
+            hostname: NOTION_HOST,
             port: 443,
-            path: apiURL,
+            path: apiPath,
             method: 'POST',
-            authority: 'www.notion.so',
+            authority: NOTION_HOST,
             headers: {
                 'accept': '*/*',
                 'accept-language': 'en-US,en;q=0.9',
                 'accept-encoding': 'gzip, deflate',
                 'content-type': 'application/json',
                 'cookie': `token_v2=${this.token}`,
-                'origin': 'https://www.notion.so',
-                'referer': 'https://www.notion.so',
+                'origin': 'https://' + NOTION_HOST,
+                'referer': 'https://' + NOTION_HOST,
                 'user-agent': strings_1.strings.REQUEST_USER_AGENT
             }
         };
-        if (this.verbose)
-            utils_1.log(`Request ${apiURL}, data ${requestData.slice(0, 40)} ...`);
-        let res = await make_request_1.makeHTTPSRequest(httpOptions, requestData);
-        let resParsed = {
-            statusCode: res.statusCode,
-            data: utils_1.parseJSON(res.responseBuffer)
-        };
-        return resParsed;
+        /** Stringify request data. */
+        let payload;
+        try {
+            payload = JSON.stringify(requestData);
+        }
+        catch (error) {
+            /** Use Notion's error structure. */
+            return {
+                error: {
+                    errorId: 'none',
+                    message: 'Fail to stringify request data to JSON.',
+                    name: 'none',
+                    status: 'none'
+                }
+            };
+        }
+        /** Verbose logging. */
+        log.verbose(`Request ${apiPath}, data ${payload.slice(0, 40)} ...`);
+        /** Make the request. */
+        let res = await make_request_1.makeHTTPSRequest(httpOptions, payload);
+        if (res.statusCode === 200) {
+            return {
+                data: utils_1.parseJSON(res.responseBuffer)
+            };
+        }
+        else {
+            return {
+                error: utils_1.parseJSON(res.responseBuffer)
+            };
+        }
     } // makeRequestToNotion
 } // NotionAgent
 exports.NotionAgent = NotionAgent;
