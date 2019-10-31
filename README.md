@@ -9,7 +9,6 @@ Unofficial Node.js API client for [Notion.so](https://www.notion.so).
 ## Installation
 
 ```bash
-# Install latest release from NPM registry.
 npm install notionapi-agent
 ```
 
