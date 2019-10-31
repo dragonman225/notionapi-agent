@@ -1,0 +1,360 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>notionapi-agent</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">notionapi-agent</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> notionapi-agent</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#notionapi-agent" id="notionapi-agent" style="color: inherit; text-decoration: none;">
+					<h1>notionapi-agent</h1>
+				</a>
+				<p><img src="https://img.shields.io/npm/v/notionapi-agent.svg?style=flat-square&color=007acc&label=version" alt="version"> <img src="https://img.shields.io/badge/language-typescript-blue.svg?style=flat-square" alt="language"> <img src="https://img.shields.io/github/license/dragonman225/notionapi-agent.svg?style=flat-square&label=license&color=08CE5D" alt="license"></p>
+				<p>Unofficial Node.js API client for <a href="https://www.notion.so">Notion.so</a>.</p>
+				<blockquote>
+					<p>This is a work-in-progress project. If you need to use Notion&#39;s API in production, I recommend waiting for their official release.</p>
+				</blockquote>
+				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+					<h2>Documentation</h2>
+				</a>
+				<ul>
+					<li><a href="#Announcement">Announcement</a></li>
+					<li><a href="#Installation">Installation</a></li>
+					<li><a href="#Quickstart">Quickstart</a></li>
+					<li><a href="#Instance-Options">Instance Options</a></li>
+					<li><a href="#API-Methods">API Methods</a></li>
+					<li><a href="#Development">Development</a></li>
+				</ul>
+				<a href="#announcement" id="announcement" style="color: inherit; text-decoration: none;">
+					<h2>Announcement</h2>
+				</a>
+				<a href="#20191013" id="20191013" style="color: inherit; text-decoration: none;">
+					<h3>[2019.10.13]</h3>
+				</a>
+				<p>I finished TypeScript definitions for all APIs exposed by this agent. Hope this will make development easier !</p>
+				<a href="#20191008" id="20191008" style="color: inherit; text-decoration: none;">
+					<h3>[2019.10.08]</h3>
+				</a>
+				<p>When using v0.6.0+, import this library with</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> { NotionAgent } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'notionapi-agent'</span>)</code></pre>
+				<p>Instead of</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> NotionAgent = <span class="hljs-built_in">require</span>(<span class="hljs-string">'notionapi-agent'</span>)</code></pre>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<pre><code class="language-bash"><span class="hljs-comment"># Install latest release from NPM registry.</span>
+npm i notionapi-agent
+<span class="hljs-comment"># Install master branch of git repo from Github.</span>
+npm i dragonman225/notionapi-agent</code></pre>
+				<a href="#quickstart" id="quickstart" style="color: inherit; text-decoration: none;">
+					<h2>Quickstart</h2>
+				</a>
+				<p><a href="https://github.com/dragonman225/notionapi-agent/blob/master/docs/example.js">JavaScript Example</a></p>
+				<p><a href="https://github.com/dragonman225/notionapi-agent/blob/master/docs/example.ts">TypeScript Example</a></p>
+				<p>You can also take a look at <a href="https://github.com/dragonman225/notionapi-agent/blob/master/test/index.spec.ts">the test script</a>.</p>
+				<a href="#instance-options" id="instance-options" style="color: inherit; text-decoration: none;">
+					<h2>Instance Options</h2>
+				</a>
+				<ul>
+					<li><code>token</code> - (optional) The Notion API token to access your private pages. If you only need to access public pages, this can be empty. Follow this <a href="docs/obtain_token.md">guide</a> to obtain your token.</li>
+					<li><code>timezone</code> - (optional) User&#39;s timezone, default: <code>Asia/Taipei</code>.</li>
+					<li><code>locale</code> - (optional) User&#39;s locale, default: <code>en</code>.</li>
+					<li><code>suppressWarning</code> - (optional) Whether to hide warnings, default: <code>false</code>.</li>
+					<li><code>verbose</code> - (optional) Whether to show status messages, default: <code>false</code>.</li>
+				</ul>
+				<a href="#api-methods" id="api-methods" style="color: inherit; text-decoration: none;">
+					<h2>API Methods</h2>
+				</a>
+				<p>All methods return <code>Promise</code> that will resolve with the following object :</p>
+				<pre><code class="language-javascript">{
+  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code</span>
+  <span class="hljs-attr">data</span>: APIResponse <span class="hljs-comment">// When HTTP status code is 200</span>
+      | ErrorResponse <span class="hljs-comment">// When HTTP status code is not 200</span>
+}</code></pre>
+				<ul>
+					<li>If raw response from Notion is not JSON, the <code>data</code> property will be an empty object.</li>
+				</ul>
+				<a href="#codeloadpagechunkpageid-chunkno-cursorcode" id="codeloadpagechunkpageid-chunkno-cursorcode" style="color: inherit; text-decoration: none;">
+					<h3><code>loadPageChunk(pageID, chunkNo, cursor)</code></h3>
+				</a>
+				<p>Execute a raw call to <code>/api/v3/loadPageChunk</code></p>
+				<ul>
+					<li><code>pageID</code> - (required, String) A page ID, dashed version.</li>
+					<li><code>chunkNo</code> - (optional, Number, default: <code>0</code>)</li>
+					<li><code>cursor</code> - (optional, Object, default: <code>{ &quot;stack&quot;: [] }</code>)</li>
+				</ul>
+				<a href="#returns-" id="returns-" style="color: inherit; text-decoration: none;">
+					<h4>Returns :</h4>
+				</a>
+				<pre><code class="language-javascript">{
+  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code.</span>
+  <span class="hljs-attr">data</span>: LoadPageChunkResponse | ErrorResponse
+}</code></pre>
+				<a href="#codegetassetsjsoncode" id="codegetassetsjsoncode" style="color: inherit; text-decoration: none;">
+					<h3><code>getAssetsJson()</code></h3>
+				</a>
+				<p>Execute a raw call to <code>/api/v3/getAssetsJson</code></p>
+				<ul>
+					<li><em>(no parameter)</em></li>
+				</ul>
+				<a href="#returns--1" id="returns--1" style="color: inherit; text-decoration: none;">
+					<h4>Returns :</h4>
+				</a>
+				<pre><code class="language-javascript">{
+  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code.</span>
+  <span class="hljs-attr">data</span>: GetAssetsJsonResponse | ErrorResponse
+}</code></pre>
+				<a href="#codegetrecordvaluesrequestscode" id="codegetrecordvaluesrequestscode" style="color: inherit; text-decoration: none;">
+					<h3><code>getRecordValues(requests)</code></h3>
+				</a>
+				<p>Execute a raw call to /api/v3/getRecordValues</p>
+				<ul>
+					<li><p><code>requests</code> - (required, Array of <a href="https://github.com/dragonman225/notionapi-agent/blob/6f1b8530179235b5949c83f591719231d481df9f/src/index.ts#L142">RecordRequest</a>) See below example.</p>
+						<pre><code class="language-javascript">[
+  {
+    <span class="hljs-string">"table"</span>: <span class="hljs-string">"block"</span>,
+    <span class="hljs-string">"id"</span>: <span class="hljs-string">"cbf2b645-xxxx-xxxx-xxxx-xxxxe8cfed93"</span>
+  }
+]</code></pre>
+					</li>
+				</ul>
+				<a href="#returns--2" id="returns--2" style="color: inherit; text-decoration: none;">
+					<h4>Returns :</h4>
+				</a>
+				<pre><code class="language-javascript">{
+  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code.</span>
+  <span class="hljs-attr">data</span>: GetRecordValuesResponse | ErrorResponse
+}</code></pre>
+				<a href="#codeloadusercontentcode" id="codeloadusercontentcode" style="color: inherit; text-decoration: none;">
+					<h3><code>loadUserContent()</code></h3>
+				</a>
+				<p>Execute a raw call to /api/v3/loadUserContent</p>
+				<ul>
+					<li><em>(no parameter)</em></li>
+				</ul>
+				<a href="#returns--3" id="returns--3" style="color: inherit; text-decoration: none;">
+					<h4>Returns :</h4>
+				</a>
+				<pre><code class="language-javascript">{
+  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code.</span>
+  <span class="hljs-attr">data</span>: LoadUserContentResponse | ErrorResponse
+}</code></pre>
+				<a href="#codequerycollectioncollectionid-collectionviewid-aggregatequeriescode" id="codequerycollectioncollectionid-collectionviewid-aggregatequeriescode" style="color: inherit; text-decoration: none;">
+					<h3><code>queryCollection(collectionID, collectionViewID, aggregateQueries)</code></h3>
+				</a>
+				<p>Execute a raw call to /api/v3/queryCollection</p>
+				<ul>
+					<li><p><code>collectionID</code> - (required, String) A collection ID.</p>
+					</li>
+					<li><p><code>collectionViewID</code> - (required, String) A collectionView ID.</p>
+					</li>
+					<li><p><code>aggregateQueries</code> - (required, Array of <a href="https://github.com/dragonman225/notionapi-agent/blob/6f1b8530179235b5949c83f591719231d481df9f/src/index.ts#L421">AggregateQuery</a>) See below example.</p>
+						<pre><code class="language-javascript">[
+  {
+    <span class="hljs-string">"id"</span>:<span class="hljs-string">"count"</span>,
+    <span class="hljs-string">"type"</span>:<span class="hljs-string">"title"</span>,
+    <span class="hljs-string">"property"</span>:<span class="hljs-string">"title"</span>,
+    <span class="hljs-string">"view_type"</span>:<span class="hljs-string">"table"</span>,
+    <span class="hljs-string">"aggregation_type"</span>:<span class="hljs-string">"not_empty"</span>
+  }
+]</code></pre>
+					</li>
+				</ul>
+				<a href="#returns--4" id="returns--4" style="color: inherit; text-decoration: none;">
+					<h4>Returns :</h4>
+				</a>
+				<pre><code class="language-javascript">{
+  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code.</span>
+  <span class="hljs-attr">data</span>: QueryCollectionResponse | ErrorResponse
+}</code></pre>
+				<a href="#codesubmittransactionoperationscode" id="codesubmittransactionoperationscode" style="color: inherit; text-decoration: none;">
+					<h3><code>submitTransaction(operations)</code></h3>
+				</a>
+				<p>Execute a raw call to /api/v3/submitTransaction</p>
+				<ul>
+					<li><p><code>operations</code> - (required, Array of <a href="https://github.com/dragonman225/notionapi-agent/blob/6f1b8530179235b5949c83f591719231d481df9f/src/index.ts#L156">DocumentOperation</a>) The operations to submit. See below for example.</p>
+						<pre><code class="language-javascript">[
+  {
+    <span class="hljs-string">"id"</span>:<span class="hljs-string">"cda54abd-xxxx-xxxx-xxxx-xxxx65c4a5e2"</span>,
+    <span class="hljs-string">"table"</span>:<span class="hljs-string">"block"</span>,
+    <span class="hljs-string">"path"</span>:[<span class="hljs-string">"properties"</span>,<span class="hljs-string">"title"</span>],
+    <span class="hljs-string">"command"</span>:<span class="hljs-string">"set"</span>,
+    <span class="hljs-string">"args"</span>:[[<span class="hljs-string">"test"</span>,[[<span class="hljs-string">"h"</span>,<span class="hljs-string">"yellow_background"</span>]]]]
+  }
+]</code></pre>
+					</li>
+				</ul>
+				<a href="#returns--5" id="returns--5" style="color: inherit; text-decoration: none;">
+					<h4>Returns :</h4>
+				</a>
+				<pre><code class="language-javascript">{
+  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code.</span>
+  <span class="hljs-attr">data</span>: SubmitTransactionResponse | ErrorResponse
+}</code></pre>
+				<a href="#development" id="development" style="color: inherit; text-decoration: none;">
+					<h2>Development</h2>
+				</a>
+				<a href="#project-structure" id="project-structure" style="color: inherit; text-decoration: none;">
+					<h3>Project Structure</h3>
+				</a>
+				<p><img src="report/deps_graph.svg" alt="project structure graph"></p>
+				<a href="#external-dependencies" id="external-dependencies" style="color: inherit; text-decoration: none;">
+					<h3>External Dependencies</h3>
+				</a>
+				<ul>
+					<li><p><a href="https://github.com/TypeStrong/typedoc">TypeStrong/typedoc</a></p>
+						<pre><code class="language-bash">npm i -g typedoc</code></pre>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_index_.html">"index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_strings_.html">"strings"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_utils_.html">"utils"</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

@@ -44,14 +44,19 @@ class NotionAgent {
      * @param cursor - The cursor.
      * @returns HTTP status code and JSON object from response.
      */
-    loadPageChunk(pageID, chunkNo = 0, cursor = { "stack": [] }) {
+    loadPageChunk(pageID, chunkNo, cursor) {
         assert_1.default(pageID, strings_1.strings.PAGEID_NOT_FOUND);
         const apiURL = API_BASE + '/loadPageChunk';
+        const goodCursor = chunkNo
+            ? cursor
+                ? cursor // cursor is truthy, trust the user
+                : { "stack": [] } // cursor is falsy, use default cursor
+            : { "stack": [] }; // chunkNo is falsy, use default cursor
         const requestData = JSON.stringify({
             "pageId": pageID,
             "limit": 50,
-            "cursor": cursor,
-            "chunkNumber": chunkNo,
+            "cursor": goodCursor,
+            "chunkNumber": chunkNo ? chunkNo : 0,
             "verticalColumns": false
         });
         return this.makeRequestToNotion(apiURL, requestData);

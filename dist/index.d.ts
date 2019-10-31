@@ -200,7 +200,12 @@ export interface SlackIntegrationRecord extends Record {
     value: SlackIntegration;
 }
 export interface Cursor {
-    stack: [];
+    stack: StackItem[][];
+}
+export interface StackItem {
+    table: string;
+    id: string;
+    index: number;
 }
 /**
  * A request object in getRecordValues' `requests` array
@@ -576,9 +581,7 @@ declare class NotionAgent {
      * @param cursor - The cursor.
      * @returns HTTP status code and JSON object from response.
      */
-    loadPageChunk(pageID: string, chunkNo?: number, cursor?: {
-        "stack": never[];
-    }): Promise<{
+    loadPageChunk(pageID: string, chunkNo?: number, cursor?: Cursor): Promise<{
         statusCode: number;
         data: LoadPageChunkResponse | ErrorResponse;
     }>;

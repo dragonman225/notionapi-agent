@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc && npm run report:deps_graph",
+    "build": "tsc && npm run report:deps_graph && npm run build:doc",
+    "build:doc": "typedoc --out docs --mode modules src/",
     "test": "ts-node test/index.spec.ts",
     "test:example": "ts-node docs/example.ts && node docs/example.js",
     "release": "npm run build && npm publish",
@@ -26,6 +27,7 @@
   "author": "dragonman225",
   "license": "MIT",
   "dependencies": {
+    "@dnpr/logger": "^0.2.0",
     "@dnpr/make-request": "0.1.0"
   },
   "devDependencies": {
