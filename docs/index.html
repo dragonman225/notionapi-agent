@@ -72,20 +72,23 @@
 				<blockquote>
 					<p>This is a work-in-progress project. If you need to use Notion&#39;s API in production, I recommend waiting for their official release.</p>
 				</blockquote>
-				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
-					<h2>Documentation</h2>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
 				</a>
-				<ul>
-					<li><a href="#Announcement">Announcement</a></li>
-					<li><a href="#Installation">Installation</a></li>
-					<li><a href="#Quickstart">Quickstart</a></li>
-					<li><a href="#Instance-Options">Instance Options</a></li>
-					<li><a href="#API-Methods">API Methods</a></li>
-					<li><a href="#Development">Development</a></li>
-				</ul>
+				<pre><code class="language-bash"><span class="hljs-comment"># Install latest release from NPM registry.</span>
+npm install notionapi-agent</code></pre>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting Started</h2>
+				</a>
+				<p>You can also take a look at <a href="https://github.com/dragonman225/notionapi-agent/blob/master/test/index.spec.ts">the test script</a>.</p>
+				<p>Or the <a href="https://dragonman225.js.org/notionapi-agent/">documentation</a>.</p>
 				<a href="#announcement" id="announcement" style="color: inherit; text-decoration: none;">
 					<h2>Announcement</h2>
 				</a>
+				<a href="#20191101" id="20191101" style="color: inherit; text-decoration: none;">
+					<h3>[2019.11.01]</h3>
+				</a>
+				<p>New documentation : <a href="https://dragonman225.js.org/notionapi-agent/">https://dragonman225.js.org/notionapi-agent/</a></p>
 				<a href="#20191013" id="20191013" style="color: inherit; text-decoration: none;">
 					<h3>[2019.10.13]</h3>
 				</a>
@@ -97,158 +100,6 @@
 				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> { NotionAgent } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'notionapi-agent'</span>)</code></pre>
 				<p>Instead of</p>
 				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> NotionAgent = <span class="hljs-built_in">require</span>(<span class="hljs-string">'notionapi-agent'</span>)</code></pre>
-				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-					<h2>Installation</h2>
-				</a>
-				<pre><code class="language-bash"><span class="hljs-comment"># Install latest release from NPM registry.</span>
-npm i notionapi-agent
-<span class="hljs-comment"># Install master branch of git repo from Github.</span>
-npm i dragonman225/notionapi-agent</code></pre>
-				<a href="#quickstart" id="quickstart" style="color: inherit; text-decoration: none;">
-					<h2>Quickstart</h2>
-				</a>
-				<p><a href="https://github.com/dragonman225/notionapi-agent/blob/master/docs/example.js">JavaScript Example</a></p>
-				<p><a href="https://github.com/dragonman225/notionapi-agent/blob/master/docs/example.ts">TypeScript Example</a></p>
-				<p>You can also take a look at <a href="https://github.com/dragonman225/notionapi-agent/blob/master/test/index.spec.ts">the test script</a>.</p>
-				<a href="#instance-options" id="instance-options" style="color: inherit; text-decoration: none;">
-					<h2>Instance Options</h2>
-				</a>
-				<ul>
-					<li><code>token</code> - (optional) The Notion API token to access your private pages. If you only need to access public pages, this can be empty. Follow this <a href="docs/obtain_token.md">guide</a> to obtain your token.</li>
-					<li><code>timezone</code> - (optional) User&#39;s timezone, default: <code>Asia/Taipei</code>.</li>
-					<li><code>locale</code> - (optional) User&#39;s locale, default: <code>en</code>.</li>
-					<li><code>suppressWarning</code> - (optional) Whether to hide warnings, default: <code>false</code>.</li>
-					<li><code>verbose</code> - (optional) Whether to show status messages, default: <code>false</code>.</li>
-				</ul>
-				<a href="#api-methods" id="api-methods" style="color: inherit; text-decoration: none;">
-					<h2>API Methods</h2>
-				</a>
-				<p>All methods return <code>Promise</code> that will resolve with the following object :</p>
-				<pre><code class="language-javascript">{
-  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code</span>
-  <span class="hljs-attr">data</span>: APIResponse <span class="hljs-comment">// When HTTP status code is 200</span>
-      | ErrorResponse <span class="hljs-comment">// When HTTP status code is not 200</span>
-}</code></pre>
-				<ul>
-					<li>If raw response from Notion is not JSON, the <code>data</code> property will be an empty object.</li>
-				</ul>
-				<a href="#codeloadpagechunkpageid-chunkno-cursorcode" id="codeloadpagechunkpageid-chunkno-cursorcode" style="color: inherit; text-decoration: none;">
-					<h3><code>loadPageChunk(pageID, chunkNo, cursor)</code></h3>
-				</a>
-				<p>Execute a raw call to <code>/api/v3/loadPageChunk</code></p>
-				<ul>
-					<li><code>pageID</code> - (required, String) A page ID, dashed version.</li>
-					<li><code>chunkNo</code> - (optional, Number, default: <code>0</code>)</li>
-					<li><code>cursor</code> - (optional, Object, default: <code>{ &quot;stack&quot;: [] }</code>)</li>
-				</ul>
-				<a href="#returns-" id="returns-" style="color: inherit; text-decoration: none;">
-					<h4>Returns :</h4>
-				</a>
-				<pre><code class="language-javascript">{
-  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code.</span>
-  <span class="hljs-attr">data</span>: LoadPageChunkResponse | ErrorResponse
-}</code></pre>
-				<a href="#codegetassetsjsoncode" id="codegetassetsjsoncode" style="color: inherit; text-decoration: none;">
-					<h3><code>getAssetsJson()</code></h3>
-				</a>
-				<p>Execute a raw call to <code>/api/v3/getAssetsJson</code></p>
-				<ul>
-					<li><em>(no parameter)</em></li>
-				</ul>
-				<a href="#returns--1" id="returns--1" style="color: inherit; text-decoration: none;">
-					<h4>Returns :</h4>
-				</a>
-				<pre><code class="language-javascript">{
-  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code.</span>
-  <span class="hljs-attr">data</span>: GetAssetsJsonResponse | ErrorResponse
-}</code></pre>
-				<a href="#codegetrecordvaluesrequestscode" id="codegetrecordvaluesrequestscode" style="color: inherit; text-decoration: none;">
-					<h3><code>getRecordValues(requests)</code></h3>
-				</a>
-				<p>Execute a raw call to /api/v3/getRecordValues</p>
-				<ul>
-					<li><p><code>requests</code> - (required, Array of <a href="https://github.com/dragonman225/notionapi-agent/blob/6f1b8530179235b5949c83f591719231d481df9f/src/index.ts#L142">RecordRequest</a>) See below example.</p>
-						<pre><code class="language-javascript">[
-  {
-    <span class="hljs-string">"table"</span>: <span class="hljs-string">"block"</span>,
-    <span class="hljs-string">"id"</span>: <span class="hljs-string">"cbf2b645-xxxx-xxxx-xxxx-xxxxe8cfed93"</span>
-  }
-]</code></pre>
-					</li>
-				</ul>
-				<a href="#returns--2" id="returns--2" style="color: inherit; text-decoration: none;">
-					<h4>Returns :</h4>
-				</a>
-				<pre><code class="language-javascript">{
-  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code.</span>
-  <span class="hljs-attr">data</span>: GetRecordValuesResponse | ErrorResponse
-}</code></pre>
-				<a href="#codeloadusercontentcode" id="codeloadusercontentcode" style="color: inherit; text-decoration: none;">
-					<h3><code>loadUserContent()</code></h3>
-				</a>
-				<p>Execute a raw call to /api/v3/loadUserContent</p>
-				<ul>
-					<li><em>(no parameter)</em></li>
-				</ul>
-				<a href="#returns--3" id="returns--3" style="color: inherit; text-decoration: none;">
-					<h4>Returns :</h4>
-				</a>
-				<pre><code class="language-javascript">{
-  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code.</span>
-  <span class="hljs-attr">data</span>: LoadUserContentResponse | ErrorResponse
-}</code></pre>
-				<a href="#codequerycollectioncollectionid-collectionviewid-aggregatequeriescode" id="codequerycollectioncollectionid-collectionviewid-aggregatequeriescode" style="color: inherit; text-decoration: none;">
-					<h3><code>queryCollection(collectionID, collectionViewID, aggregateQueries)</code></h3>
-				</a>
-				<p>Execute a raw call to /api/v3/queryCollection</p>
-				<ul>
-					<li><p><code>collectionID</code> - (required, String) A collection ID.</p>
-					</li>
-					<li><p><code>collectionViewID</code> - (required, String) A collectionView ID.</p>
-					</li>
-					<li><p><code>aggregateQueries</code> - (required, Array of <a href="https://github.com/dragonman225/notionapi-agent/blob/6f1b8530179235b5949c83f591719231d481df9f/src/index.ts#L421">AggregateQuery</a>) See below example.</p>
-						<pre><code class="language-javascript">[
-  {
-    <span class="hljs-string">"id"</span>:<span class="hljs-string">"count"</span>,
-    <span class="hljs-string">"type"</span>:<span class="hljs-string">"title"</span>,
-    <span class="hljs-string">"property"</span>:<span class="hljs-string">"title"</span>,
-    <span class="hljs-string">"view_type"</span>:<span class="hljs-string">"table"</span>,
-    <span class="hljs-string">"aggregation_type"</span>:<span class="hljs-string">"not_empty"</span>
-  }
-]</code></pre>
-					</li>
-				</ul>
-				<a href="#returns--4" id="returns--4" style="color: inherit; text-decoration: none;">
-					<h4>Returns :</h4>
-				</a>
-				<pre><code class="language-javascript">{
-  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code.</span>
-  <span class="hljs-attr">data</span>: QueryCollectionResponse | ErrorResponse
-}</code></pre>
-				<a href="#codesubmittransactionoperationscode" id="codesubmittransactionoperationscode" style="color: inherit; text-decoration: none;">
-					<h3><code>submitTransaction(operations)</code></h3>
-				</a>
-				<p>Execute a raw call to /api/v3/submitTransaction</p>
-				<ul>
-					<li><p><code>operations</code> - (required, Array of <a href="https://github.com/dragonman225/notionapi-agent/blob/6f1b8530179235b5949c83f591719231d481df9f/src/index.ts#L156">DocumentOperation</a>) The operations to submit. See below for example.</p>
-						<pre><code class="language-javascript">[
-  {
-    <span class="hljs-string">"id"</span>:<span class="hljs-string">"cda54abd-xxxx-xxxx-xxxx-xxxx65c4a5e2"</span>,
-    <span class="hljs-string">"table"</span>:<span class="hljs-string">"block"</span>,
-    <span class="hljs-string">"path"</span>:[<span class="hljs-string">"properties"</span>,<span class="hljs-string">"title"</span>],
-    <span class="hljs-string">"command"</span>:<span class="hljs-string">"set"</span>,
-    <span class="hljs-string">"args"</span>:[[<span class="hljs-string">"test"</span>,[[<span class="hljs-string">"h"</span>,<span class="hljs-string">"yellow_background"</span>]]]]
-  }
-]</code></pre>
-					</li>
-				</ul>
-				<a href="#returns--5" id="returns--5" style="color: inherit; text-decoration: none;">
-					<h4>Returns :</h4>
-				</a>
-				<pre><code class="language-javascript">{
-  <span class="hljs-attr">statusCode</span>: <span class="hljs-built_in">Number</span> <span class="hljs-comment">// HTTP status code.</span>
-  <span class="hljs-attr">data</span>: SubmitTransactionResponse | ErrorResponse
-}</code></pre>
 				<a href="#development" id="development" style="color: inherit; text-decoration: none;">
 					<h2>Development</h2>
 				</a>

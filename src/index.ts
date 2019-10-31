@@ -21,7 +21,7 @@ const API_BASE = '/api/v3'
 
  /** Options for {@link NotionAgent} constructor. */
 export interface AgentOptions {
-  /** Login token (`token_v2` field in cookie). */
+  /** Login token (`token_v2` field in cookie) {@link https://github.com/dragonman225/notionapi-agent/blob/master/obtain_token/obtain_token.md | Tutorial}. */
   token?: string
   /** User's timezone. */
   timezone?: string

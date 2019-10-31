@@ -17,9 +17,13 @@ npm install notionapi-agent
 
 You can also take a look at [the test script](https://github.com/dragonman225/notionapi-agent/blob/master/test/index.spec.ts).
 
-Or the [documentation]().
+Or the [documentation](https://dragonman225.js.org/notionapi-agent/).
 
 ## Announcement
+
+### [2019.11.01]
+
+New documentation : https://dragonman225.js.org/notionapi-agent/
 
 ### [2019.10.13]
 
