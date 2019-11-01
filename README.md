@@ -4,7 +4,9 @@
 
 Unofficial Node.js API client for [Notion.so](https://www.notion.so).
 
-> This is a work-in-progress project. If you need to use Notion's API in production, I recommend waiting for their official release.
+> :warning: This is a work-in-progress project. If you need to use Notion's API in production, I recommend waiting for their official release.
+
+* [CHANGELOG](CHANGELOG.md)
 
 ## Installation
 
@@ -14,33 +16,30 @@ npm install notionapi-agent
 
 ## Getting Started
 
-You can also take a look at [the test script](https://github.com/dragonman225/notionapi-agent/blob/master/test/index.spec.ts).
+[![Try notionapi-agent on RunKit](https://badge.runkitcdn.com/notionapi-agent.svg)](https://npm.runkit.com/notionapi-agent)
 
-Or the [documentation](https://notionapi.netlify.com/classes/_index_.notionagent.html).
-
-## Announcement
-
-### [2019.11.01]
-
-New documentation [here](https://notionapi.netlify.com/classes/_index_.notionagent.html).
-
-### [2019.10.13]
-
-I finished TypeScript definitions for all APIs exposed by this agent. Hope this will make development easier !
-
-### [2019.10.08]
-
-When using v0.6.0+, import this library with
-
-```javascript
+```typescript
 const { NotionAgent } = require('notionapi-agent')
+
+const agent = new NotionAgent()
+
+async function main() {
+
+  let pageId = '181e961a-eb5c-4ee6-9153-07c0dfd5156d0'
+
+  let page = await agent.loadPageChunk(pageId)
+  if (page.error) {
+    console.log(`Error:\n`, page.error)
+  } else if (page.data) {
+    console.log(`Blocks:\n`, page.data)
+  }
+
+}
+
+main()
 ```
 
-Instead of
-
-```javascript
-const NotionAgent = require('notionapi-agent')
-```
+See more API in [documentation](https://notionapi.netlify.com/classes/_index_.notionagent.html).
 
 ## Development
 
