@@ -21,7 +21,10 @@ const API_BASE = '/api/v3'
 
  /** Options for {@link NotionAgent} constructor. */
 export interface AgentOptions {
-  /** Login token (`token_v2` field in cookie) {@link https://github.com/dragonman225/notionapi-agent/blob/master/obtain_token/obtain_token.md | Tutorial}. */
+  /** 
+   * Login token (`token_v2` field in cookie) 
+   * {@link https://github.com/dragonman225/notionapi-agent/blob/master/obtain_token/obtain_token.md | Tutorial}.
+   */
   token?: string
   /** User's timezone. */
   timezone?: string
@@ -130,12 +133,12 @@ export interface ErrorResponse {
    * from NotionAgent.
    */
   errorId: string
-  /** "none" if the error is from NotionAgent. */
+  /** "NotionAgentError" if the error is from NotionAgent. */
   name: string
   /** The message describing the error. */
   message: string
-  /** "none" if the error is from NotionAgent. */
-  status: string
+  /** HTTP status code, if defined. */
+  status?: string
 }
 
 /** NotionAgent API return value structures. */
@@ -282,8 +285,12 @@ export interface Block {
   permissions?: Permission[]
   content?: string[]
   created_by: string
+  created_by_id?: string
+  created_by_table?: string
   created_time: number
   last_edited_by: string
+  last_edited_by_id?: string
+  last_edited_by_table?: string
   last_edited_time: number
   parent_id: string
   parent_table: string
@@ -949,8 +956,7 @@ export class NotionAgent {
         error: {
           errorId: 'none',
           message: 'Fail to stringify request data to JSON.',
-          name: 'none',
-          status: 'none'
+          name: 'NotionAgentError',
         }
       }
     }
