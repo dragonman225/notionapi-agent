@@ -25,7 +25,7 @@ const agent = new NotionAgent()
 
 async function main() {
 
-  let pageId = '181e961a-eb5c-4ee6-9153-07c0dfd5156d0'
+  let pageId = '181e961a-eb5c-4ee6-9153-07c0dfd5156d'
 
   let page = await agent.loadPageChunk(pageId)
   if (page.error) {
