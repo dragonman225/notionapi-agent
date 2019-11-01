@@ -70,36 +70,38 @@
 				<p><img src="https://img.shields.io/npm/v/notionapi-agent.svg?style=flat-square&color=007acc&label=version" alt="version"> <img src="https://img.shields.io/badge/language-typescript-blue.svg?style=flat-square" alt="language"> <img src="https://img.shields.io/github/license/dragonman225/notionapi-agent.svg?style=flat-square&label=license&color=08CE5D" alt="license"></p>
 				<p>Unofficial Node.js API client for <a href="https://www.notion.so">Notion.so</a>.</p>
 				<blockquote>
-					<p>This is a work-in-progress project. If you need to use Notion&#39;s API in production, I recommend waiting for their official release.</p>
+					<p>:warning: This is a work-in-progress project. If you need to use Notion&#39;s API in production, I recommend waiting for their official release.</p>
 				</blockquote>
+				<ul>
+					<li><a href="CHANGELOG.md">CHANGELOG</a></li>
+				</ul>
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 					<h2>Installation</h2>
 				</a>
-				<pre><code class="language-bash"><span class="hljs-comment"># Install latest release from NPM registry.</span>
-npm install notionapi-agent</code></pre>
+				<pre><code class="language-bash">npm install notionapi-agent</code></pre>
 				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
 					<h2>Getting Started</h2>
 				</a>
-				<p>You can also take a look at <a href="https://github.com/dragonman225/notionapi-agent/blob/master/test/index.spec.ts">the test script</a>.</p>
-				<p>Or the <a href="https://dragonman225.js.org/notionapi-agent/classes/_index_.notionagent.html">documentation</a>.</p>
-				<a href="#announcement" id="announcement" style="color: inherit; text-decoration: none;">
-					<h2>Announcement</h2>
-				</a>
-				<a href="#20191101" id="20191101" style="color: inherit; text-decoration: none;">
-					<h3>[2019.11.01]</h3>
-				</a>
-				<p>New documentation <a href="https://dragonman225.js.org/notionapi-agent/classes/_index_.notionagent.html">here</a>.</p>
-				<a href="#20191013" id="20191013" style="color: inherit; text-decoration: none;">
-					<h3>[2019.10.13]</h3>
-				</a>
-				<p>I finished TypeScript definitions for all APIs exposed by this agent. Hope this will make development easier !</p>
-				<a href="#20191008" id="20191008" style="color: inherit; text-decoration: none;">
-					<h3>[2019.10.08]</h3>
-				</a>
-				<p>When using v0.6.0+, import this library with</p>
-				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> { NotionAgent } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'notionapi-agent'</span>)</code></pre>
-				<p>Instead of</p>
-				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> NotionAgent = <span class="hljs-built_in">require</span>(<span class="hljs-string">'notionapi-agent'</span>)</code></pre>
+				<p><a href="https://npm.runkit.com/notionapi-agent"><img src="https://badge.runkitcdn.com/notionapi-agent.svg" alt="Try notionapi-agent on RunKit"></a></p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> { NotionAgent } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'notionapi-agent'</span>)
+
+<span class="hljs-keyword">const</span> agent = <span class="hljs-keyword">new</span> NotionAgent()
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+
+  <span class="hljs-keyword">let</span> pageId = <span class="hljs-string">'181e961a-eb5c-4ee6-9153-07c0dfd5156d0'</span>
+
+  <span class="hljs-keyword">let</span> page = <span class="hljs-keyword">await</span> agent.loadPageChunk(pageId)
+  <span class="hljs-keyword">if</span> (page.error) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Error:\n`</span>, page.error)
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (page.data) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Blocks:\n`</span>, page.data)
+  }
+
+}
+
+main()</code></pre>
+				<p>See more API in <a href="https://notionapi.netlify.com/classes/_index_.notionagent.html">documentation</a>.</p>
 				<a href="#development" id="development" style="color: inherit; text-decoration: none;">
 					<h2>Development</h2>
 				</a>

@@ -240,8 +240,7 @@ class NotionAgent {
                 error: {
                     errorId: 'none',
                     message: 'Fail to stringify request data to JSON.',
-                    name: 'none',
-                    status: 'none'
+                    name: 'NotionAgentError',
                 }
             };
         }
