@@ -1,19 +1,16 @@
-export interface Loader {
-  limit: number
-  loadContentCover: boolean
-  /** Normally "table". */
-  type: string
-  /** Two-letter code, maybe ISO 639-1 ? */
-  userLocale: string
-  /** tz database name "*Area/Location*", e.g. "Asia/Taipei". */
-  userTimeZone: string
-}
-
 export type PropertyType =
   "title" | "text" | "number" | "select" | "multi_select" | "date"
   | "person" | "file" | "checkbox" | "url" | "email" | "phone_number"
   | "formula" | "created_time" | "created_by" | "last_edited_time"
   | "last_edited_by"
+
+/**
+ * In {@link Aggregate}, {@link Filter}, and {@link Sort}, 
+ * when `type` is "title", `property` is "title". 
+ * 
+ * Otherwise, `property` is a 4-ASCII-character string.
+ */
+export type PropertyKey = string
 
 /** Fundamental aggregation types. */
 export type CountAggregationType =
@@ -58,24 +55,6 @@ export type AggregationType =
   | CreatedEditedByAggregationType
 
 export type ViewType = "table"
-
-export interface Aggregate {
-  /**
-   * When `type` is "title", `property` is "title". 
-   * 
-   * Otherwise, `property` is a 4-ASCII-character string.
-   */
-  property: string
-  type: PropertyType
-  aggregation_type: AggregationType
-  /**
-   * When `aggregation_type` is "count", `id` is "count".
-   * 
-   * Otherwise, `id` is an UUID.
-   */
-  id: string
-  view_type: ViewType
-}
 
 /** Fundamental comparators. */
 export type EmptinessComparator =
@@ -136,57 +115,93 @@ export type Comparator =
   | CreatedEditedTimeComparator | CreatedEditedByComparator
 
 /** 
- * Valid ValueType when Comparator is "date_is", "date_is_before", 
+ * Valid FilterValueType when Comparator is "date_is", "date_is_before", 
  * "date_is_after", "date_is_on_or_before", "date_is_on_or_after".
  */
-export type ValueTypeDateIsOnBeforeAfter =
+export type FilterValueTypeDateIsOnBeforeAfter =
   "exact_date" | "today" | "tomorrow"
   | "yesterday" | "one_week_ago" | "one_week_from_now"
   | "one_month_ago" | "one_month_from_now"
 
-/** Valid ValueType when Comparator is "date_is_within". */
-export type ValueTypeDateIsWithin =
+/** Valid FilterValueType when Comparator is "date_is_within". */
+export type FilterValueTypeDateIsWithin =
   "the_past_week" | "the_past_month" | "the_past_year" | "the_next_week"
   | "the_next_month" | "the_next_year"
 
-/** Valid ValueType when PropertyType is "person". */
-export type ValueTypePerson = "person"
+/** Valid FilterValueType when PropertyType is "person". */
+export type FilterValueTypePerson = "person"
 
-/** ValueType union. */
-export type ValueType =
-  ValueTypeDateIsOnBeforeAfter | ValueTypeDateIsWithin | ValueTypePerson
+/**
+ * In {@link Filter}, when `value` exists, this describes 
+ * the `type` of `value`, otherwise, an instruction to get `value`.
+ */
+export type FilterValueType =
+  FilterValueTypeDateIsOnBeforeAfter | FilterValueTypeDateIsWithin
+  | FilterValueTypePerson
+
+export type FilterOperator = "and" | "or"
+
+export type SortDirection = "ascending" | "descending"
+
+export interface Aggregate {
+  property: PropertyKey
+  type: PropertyType
+  aggregation_type: AggregationType
+  /**
+   * When `aggregation_type` is "count", `id` is "count".
+   * 
+   * Otherwise, `id` is an UUID string.
+   */
+  id: string
+  view_type: ViewType
+}
 
 export interface Filter {
   comparator: Comparator
+  /** An UUID string. */
   id: string
-  /**
-   * When `type` is "title", `property` is "title", 
-   * otherwise 4 random ASCII characters.
-   */
-  property: string
+  property: PropertyKey
   type: PropertyType
   /**
    * `value_type` exists when `type` is "date" or "person".
    */
-  value_type?: ValueType
+  value_type?: FilterValueType
   /**
    * When `type` is "date", `value` exists only if `value_type` 
    * is "exact_date".
    * 
    * When `type` is "checkbox", `value` can only be "Yes" or "No".
    * 
+   * When `type` is "person", `value` is the id of an user.
+   * 
    * For all `type`, `value` may not exist if `comparator` is 
    * "is_empty" or "is_not_empty".
    */
   value?: string
-
 }
 
-export type FilterOperator = "and" | "or"
-
-/** TODO */
 export interface Sort {
+  direction: SortDirection
+  id: string
+  property: PropertyKey
+  type: PropertyType
+}
 
+export interface AggregationResult {
+  /** {@link Aggregate.id} in request data. */
+  id: string
+  value: number
+}
+
+export interface Loader {
+  limit: number
+  loadContentCover: boolean
+  /** Normally "table". */
+  type: string
+  /** Two-letter code, maybe ISO 639-1 ? */
+  userLocale: string
+  /** tz database name "*Area/Location*", e.g. "Asia/Taipei". */
+  userTimeZone: string
 }
 
 export interface Query {
@@ -196,6 +211,24 @@ export interface Query {
   sort: Sort[]
 }
 
+export interface Result {
+  /** Normally "table". */
+  type: string
+  /** Ids of blocks in this result. */
+  blockIds: string[]
+  aggregationResults: AggregationResult[]
+  /** Number of total items in this result.  */
+  total: number
+}
+
+/** TODO */
+export interface RecordMap {
+
+}
+
+/**
+ * The request data of /api/v3/queryCollection.
+ */
 export interface QueryCollectionReq {
   collectionId: string
   collectionViewId: string
@@ -203,7 +236,10 @@ export interface QueryCollectionReq {
   query: Query
 }
 
-/** TODO */
+/**
+ * The response data of /api/v3/queryCollection.
+ */
 export interface QueryCollectionRes {
-
+  result: Result
+  recordMap: RecordMap
 }
