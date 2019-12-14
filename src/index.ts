@@ -7,6 +7,8 @@ import { Logger } from '@dnpr/logger'
 import { parseJSON } from './utils'
 import { strings } from './strings'
 
+import { QueryCollectionResponse } from "./interfaces/notion/api"
+
 const log = new Logger('notionapi-agent')
 
 /*************************************************************************
@@ -19,7 +21,7 @@ const API_BASE = '/api/v3'
  * NotionAgent data structures                                           *
  *************************************************************************/
 
- /** Options for {@link NotionAgent} constructor. */
+/** Options for {@link NotionAgent} constructor. */
 export interface AgentOptions {
   /** 
    * Login token (`token_v2` field in cookie) 
@@ -87,7 +89,7 @@ export interface LoadUserContentResponse {
 }
 
 /** HTTP 200 response of /api/v3/queryCollection. */
-export interface QueryCollectionResponse {
+export interface QueryCollectionResponse2 {
   result: {
     type: string
     blockIds: string[]
@@ -186,9 +188,18 @@ export interface AssetFile {
   size: number
 }
 
+export type RecordRole =
+  "editor" | "reader" | "none"
+
+export type RecordEntity =
+  Block | Collection | CollectionView | NotionUser | UserRoot
+  | UserSettings | Space | SpaceView | Activity | Follow
+  | SlackIntegration
+
 export interface Record {
-  role: string
-  value: Block | Collection | CollectionView | NotionUser | UserRoot | UserSettings | Space | SpaceView | Activity | Follow | SlackIntegration
+  role: RecordRole
+  /** When `role` is "none", `value` does not exist. */
+  value?: RecordEntity
 }
 
 export interface BlockRecord extends Record {
@@ -373,7 +384,7 @@ export interface CollectionFormat {
 
 export interface CollectionColumnInfo {
   name: string
-  options: CollectionColumnOption[]
+  options?: CollectionColumnOption[]
   type: string
 }
 
