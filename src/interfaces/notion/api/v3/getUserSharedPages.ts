@@ -15,17 +15,18 @@ export type RecordMap = {
   space: Map<SpaceRecord>
 }
 
-/**
- * The request data of /api/v3/getUserSharedPages.
- */
-export interface APIRequest {
+export interface Request {
   includeDeleted: boolean
 }
 
-/**
- * The response data of /api/v3/getUserSharedPages.
- */
-export interface APIResponse {
+export interface Response {
   pages: SharedPage[]
   recordMap: RecordMap
+}
+
+/**
+ * /api/v3/getUserSharedPages.
+ */
+export interface GetUserSharedPages {
+  (request: Request): Promise<Response>
 }
