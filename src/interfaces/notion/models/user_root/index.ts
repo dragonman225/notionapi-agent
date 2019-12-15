@@ -1,4 +1,4 @@
-import { UUID } from "../../common"
+import { UUID } from "../common"
 
 export interface UserRoot {
   /** User ID. */

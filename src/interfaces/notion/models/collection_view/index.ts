@@ -1,7 +1,10 @@
-import { UUID, Table } from "../../common"
-import { CollectionViewType } from "./common"
+import { UUID, ModelName } from "../common"
 import { Query, Query2 } from "./query"
 import { Format } from "./format"
+
+/** Types of database views Notion has. */
+export type CollectionViewType =
+  "table" | "board" | "calendar" | "list" | "gallery"
 
 /**
  * Describe a view of a collection.
@@ -24,7 +27,7 @@ export interface CollectionView {
    */
   format: Format
   parent_id: UUID
-  parent_table: Table
+  parent_table: ModelName
   alive: boolean
   page_sort: UUID[]
 }

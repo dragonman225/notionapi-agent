@@ -1,6 +1,6 @@
-import { UUID } from "../../common"
-import { Query } from "../../tables/collection_view/query"
-import { Map } from "./common_structures/Map"
+import { UUID } from "../../models/common"
+import { Query } from "../../models/collection_view/query"
+import { Map } from "./util"
 import {
   BlockRecord, CollectionRecord, CollectionViewRecord,
   SpaceRecord
@@ -37,20 +37,21 @@ export interface RecordMap {
   space: Map<SpaceRecord>
 }
 
-/**
- * The request data of /api/v3/queryCollection.
- */
-export interface QueryCollectionRequest {
+export interface Request {
   collectionId: UUID
   collectionViewId: UUID
   loader: Loader
   query: Query
 }
 
-/**
- * The response data of /api/v3/queryCollection.
- */
-export interface QueryCollectionResponse {
+export interface Response {
   result: Result
   recordMap: RecordMap
+}
+
+/**
+ * /api/v3/queryCollection
+ */
+export interface QueryCollection {
+  (request: Request): Promise<Response>
 }

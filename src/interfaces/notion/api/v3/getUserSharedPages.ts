@@ -1,5 +1,5 @@
-import { UUID } from '../../common'
-import { Map } from './common_structures/Map'
+import { UUID } from '../../models/common'
+import { Map } from './util'
 import { BlockRecord, SpaceRecord } from './common_structures/Record'
 
 /**

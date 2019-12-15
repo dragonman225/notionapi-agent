@@ -1,4 +1,4 @@
-import { PropertyKey } from "../common";
+import { PropertyKey } from "../../collection";
 
 export interface TableProperty {
   width: number

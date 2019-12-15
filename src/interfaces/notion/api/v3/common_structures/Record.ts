@@ -2,18 +2,18 @@ import {
   Block, Collection, CollectionView,
   NotionUser, UserRoot, UserSettings,
   Space, SpaceView, Activity, Follow, SlackIntegration
-} from "../../../tables"
-import { Role } from "../../../tables/space"
+} from "../../../models"
+import { EntityRole } from "../../../models/common"
 
-export type Entity =
+export type RecordValue =
   Block | Collection | CollectionView | NotionUser | UserRoot
   | UserSettings | Space | SpaceView | Activity | Follow
   | SlackIntegration
 
 export interface Record {
-  role: Role
+  role: EntityRole
   /** When `role` is "none", `value` does not exist. */
-  value?: Entity
+  value?: RecordValue
 }
 
 export interface BlockRecord extends Record {

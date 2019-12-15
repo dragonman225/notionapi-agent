@@ -1,6 +1,3 @@
-import {
-  QueryCollectionRequest,
-  QueryCollectionResponse
-} from "./v3/queryCollection"
+import { QueryCollection } from "./v3/queryCollection"
 
-export { QueryCollectionRequest, QueryCollectionResponse }
+export { QueryCollection }

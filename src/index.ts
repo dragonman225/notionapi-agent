@@ -7,8 +7,6 @@ import { Logger } from '@dnpr/logger'
 import { parseJSON } from './utils'
 import { strings } from './strings'
 
-import { QueryCollectionResponse } from "./interfaces/notion/api"
-
 const log = new Logger('notionapi-agent')
 
 /*************************************************************************
@@ -166,7 +164,7 @@ export interface LoadUserContentReturns extends MakeRequestToNotionReturns {
 }
 
 export interface QueryCollectionReturns extends MakeRequestToNotionReturns {
-  data?: QueryCollectionResponse
+  data?: any
 }
 
 export interface SubmitTransactionReturns extends MakeRequestToNotionReturns {
@@ -191,7 +189,7 @@ export interface AssetFile {
 export type RecordRole =
   "editor" | "reader" | "none"
 
-export type RecordEntity =
+export type RecordValue =
   Block | Collection | CollectionView | NotionUser | UserRoot
   | UserSettings | Space | SpaceView | Activity | Follow
   | SlackIntegration
@@ -199,7 +197,7 @@ export type RecordEntity =
 export interface Record {
   role: RecordRole
   /** When `role` is "none", `value` does not exist. */
-  value?: RecordEntity
+  value?: RecordValue
 }
 
 export interface BlockRecord extends Record {

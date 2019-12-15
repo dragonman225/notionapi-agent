@@ -1,4 +1,4 @@
-import { UUID } from "../../common"
+import { UUID } from "../common"
 
 /**
  * Describe a Notion user.

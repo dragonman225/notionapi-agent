@@ -1,5 +1,5 @@
-import { UUID } from "../../../common"
-import { CollectionViewType, PropertyKey, PropertyType } from "../common"
+import { UUID } from "../../common"
+import { PropertyKey, PropertyType } from "../../collection"
 
 /** Fundamental aggregation types. */
 export type CountAggregationType =
@@ -53,7 +53,8 @@ export interface Aggregate {
    * Otherwise, `id` is an UUID string.
    */
   id: "count" | UUID
-  view_type: CollectionViewType
+  /** Aggregate is useless on other types of views. */
+  view_type: "table" | "board"
 }
 
 /**

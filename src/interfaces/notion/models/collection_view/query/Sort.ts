@@ -1,5 +1,5 @@
-import { UUID } from "../../../common"
-import { PropertyKey, PropertyType } from "../common"
+import { UUID } from "../../common"
+import { PropertyKey, PropertyType } from "../../collection"
 
 export type SortDirection = "ascending" | "descending"
 

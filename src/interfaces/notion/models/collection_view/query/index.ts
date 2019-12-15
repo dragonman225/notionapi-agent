@@ -1,6 +1,7 @@
 import { Aggregate, Aggregate2 } from "./Aggregate"
 import { Filter, Filter2, FilterOperator } from "./Filter"
 import { Sort } from "./Sort"
+import { PropertyKey } from "../../collection"
 
 /**
  * Settings for the stable version of query engine.
@@ -13,6 +14,8 @@ export interface Query {
   filter_operator: FilterOperator
   /** The "Sort" button at the top right of table UI. */
   sort: Sort[]
+  /** Only appear in calendar view. */
+  calendar_by?: PropertyKey
 }
 
 /**

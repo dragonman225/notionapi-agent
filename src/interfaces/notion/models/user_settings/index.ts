@@ -1,4 +1,4 @@
-import { UUID, Timestamp } from "../../common"
+import { UUID, Timestamp } from "../common"
 
 export interface UserSettings {
   /** User ID. */

@@ -1,6 +1,3 @@
-export type CollectionViewType =
-  "table" | "board" | "calendar" | "list" | "gallery"
-
 /**
  * In {@link Aggregate}, {@link Filter}, and {@link Sort}, 
  * when `type` is "title", `property` is "title". 
@@ -14,3 +11,7 @@ export type PropertyType =
   | "person" | "file" | "checkbox" | "url" | "email" | "phone_number"
   | "formula" | "created_time" | "created_by" | "last_edited_time"
   | "last_edited_by"
+
+export interface Collection {
+  
+}

@@ -1,4 +1,4 @@
-import { UUID } from "../../common"
+import { UUID } from "../common"
 import { AbstractBlock } from "./_AbstractBlock"
 
 export interface CollectionViewPage extends AbstractBlock {
