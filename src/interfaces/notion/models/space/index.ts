@@ -1,5 +1,5 @@
 import { UUID, Timestamp, ModelName } from "../common"
-import { Permission } from "../Permission"
+import { SpacePermission } from "../Permission"
 
 /**
  * Describe a workspace, which can be thought of as a special case of 
@@ -9,7 +9,7 @@ export interface Space {
   id: UUID
   version: number
   name: string
-  permissions: Permission[]
+  permissions: SpacePermission[]
   beta_enabled: boolean
   pages: UUID[]
   created_by: UUID
