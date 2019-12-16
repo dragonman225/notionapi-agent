@@ -1,4 +1,5 @@
-import { UUID, Timestamp, ModelName, Permission } from "../common"
+import { UUID, Timestamp, ModelName } from "../common"
+import { Permission } from "../Permission"
 
 /**
  * Describe a workspace, which can be thought of as a special case of 

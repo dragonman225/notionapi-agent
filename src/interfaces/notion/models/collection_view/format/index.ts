@@ -1,14 +1,14 @@
-import { PropertyKey } from "../../collection";
+import { ColumnID } from "../../collection"
 
 export interface TableProperty {
   width: number
   visible: boolean
-  property: PropertyKey
+  property: ColumnID
 }
 
 export interface GalleryProperty {
   visible: boolean
-  property: PropertyKey
+  property: ColumnID
 }
 
 export interface Format {
@@ -17,7 +17,10 @@ export interface Format {
   /** Whether to wrap content in a table cell. */
   table_wrap?: boolean
   gallery_properties?: GalleryProperty[]
-  gallery_cover?: { type: string }
+  gallery_cover?: { 
+    /** TODO: Unfinished */
+    type: "page_content" 
+  }
   gallery_cover_aspect?: string
   gallery_title_visible?: boolean
 }

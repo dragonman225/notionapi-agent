@@ -1,6 +1,6 @@
 import { UUID } from '../../models/common'
-import { Map } from './util'
-import { BlockRecord, SpaceRecord } from './common_structures/Record'
+import { Map } from './Map'
+import { BlockRecord, SpaceRecord } from './Record'
 
 /**
  * A page shared by the user.

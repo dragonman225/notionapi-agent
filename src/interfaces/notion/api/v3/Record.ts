@@ -2,8 +2,8 @@ import {
   Block, Collection, CollectionView,
   NotionUser, UserRoot, UserSettings,
   Space, SpaceView, Activity, Follow, SlackIntegration
-} from "../../../models"
-import { EntityRole } from "../../../models/common"
+} from "../../models"
+import { EntityRole } from "../../models/Permission"
 
 export type RecordValue =
   Block | Collection | CollectionView | NotionUser | UserRoot

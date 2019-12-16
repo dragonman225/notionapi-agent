@@ -1,10 +1,10 @@
 import { UUID } from "../../models/common"
 import { Query } from "../../models/collection_view/query"
-import { Map } from "./util"
+import { Map } from "./Map"
 import {
   BlockRecord, CollectionRecord, CollectionViewRecord,
   SpaceRecord
-} from "./common_structures/Record"
+} from "./Record"
 
 export interface AggregationResult {
   /** {@link Aggregate.id} in request data. */

@@ -1,5 +1,5 @@
 import { UUID } from "../../common"
-import { PropertyKey, PropertyType } from "../../collection"
+import { ColumnID, ColumnPropertyType } from "../../collection"
 
 /** Fundamental aggregation types. */
 export type CountAggregationType =
@@ -44,8 +44,8 @@ export type AggregationType =
   | CreatedEditedByAggregationType
 
 export interface Aggregate {
-  property: PropertyKey
-  type: PropertyType
+  property: ColumnID
+  type: ColumnPropertyType
   aggregation_type: AggregationType
   /**
    * When `aggregation_type` is "count", `id` is "count".

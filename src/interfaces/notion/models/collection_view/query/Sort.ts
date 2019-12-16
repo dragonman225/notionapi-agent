@@ -1,11 +1,11 @@
 import { UUID } from "../../common"
-import { PropertyKey, PropertyType } from "../../collection"
+import { ColumnID, ColumnPropertyType } from "../../collection"
 
 export type SortDirection = "ascending" | "descending"
 
 export interface Sort {
   id: UUID
   direction: SortDirection
-  property: PropertyKey
-  type: PropertyType
+  property: ColumnID
+  type: ColumnPropertyType
 }
