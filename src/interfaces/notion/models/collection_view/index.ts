@@ -1,6 +1,6 @@
-import { UUID, ModelName } from "../common"
+import { UUID, TableName } from "../common"
 import { Query, Query2 } from "./query"
-import { Format } from "./format"
+import { CollectionViewFormat } from "./format"
 
 /** Types of database views Notion has. */
 export type CollectionViewType =
@@ -25,9 +25,9 @@ export interface CollectionView {
    * 2. **Wrap Cells** switch in the **···** button dropdown.
    * 3. Table column width.
    */
-  format: Format
+  format: CollectionViewFormat
   parent_id: UUID
-  parent_table: ModelName
+  parent_table: TableName
   alive: boolean
   page_sort: UUID[]
 }

@@ -1,5 +1,5 @@
-import { UUID } from "../common"
-import { SemanticString } from "../SemanticString"
+import { UUID, IconString, CoverString, TableName } from "../common"
+import { SemanticString } from "../semantic_string"
 import { GalleryProperty } from "../collection_view/format"
 
 /**
@@ -18,7 +18,7 @@ export type ColumnPropertyType =
   | "formula" | "created_time" | "created_by" | "last_edited_time"
   | "last_edited_by"
 
-export interface Format {
+export interface CollectionFormat {
   collection_cover_position?: number
   /** TODO: Not sure if {@link TableProperty} is also possible. */
   collection_page_properties?: GalleryProperty[]
@@ -43,24 +43,13 @@ export interface ColumnProperty {
 export interface Collection {
   id: UUID
   /** `name[0][0]` is the collection's name. */
-  name: {
-    0: { 0: string }
-  }
-  /**
-   * String with a emoji character (Emoji), 
-   * Notion's "secure" URL (Upload an Image), 
-   * or public URL (Link).
-   */
-  icon?: string
-  /**
-   * Notion's "secure" URL (Gallery, Upload),
-   * or public URL (Link, Unsplash).
-   */
-  cover?: string
+  name: [[string]]
+  icon?: IconString
+  cover?: CoverString
   description?: SemanticString[]
-  format?: Format
-  parent_id: string
-  parent_table: string
+  format?: CollectionFormat
+  parent_id: UUID
+  parent_table: TableName
   schema: {
     [key in ColumnID]: ColumnProperty
   }

@@ -1,11 +1,11 @@
-import { UUID, ModelName } from "../common"
+import { UUID, TableName } from "../common"
 
 export interface SpaceView {
   id: UUID
   version: number
   space_id: UUID
   parent_id: UUID
-  parent_table: ModelName
+  parent_table: TableName
   alive: boolean
   notify_mobile: boolean
   notify_desktop: boolean

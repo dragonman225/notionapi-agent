@@ -1,4 +1,4 @@
-import { UUID } from "./common"
+import { UUID, NotionColor } from "./common"
 
 /** TODO: Unfinished */
 export interface Date {
@@ -10,13 +10,6 @@ export interface Date {
   date_format: "relative"
 }
 
-export type StringColor =
-  "gray" | "brown" | "orange" | "yellow" | "teal" | "blue" | "purple"
-  | "pink" | "red" | "gray_background" | "brown_background"
-  | "orange_background" | "yellow_background" | "teal_background"
-  | "blue_background" | "purple_background" | "pink_background"
-  | "red_background"
-
 export type Bold = ["b"]
 export type Italic = ["i"]
 export type Strike = ["s"]
@@ -24,7 +17,7 @@ export type Strike = ["s"]
 export type Link = ["a", string]
 export type InlineCode = ["c"]
 /** Color or background color. */
-export type Color = ["h", StringColor]
+export type Color = ["h", NotionColor]
 export type Commented = ["m"]
 
 export type BasicStringOption =
@@ -37,5 +30,6 @@ export type InlineMentionUser = ["‣", [["u", UUID]]]
 export type InlineMentionPage = ["‣", [["p", UUID]]]
 export type InlineMentionDate = ["‣", [["d", Date]]]
 
+/** TODO: Some collection only structures not included. */
 export type SemanticString =
   BasicString | InlineMentionUser | InlineMentionPage | InlineMentionDate

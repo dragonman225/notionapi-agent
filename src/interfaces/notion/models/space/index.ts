@@ -1,5 +1,5 @@
-import { UUID, Timestamp, ModelName } from "../common"
-import { UserPermission } from "../Permission"
+import { UUID, Timestamp, TableName } from "../common"
+import { UserPermission } from "../permission"
 
 /**
  * Describe a workspace, which can be thought of as a special case of 
@@ -14,10 +14,10 @@ export interface Space {
   pages: UUID[]
   created_by: UUID
   created_time: Timestamp
-  created_by_table: ModelName
+  created_by_table: TableName
   created_by_id: UUID
   last_edited_by: UUID
   last_edited_time: Timestamp
-  last_edited_by_table: ModelName
+  last_edited_by_table: TableName
   last_edited_by_id: UUID
 }

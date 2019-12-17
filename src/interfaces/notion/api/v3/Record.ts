@@ -3,7 +3,7 @@ import {
   NotionUser, UserRoot, UserSettings,
   Space, SpaceView, Activity, Follow, SlackIntegration
 } from "../../models"
-import { EntityRole } from "../../models/Permission"
+import { PermissionRole } from "../../models/permission"
 
 export type RecordValue =
   Block | Collection | CollectionView | NotionUser | UserRoot
@@ -11,7 +11,7 @@ export type RecordValue =
   | SlackIntegration
 
 export interface Record {
-  role: EntityRole
+  role: PermissionRole
   /** When `role` is "none", `value` does not exist. */
   value?: RecordValue
 }

@@ -1,6 +1,6 @@
-import { Aggregate, Aggregate2 } from "./Aggregate"
-import { Filter, Filter2, FilterOperator } from "./Filter"
-import { Sort } from "./Sort"
+import { Aggregate, Aggregate2 } from "./aggregate"
+import { Filter, Filter2, FilterOperator } from "./filter"
+import { Sort } from "./sort"
 import { ColumnID } from "../../collection"
 
 /**

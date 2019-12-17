@@ -11,7 +11,7 @@ export interface GalleryProperty {
   property: ColumnID
 }
 
-export interface Format {
+export interface CollectionViewFormat {
   /** Layout settings for table columns. */
   table_properties?: TableProperty[]
   /** Whether to wrap content in a table cell. */
