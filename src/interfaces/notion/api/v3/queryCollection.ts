@@ -6,52 +6,54 @@ import {
   SpaceRecord
 } from "./Record"
 
-export interface AggregationResult {
-  /** {@link Aggregate.id} in request data. */
+interface AggregationResult {
+  /** {@link Aggregate.id}. */
   id: UUID
   value: number
 }
 
-export interface Loader {
-  limit: number
-  loadContentCover: boolean
-  type: "table"
-  /** {@link UserSettings.settings.locale} */
-  userLocale: string
-  /** {@link UserSettings.settings.time_zone} */
-  userTimeZone: string
-}
-
-export interface Result {
-  type: "table"
-  blockIds: UUID[]
-  aggregationResults: AggregationResult[]
-  /** Number of blocks in this result.  */
-  total: number
-}
-
-export interface RecordMap {
-  block: Map<BlockRecord>
-  collection: Map<CollectionRecord>
-  collection_view: Map<CollectionViewRecord>
-  space: Map<SpaceRecord>
-}
-
-export interface Request {
+interface Request {
   collectionId: UUID
   collectionViewId: UUID
-  loader: Loader
+  loader: {
+    limit: number
+    loadContentCover: boolean
+    type: "table"
+    /** `locale` in {@link UserSettings.settings} */
+    userLocale: string
+    /** `time_zone` in {@link UserSettings.settings} */
+    userTimeZone: string
+  }
   query: Query
 }
 
-export interface Response {
-  result: Result
-  recordMap: RecordMap
+interface Response {
+  result: {
+    type: "table"
+    blockIds: UUID[]
+    aggregationResults: AggregationResult[]
+    /** Number of blocks in this result.  */
+    total: number
+  }
+  recordMap: {
+    block: Map<BlockRecord>
+    collection: Map<CollectionRecord>
+    collection_view: Map<CollectionViewRecord>
+    space: Map<SpaceRecord>
+  }
 }
 
 /**
  * /api/v3/queryCollection
+ * 
+ * Query a collection by id, view id, 
+ * and aggregate, filter, sort parameters.
  */
 export interface QueryCollection {
+  /**
+   * Set aggregate parameters with {@link Request.query}.
+   * 
+   * Set maximum number of records to get with {@link Request.loader}.
+   */
   (request: Request): Promise<Response>
 }

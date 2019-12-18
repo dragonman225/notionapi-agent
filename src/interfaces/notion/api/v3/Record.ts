@@ -5,57 +5,26 @@ import {
 } from "../../models"
 import { PermissionRole } from "../../models/permission"
 
-export type RecordValue =
+export type Record<T> = {
+  role: PermissionRole
+  /** Undefined if `role` is "none". */
+  value?: T
+}
+
+export type RecordUnion =
   Block | Collection | CollectionView | NotionUser | UserRoot
   | UserSettings | Space | SpaceView | Activity | Follow
   | SlackIntegration
 
-export interface Record {
-  role: PermissionRole
-  /** When `role` is "none", `value` does not exist. */
-  value?: RecordValue
-}
-
-export interface BlockRecord extends Record {
-  value: Block
-}
-
-export interface CollectionRecord extends Record {
-  value: Collection
-}
-
-export interface CollectionViewRecord extends Record {
-  value: CollectionView
-}
-
-export interface NotionUserRecord extends Record {
-  value: NotionUser
-}
-
-export interface UserRootRecord extends Record {
-  value: UserRoot
-}
-
-export interface UserSettingsRecord extends Record {
-  value: UserSettings
-}
-
-export interface SpaceRecord extends Record {
-  value: Space
-}
-
-export interface SpaceViewRecord extends Record {
-  value: SpaceView
-}
-
-export interface ActivityRecord extends Record {
-  value: Activity
-}
-
-export interface FollowRecord extends Record {
-  value: Follow
-}
-
-export interface SlackIntegrationRecord extends Record {
-  value: SlackIntegration
-}
+export type AnyRecord = Record<RecordUnion>
+export type BlockRecord = Record<Block>
+export type CollectionRecord = Record<Collection>
+export type CollectionViewRecord = Record<CollectionView>
+export type NotionUserRecord = Record<NotionUser>
+export type UserRootRecord = Record<UserRoot>
+export type UserSettingsRecord = Record<UserSettings>
+export type SpaceRecord = Record<Space>
+export type SpaceViewRecord = Record<SpaceView>
+export type ActivityRecord = Record<Activity>
+export type FollowRecord = Record<Follow>
+export type SlackIntegrationRecord = Record<SlackIntegration>

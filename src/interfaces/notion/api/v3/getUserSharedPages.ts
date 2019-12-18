@@ -2,30 +2,27 @@ import { UUID } from '../../models/common'
 import { Map } from './Map'
 import { BlockRecord, SpaceRecord } from './Record'
 
-/**
- * A page shared by the user.
- */
-export interface SharedPage {
+interface SharedPage {
   id: UUID
   spaceId: UUID
 }
 
-export type RecordMap = {
-  block: Map<BlockRecord>
-  space: Map<SpaceRecord>
-}
-
-export interface Request {
+interface Request {
   includeDeleted: boolean
 }
 
-export interface Response {
+interface Response {
   pages: SharedPage[]
-  recordMap: RecordMap
+  recordMap: {
+    block: Map<BlockRecord>
+    space: Map<SpaceRecord>
+  }
 }
 
 /**
  * /api/v3/getUserSharedPages.
+ * 
+ * Get ids of pages shared by the user.
  */
 export interface GetUserSharedPages {
   (request: Request): Promise<Response>
