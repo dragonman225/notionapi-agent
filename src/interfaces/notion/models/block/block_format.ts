@@ -1,24 +1,28 @@
-import { IconString, CoverString, UUID, NotionColor } from "../common"
+import {
+  UUID, NotionColor, Emoji, NotionSecureUrl, PublicUrl,
+  NotionRelativePath, Proportion
+} from "../common"
 
-export interface PageFormat {
-  page_icon?: IconString
-  page_cover?: CoverString
-  page_full_width?: boolean
-  /** A decimal `0 <= n <= 1`. */
-  page_cover_position?: number
+export interface BlockFormat {
   block_locked?: boolean
   /** User ID. */
   block_locked_by?: UUID
-}
-
-export interface GeneralBlockFormat {
   block_color?: NotionColor
-}
-
-export interface ColumnFormat {
-  column_ratio?: number
-}
-
-export interface CalloutFormat {
-  page_icon?: IconString
+  block_width?: number
+  block_height?: number
+  block_full_width?: boolean
+  block_page_width?: boolean
+  block_aspect_ratio?: Proportion
+  block_preserve_scale?: boolean
+  /** Icon URL of the bookmarked web page. */
+  bookmark_icon?: PublicUrl
+  /** Cover URL of the bookmarked web page. */
+  bookmark_cover?: PublicUrl
+  column_ratio?: Proportion
+  code_wrap?: boolean
+  display_source?: NotionSecureUrl | PublicUrl
+  page_icon?: Emoji | NotionSecureUrl | PublicUrl
+  page_cover?: NotionRelativePath | NotionSecureUrl | PublicUrl
+  page_full_width?: boolean
+  page_cover_position?: Proportion
 }

@@ -8,24 +8,31 @@ export type UUID = string
  */
 export type Timestamp = number
 
-/**
- * This string may be an emoji (Option: Emoji), 
- * Notion's "secure" AWS URL, which start with 
- * `https://s3-us-west-2.amazonaws.com/secure.notion-static.com/` 
- * (Option: Upload an Image), 
- * or public URL (Option: Link).
- */
-export type IconString = string
+/** A number `0 <= n <= 1`. */
+export type Proportion = number
 
 /**
- * This string may be a relative path to root, 
- * e.g. `/images/page-cover/gradients_10.jpg` (Option: Gallery),
- * Notion's "secure" AWS URL, which start with 
- * `https://s3-us-west-2.amazonaws.com/secure.notion-static.com/` 
- * (Option: Upload), 
- * public URL (Option: Link, Unsplash).
+ * A publicly accessible URL.
  */
-export type CoverString = string
+export type PublicUrl = string
+
+/**
+ * A path relative to `www.notion.so`, 
+ * e.g. `/images/page-cover/gradients_10.jpg`.
+ */
+export type NotionRelativePath = string
+
+/**
+ * An URL starting with 
+ * `https://s3-us-west-2.amazonaws.com/secure.notion-static.com/`. 
+ * Must be authenticated before access.
+ */
+export type NotionSecureUrl = string
+
+/**
+ * A string containing exactly one emoji character.
+ */
+export type Emoji = string
 
 export type NotionColor =
   "gray" | "brown" | "orange" | "yellow" | "teal" | "blue" | "purple"

@@ -1,4 +1,4 @@
-import { UUID, IconString, CoverString, TableName } from "../common"
+import { UUID, TableName, Emoji, NotionSecureUrl, PublicUrl, NotionRelativePath } from "../common"
 import { SemanticString } from "../semantic_string"
 import { GalleryProperty } from "../collection_view/format"
 
@@ -44,8 +44,8 @@ export interface Collection {
   id: UUID
   /** `name[0][0]` is the collection's name. */
   name: [[string]]
-  icon?: IconString
-  cover?: CoverString
+  icon?: Emoji | NotionSecureUrl | PublicUrl
+  cover?: NotionRelativePath | NotionSecureUrl | PublicUrl
   description?: SemanticString[]
   format?: CollectionFormat
   parent_id: UUID

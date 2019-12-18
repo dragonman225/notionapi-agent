@@ -2,10 +2,7 @@ import { UUID } from "../common"
 import { EmptyBlock } from "./empty_block"
 import { ColumnID } from "../collection"
 import { SemanticString } from "../semantic_string"
-import {
-  PageFormat, GeneralBlockFormat, ColumnFormat,
-  CalloutFormat
-} from "./block_format"
+import { BlockFormat } from "./block_format"
 import { Permission } from "../permission"
 
 /**
@@ -15,12 +12,14 @@ export interface Page extends EmptyBlock {
   type: "page"
   /** Children blocks' ID. */
   content?: UUID[]
-  format?: PageFormat & GeneralBlockFormat
+  format?: BlockFormat
   properties?: {
     [key in ColumnID]: SemanticString[]
   }
   permissions?: Permission[]
-  /** Files uploaded to this page. */
+  /** 
+   * Defined if the user upload images for page icon and page cover.
+   */
   file_ids?: UUID[]
 }
 
@@ -31,7 +30,7 @@ export interface Page extends EmptyBlock {
 export interface Text extends EmptyBlock {
   type: "text"
   content?: UUID[]
-  format?: GeneralBlockFormat
+  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -40,7 +39,7 @@ export interface Text extends EmptyBlock {
 export interface BulletedList extends EmptyBlock {
   type: "bulleted_list"
   content?: UUID[]
-  format?: GeneralBlockFormat
+  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -49,7 +48,7 @@ export interface BulletedList extends EmptyBlock {
 export interface NumberedList extends EmptyBlock {
   type: "numbered_list"
   content?: UUID[]
-  format?: GeneralBlockFormat
+  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -58,7 +57,7 @@ export interface NumberedList extends EmptyBlock {
 export interface ToDo extends EmptyBlock {
   type: "to_do"
   content?: UUID[]
-  format?: GeneralBlockFormat
+  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
     checked?: [["Yes" | "No"]]
@@ -68,7 +67,7 @@ export interface ToDo extends EmptyBlock {
 export interface Toggle extends EmptyBlock {
   type: "toggle"
   content?: UUID[]
-  format?: GeneralBlockFormat
+  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -80,7 +79,7 @@ export interface Toggle extends EmptyBlock {
 
 export interface Header extends EmptyBlock {
   type: "header"
-  format?: GeneralBlockFormat
+  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -88,7 +87,7 @@ export interface Header extends EmptyBlock {
 
 export interface SubHeader extends EmptyBlock {
   type: "sub_header"
-  format?: GeneralBlockFormat
+  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -96,7 +95,7 @@ export interface SubHeader extends EmptyBlock {
 
 export interface SubSubHeader extends EmptyBlock {
   type: "sub_sub_header"
-  format?: GeneralBlockFormat
+  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -104,7 +103,7 @@ export interface SubSubHeader extends EmptyBlock {
 
 export interface Quote extends EmptyBlock {
   type: "quote"
-  format?: GeneralBlockFormat
+  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -112,10 +111,12 @@ export interface Quote extends EmptyBlock {
 
 export interface Callout extends EmptyBlock {
   type: "callout"
-  format?: CalloutFormat & GeneralBlockFormat
+  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
+  /** Defined if the user uploaded an image for icon. */
+  file_ids?: UUID[]
 }
 
 /**
@@ -131,17 +132,12 @@ export interface ColumnList extends EmptyBlock {
 export interface Column extends EmptyBlock {
   type: "column"
   content?: UUID[]
-  format?: ColumnFormat
+  format?: BlockFormat
 }
 
 /**
  * Not editable, no children.
  */
-
-export interface TableOfContent extends EmptyBlock {
-  type: "table_of_contents"
-  format?: GeneralBlockFormat
-}
 
 export interface Divider extends EmptyBlock {
   type: "divider"
@@ -152,4 +148,4 @@ export type BasicBlock =
   | Text | BulletedList | NumberedList | ToDo | Toggle
   | Header | SubHeader | SubSubHeader | Quote | Callout
   | ColumnList | Column
-  | TableOfContent | Divider
+  | Divider

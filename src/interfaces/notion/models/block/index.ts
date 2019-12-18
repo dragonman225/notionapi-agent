@@ -1,5 +1,9 @@
 import { BasicBlock } from "./basic_block"
-import { CollectionViewPage } from "./database"
+import { DatabaseBlock } from "./database"
+import { MediaBlock } from "./media"
+import { EmbedBlock } from "./embed"
+import { AdvancedBlock } from "./advanced_block"
 
 /** Union of all types of blocks. */
-export type Block = BasicBlock | CollectionViewPage
+export type Block =
+  BasicBlock | DatabaseBlock | MediaBlock | EmbedBlock | AdvancedBlock

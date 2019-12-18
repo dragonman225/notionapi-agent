@@ -1,12 +1,14 @@
 import { UUID, Timestamp, TableName } from "../common"
 
 export type BlockType =
-  "page"
-  | "text" | "bulleted_list" | "numbered_list" | "to_do" | "toggle"
+  "page" | "text" | "bulleted_list" | "numbered_list" | "to_do" | "toggle"
   | "header" | "sub_header" | "sub_sub_header" | "quote" | "callout"
   | "column_list" | "column"
-  | "table_of_contents" | "divider"
-  | "collection_view_page"
+  | "divider"
+  | "collection_view" | "collection_view_page"
+  | "image" | "video" | "audio" | "bookmark" | "code" | "file"
+  | "embed" | "codepen" | "pdf"
+  | "table_of_contents" | "equation" | "factory" | "breadcrumb"
 
 /**
  * Describe properties every block have.
