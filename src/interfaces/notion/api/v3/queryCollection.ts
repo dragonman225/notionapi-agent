@@ -44,7 +44,7 @@ interface Response {
 }
 
 /**
- * /api/v3/queryCollection
+ * POST /api/v3/queryCollection
  * 
  * Query a collection by id, view id, 
  * and aggregate, filter, sort parameters.

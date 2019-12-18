@@ -2,8 +2,7 @@ import { UUID, Timestamp, TableName } from "../common"
 import { UserPermission } from "../permission"
 
 /**
- * Describe a workspace, which can be thought of as a special case of 
- * a `page` block.
+ * Describe a workspace.
  */
 export interface Space {
   id: UUID
@@ -11,6 +10,7 @@ export interface Space {
   name: string
   permissions: UserPermission[]
   beta_enabled: boolean
+  /** Top level pages. */
   pages: UUID[]
   created_by: UUID
   created_time: Timestamp

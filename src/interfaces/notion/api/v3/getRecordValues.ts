@@ -15,7 +15,7 @@ interface Response {
 }
 
 /**
- * /api/v3/getRecordValues
+ * POST /api/v3/getRecordValues
  * 
  * Get records by table name and id.
  */
