@@ -5,10 +5,7 @@ import {
   SpaceRecord, SpaceViewRecord
 } from "./Record"
 
-/** It's empty. */
-interface Request { }
-
-interface Response {
+export interface LoadUserContentResponse {
   recordMap: {
     block: Map<BlockRecord>
     notion_user: Map<NotionUserRecord>
@@ -26,5 +23,5 @@ interface Response {
  * user information, and workspace information.
  */
 export interface LoadUserContent {
-  (request: Request): Promise<Response>
+  (): Promise<LoadUserContentResponse>
 }

@@ -7,11 +7,11 @@ interface SharedPage {
   spaceId: UUID
 }
 
-interface Request {
+export interface GetUserSharedPagesRequest {
   includeDeleted: boolean
 }
 
-interface Response {
+export interface GetUserSharedPagesResponse {
   pages: SharedPage[]
   recordMap: {
     block: Map<BlockRecord>
@@ -30,5 +30,5 @@ interface Response {
  * use {@link LoadUserContent}.
  */
 export interface GetUserSharedPages {
-  (request: Request): Promise<Response>
+  (request: GetUserSharedPagesRequest): Promise<GetUserSharedPagesResponse>
 }

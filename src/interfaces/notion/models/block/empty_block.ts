@@ -7,7 +7,7 @@ export type BlockType =
   | "divider"
   | "collection_view" | "collection_view_page"
   | "image" | "video" | "audio" | "bookmark" | "code" | "file"
-  | "embed" | "codepen" | "pdf"
+  | "embed" | "codepen" | "invision" | "pdf"
   | "table_of_contents" | "equation" | "factory" | "breadcrumb"
 
 /**

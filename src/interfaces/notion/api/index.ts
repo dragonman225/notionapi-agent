@@ -1,9 +1,22 @@
-import { GetRecordValues } from "./v3/getRecordValues"
-import { GetUserSharedPages } from "./v3/getUserSharedPages"
-import { LoadUserContent } from "./v3/loadUserContent"
-import { QueryCollection } from "./v3/queryCollection"
+import {
+  GetRecordValuesRequest,
+  GetRecordValuesResponse
+} from "./v3/getRecordValues"
+import {
+  GetUserSharedPagesRequest,
+  GetUserSharedPagesResponse
+} from "./v3/getUserSharedPages"
+import { LoadUserContentResponse } from "./v3/loadUserContent"
+import {
+  QueryCollectionRequest,
+  QueryCollectionResponse
+} from "./v3/queryCollection"
+import { ErrorResponse } from "./v3/APIError"
 
 export {
-  GetRecordValues, GetUserSharedPages,
-  LoadUserContent, QueryCollection
+  GetRecordValuesRequest, GetRecordValuesResponse,
+  GetUserSharedPagesRequest, GetUserSharedPagesResponse,
+  LoadUserContentResponse,
+  QueryCollectionRequest, QueryCollectionResponse,
+  ErrorResponse
 }

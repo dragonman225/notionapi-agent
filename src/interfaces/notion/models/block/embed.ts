@@ -31,6 +31,14 @@ export interface Codepen extends EmptyBlock {
   }
 }
 
+export interface Invision extends EmptyBlock {
+  type: "invision"
+  format?: BlockFormat
+  properties?: {
+    source?: [[PublicUrl]]
+  }
+}
+
 export interface PDF extends EmptyBlock {
   type: "pdf"
   format?: BlockFormat
@@ -41,4 +49,4 @@ export interface PDF extends EmptyBlock {
   file_ids?: UUID[]
 }
 
-export type EmbedBlock = PDF | Codepen | PDF
+export type EmbedBlock = Embed | Codepen | Invision | PDF

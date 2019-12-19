@@ -6,11 +6,11 @@ interface RecordRequest {
   table: TableName
 }
 
-interface Request {
+export interface GetRecordValuesRequest {
   requests: RecordRequest[]
 }
 
-interface Response {
+export interface GetRecordValuesResponse {
   results: AnyRecord[]
 }
 
@@ -25,5 +25,5 @@ export interface GetRecordValues {
    * of {@link Request.requests}, its result is the i<sup>th</sup> 
    * element of {@link Response.results}.
    */
-  (request: Request): Promise<Response>
+  (request: GetRecordValuesRequest): Promise<GetRecordValuesResponse>
 }

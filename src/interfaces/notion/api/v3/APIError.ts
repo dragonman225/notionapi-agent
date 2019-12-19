@@ -12,9 +12,9 @@ import { UUID } from "../../models/common";
  * }
  * ```
  */
-export interface Error {
+export interface ErrorResponse {
   errorId: UUID
   name: string
   message: string
-  status: string
+  status?: string
 }

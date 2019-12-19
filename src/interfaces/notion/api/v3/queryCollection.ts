@@ -12,7 +12,7 @@ interface AggregationResult {
   value: number
 }
 
-interface Request {
+export interface QueryCollectionRequest {
   collectionId: UUID
   collectionViewId: UUID
   loader: {
@@ -27,7 +27,7 @@ interface Request {
   query: Query
 }
 
-interface Response {
+export interface QueryCollectionResponse {
   result: {
     type: "table"
     blockIds: UUID[]
@@ -55,5 +55,5 @@ export interface QueryCollection {
    * 
    * Set maximum number of records to get with {@link Request.loader}.
    */
-  (request: Request): Promise<Response>
+  (request: QueryCollectionRequest): Promise<QueryCollectionResponse>
 }
