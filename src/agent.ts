@@ -14,10 +14,18 @@ import {
 
 /**
  * Options to config Notion API agent.
+ * 
+ * @category Library
  */
 interface AgentOptions {
+  /** Web address of the API server. Default: `"https://www.notion.so"`. */
   server?: string
+  /**
+   * Notion API token. Default: `""`. 
+   * {@link https://github.com/dragonman225/notionapi-agent/blob/master/documentation/obtain-token/obtain-token.md | Tutorial}
+   */
   token?: string
+  /** Whether to trun on debug message. Default: `false`. */
   debug?: boolean
 }
 
@@ -27,6 +35,8 @@ interface AgentOptions {
  * Create an asynchronous Notion API function.
  * @param url The API's full URL.
  * @param token The API token for authentication.
+ * 
+ * @category Library Internal
  */
 function createAPI<Req, Res>(url: string, token: string) {
 
@@ -60,6 +70,8 @@ function createAPI<Req, Res>(url: string, token: string) {
 /**
  * Create a Notion API agent.
  * @param opts A config object.
+ * 
+ * @category Library
  */
 function createAgent(opts: AgentOptions = {}) {
   const token = opts.token ? opts.token : ""
@@ -73,18 +85,22 @@ function createAgent(opts: AgentOptions = {}) {
  server "${server}" and token "${token}".`)
 
   return {
+    /** See {@link GetRecordValues} for more about this function. */
     getRecordValues:
       createAPI<GetRecordValuesRequest, GetRecordValuesResponse>(
         `${server}/api/v3/getRecordValues`, token
       ),
+    /** See {@link GetUserSharedPages} for more about this function. */
     getUserSharedPages:
       createAPI<GetUserSharedPagesRequest, GetUserSharedPagesResponse>(
         `${server}/api/v3/getUserSharedPages`,
         token),
+    /** See {@link LoadUserContent} for more about this function. */
     loadUserContent:
       createAPI<{}, LoadUserContentResponse>(
         `${server}/api/v3/loadUserContent`, token
       ),
+    /** See {@link QueryCollection} for more about this function. */
     queryCollection:
       createAPI<QueryCollectionRequest, QueryCollectionResponse>(
         `${server}/api/v3/queryCollection`, token

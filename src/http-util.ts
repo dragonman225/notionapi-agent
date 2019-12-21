@@ -5,6 +5,9 @@ import { makeHTTPRequest, makeHTTPSRequest } from "@dnpr/make-request"
 /** Import other sripts. */
 import { log } from "./log"
 
+/**
+ * @category Library Internal
+ */
 function post(url: string) {
 
   const myURL = new URL(url)

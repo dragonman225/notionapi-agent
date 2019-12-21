@@ -28,6 +28,8 @@ export interface GetUserSharedPagesResponse {
  * 
  * To always get the top level pages of the user's workspace, 
  * use {@link LoadUserContent}.
+ * 
+ * @category Notion API
  */
 export interface GetUserSharedPages {
   (request: GetUserSharedPagesRequest): Promise<GetUserSharedPagesResponse>

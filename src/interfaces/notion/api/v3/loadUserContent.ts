@@ -19,8 +19,11 @@ export interface LoadUserContentResponse {
 /**
  * POST /api/v3/loadUserContent
  * 
- * Get top level page blocks (`block` in {@link Response.recordMap}), 
+ * Get top level page blocks (`block` in 
+ * {@link LoadUserContentResponse.recordMap}), 
  * user information, and workspace information.
+ * 
+ * @category Notion API
  */
 export interface LoadUserContent {
   (): Promise<LoadUserContentResponse>

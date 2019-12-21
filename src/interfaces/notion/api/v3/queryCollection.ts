@@ -48,6 +48,8 @@ export interface QueryCollectionResponse {
  * 
  * Query a collection by id, view id, 
  * and aggregate, filter, sort parameters.
+ * 
+ * @category Notion API
  */
 export interface QueryCollection {
   /**
