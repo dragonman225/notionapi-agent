@@ -1,6 +1,5 @@
 const strings = {
-  DEFAULT_HOST: 'www.notion.so',
-  DEFAULT_API_BASE: '/api/v3',
+  DEFAULT_SERVER: 'https://www.notion.so',
   REQUEST_USER_AGENT: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
   NO_TOKEN_WARNING: 'Without a token, only data of public pages can be get, also some APIs may not work.',
   PAGEID_NOT_FOUND: 'You need to provide a page ID.',

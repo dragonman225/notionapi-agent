@@ -1,50 +1,88 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { NotionAgent } from '../src'
+import { createAgent } from '../src'
 
-/* Fill in your token. */
-const options = {
-  token: ''
+const agent = createAgent({ debug: true })
+
+function saveData(filename, obj) {
+  const file = path.join(__dirname, filename)
+  fs.writeFileSync(file, JSON.stringify(obj), { encoding: "utf-8" })
 }
-
-const agent = new NotionAgent(options)
 
 async function main() {
   try {
-    /* Fill in a page id. */
-    let pageId = '181e961a-eb5c-4ee6-9153-07c0dfd5156d'
+    const testPageId = "181e961a-eb5c-4ee6-9153-07c0dfd5156d"
+    const testCollectionId = "57d27a94-610a-4266-9441-7da3b7e976ff"
+    const testCollectionViewId = "1529a5d4-d982-4767-92b4-96e93ec2ef0c"
 
-    console.log('Calling loadPageChunk')
-    let page = await agent.loadPageChunk(pageId)
-    if (page.error) {
-      console.log(`Error: ${page.error.message}\n`)
-    } else if (page.data) {
-      console.log(`Blocks: ${page.data.recordMap.block}\n`)
+    /** getRecordValues */
+    let record
+
+    try {
+      record = await agent.getRecordValues({
+        requests: [{ id: testPageId, table: "block" }]
+      })
+    } catch (error) {
+      console.log(error)
     }
 
-    console.log('Calling getAssetsJson')
-    let assets = await agent.getAssetsJson()
-    if (assets.error) {
-      console.log(`Error: ${assets.error.message}\n`)
-    } else if (assets.data) {
-      console.log(`Version: ${assets.data.version}\n`)
+    console.log(record)
+    saveData("getRecordValues.json", record)
+
+    /** getSharedPages */
+    let sharedPages
+
+    try {
+      sharedPages = await agent.getUserSharedPages({
+        includeDeleted: true
+      })
+    } catch (error) {
+      console.log(error)
     }
 
-    console.log('Calling loadUserContent')
-    let userContent = await agent.loadUserContent()
-    if (userContent.error) {
-      console.log(`Error: ${userContent.error.message}\n`)
-    } else if (userContent.data) {
-      console.log(`Error: ${userContent.data.recordMap.notion_user}\n`)
+    console.log(sharedPages)
+    saveData("getUserSharedPages.json", sharedPages)
+
+    /** loadUserContent */
+    let userContent
+
+    try {
+      userContent = await agent.loadUserContent({})
+    } catch (error) {
+      console.log(error)
     }
 
-    /** Save response data. */
-    let pageChunkFile = path.join(__dirname, 'PageChunk.json')
-    let assetsFile = path.join(__dirname, 'Assets.json')
-    let userContentFile = path.join(__dirname, 'UserContent.json')
-    fs.writeFileSync(pageChunkFile, JSON.stringify(page.data), { encoding: 'utf-8' })
-    fs.writeFileSync(assetsFile, JSON.stringify(assets.data), { encoding: 'utf-8' })
-    fs.writeFileSync(userContentFile, JSON.stringify(userContent.data), { encoding: 'utf-8' })
+    console.log(userContent)
+    saveData("loadUserContent.json", userContent)
+
+    /** queryCollection */
+    let collection
+
+    try {
+      collection = await agent.queryCollection({
+        collectionId: testCollectionId,
+        collectionViewId: testCollectionViewId,
+        loader: {
+          limit: 100,
+          loadContentCover: false,
+          type: "table",
+          userLocale: "en",
+          userTimeZone: "Asia/Taipei"
+        },
+        query: {
+          aggregate: [],
+          filter: [],
+          filter_operator: "and",
+          sort: []
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+
+    console.log(collection)
+    saveData("queryCollection.json", collection)
+
   } catch (error) {
     console.error(error)
   }
