@@ -8,8 +8,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc && npm run build:doc",
-    "build:doc": "npm run build:typedoc && npm run build:build:dependency-graph",
-    "build:typedoc": "typedoc --out typedoc --mode modules src/",
+    "build:doc": "npm run build:typedoc && npm run build:dependency-graph",
+    "build:typedoc": "typedoc --out typedoc --mode file src/",
     "build:dependency-graph": "npx depcruise --exclude '^(node_modules|src/interfaces)' --output-type dot --prefix 'https://github.com/dragonman225/notionapi-agent/tree/master/' src/index.ts | dot -T svg > documentation/dependency-graph.svg",
     "test": "ts-node test/index.spec.ts",
     "release": "npm run build && npm publish",
