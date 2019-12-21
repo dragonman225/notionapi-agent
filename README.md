@@ -45,7 +45,7 @@ See more API in [documentation](https://notionapi.netlify.com/classes/_index_.no
 
 ### Project Structure
 
-![project structure graph](report/deps_graph.svg)
+![project structure graph](documentation/dependency-graph.svg)
 
 ### External Dependencies
 
