@@ -2,31 +2,19 @@
   "name": "notionapi-agent",
   "version": "0.7.2",
   "description": "Unofficial Notion.so API client.",
+  "author": "dragonman225",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc && npm run report:deps_graph && npm run build:doc",
-    "build:doc": "typedoc --out docs --mode modules src/",
-    "deploy:doc": "git subtree push --prefix docs origin gh-pages",
+    "build": "tsc && npm run build:doc",
+    "build:doc": "npm run build:typedoc && npm run build:build:dependency-graph",
+    "build:typedoc": "typedoc --out typedoc --mode modules src/",
+    "build:dependency-graph": "npx depcruise --exclude '^(node_modules|src/interfaces)' --output-type dot --prefix 'https://github.com/dragonman225/notionapi-agent/tree/master/' src/index.ts | dot -T svg > documentation/dependency-graph.svg",
     "test": "ts-node test/index.spec.ts",
-    "test:example": "ts-node docs/example.ts && node docs/example.js",
     "release": "npm run build && npm publish",
-    "report:deps_graph": "npx depcruise --exclude '^node_modules' --output-type dot --prefix 'https://github.com/dragonman225/notionapi-agent/tree/master/' src/index.ts | dot -T svg > report/deps_graph.svg",
-    "upgrade": "pnpm i typescript@latest eslint@latest dependency-cruiser@latest @typescript-eslint/parser@latest @typescript-eslint/eslint-plugin@latest @types/node@latest ts-node@latest @dnpr/make-request@latest --save-exact"
+    "upgrade": "node tools/upgrade-deps.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dragonman225/notionapi-agent.git"
-  },
-  "keywords": [
-    "nodejs",
-    "notion",
-    "api",
-    "api-wrapper",
-    "api-client"
-  ],
-  "author": "dragonman225",
-  "license": "MIT",
   "dependencies": {
     "@dnpr/logger": "0.2.0",
     "@dnpr/make-request": "0.1.1"
@@ -40,10 +28,21 @@
     "ts-node": "8.5.4",
     "typescript": "3.7.3"
   },
+  "keywords": [
+    "nodejs",
+    "notion",
+    "api",
+    "api-wrapper",
+    "api-client"
+  ],
+  "homepage": "https://github.com/dragonman225/notionapi-agent",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dragonman225/notionapi-agent.git"
+  },
   "bugs": {
     "url": "https://github.com/dragonman225/notionapi-agent/issues"
   },
-  "homepage": "https://github.com/dragonman225/notionapi-agent",
   "typeScriptVersion": "3.7",
-  "runkitExampleFilename": "examples/loadPageChunk.js"
+  "runkitExampleFilename": "documentation/examples/loadPageChunk.js"
 }

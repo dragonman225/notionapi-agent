@@ -24,3 +24,5 @@ test/*
 !test/index.spec.ts
 pnpm-lock.yaml
 *.log
+dist/
+typedoc/
