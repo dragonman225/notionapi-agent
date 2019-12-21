@@ -39,7 +39,7 @@ async function main() {
 main()
 ```
 
-See more API in [documentation](https://notionapi.netlify.com/classes/_index_.notionagent.html).
+See more API in [documentation](https://notionapi-develop.netlify.com/globals.html#createagent).
 
 ## Development
 
