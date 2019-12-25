@@ -3,6 +3,11 @@ import {
   NotionRelativePath, Proportion
 } from "../common"
 
+/**
+ * Everything about how to layout a block.
+ * 
+ * @category Notion Block
+ */
 export interface BlockFormat {
   block_locked?: boolean
   /** User ID. */

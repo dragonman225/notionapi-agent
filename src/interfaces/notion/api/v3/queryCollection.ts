@@ -1,4 +1,4 @@
-import { UUID } from "../../models/common"
+import { UUID, TimeZone } from "../../models/common"
 import { Query } from "../../models/collection_view/query"
 import { Map } from "./Map"
 import {
@@ -21,8 +21,7 @@ export interface QueryCollectionRequest {
     type: "table"
     /** `locale` in {@link UserSettings.settings} */
     userLocale: string
-    /** `time_zone` in {@link UserSettings.settings} */
-    userTimeZone: string
+    userTimeZone: TimeZone
   }
   query: Query
 }

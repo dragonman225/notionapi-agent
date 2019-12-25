@@ -3,6 +3,11 @@ import { EmptyBlock } from "./empty_block"
 import { BlockFormat } from "./block_format"
 import { SemanticString } from "../semantic_string"
 
+/**
+ * General purpose embed block.
+ * 
+ * @category Notion Block
+ */
 export interface Embed extends EmptyBlock {
   type: "embed"
   format?: BlockFormat
@@ -17,6 +22,11 @@ export interface Embed extends EmptyBlock {
   }
 }
 
+/**
+ * Codepen embed block.
+ * 
+ * @category Notion Block
+ */
 export interface Codepen extends EmptyBlock {
   type: "codepen"
   format?: BlockFormat
@@ -31,6 +41,11 @@ export interface Codepen extends EmptyBlock {
   }
 }
 
+/**
+ * Invision embed block.
+ * 
+ * @category Notion Block
+ */
 export interface Invision extends EmptyBlock {
   type: "invision"
   format?: BlockFormat
@@ -39,6 +54,11 @@ export interface Invision extends EmptyBlock {
   }
 }
 
+/**
+ * PDF embed block.
+ * 
+ * @category Notion Block
+ */
 export interface PDF extends EmptyBlock {
   type: "pdf"
   format?: BlockFormat
@@ -49,4 +69,7 @@ export interface PDF extends EmptyBlock {
   file_ids?: UUID[]
 }
 
+/**
+ * @category Notion Block
+ */
 export type EmbedBlock = Embed | Codepen | Invision | PDF

@@ -2,16 +2,20 @@ import { UUID } from "../common"
 import { EmptyBlock } from "./empty_block"
 
 /**
- * Inline database, Linked database.
+ * Inline database block or Linked database block.
+ * 
+ * @category Notion Block
  */
-export interface CollectionView extends EmptyBlock {
+export interface CollectionViewInline extends EmptyBlock {
   type: "collection_view"
   view_ids: UUID[]
   collection_id: UUID
 }
 
 /**
- * Full page database.
+ * Full page database block.
+ * 
+ * @category Notion Block
  */
 export interface CollectionViewPage extends EmptyBlock {
   type: "collection_view_page"
@@ -19,4 +23,7 @@ export interface CollectionViewPage extends EmptyBlock {
   collection_id: UUID
 }
 
-export type DatabaseBlock = CollectionView | CollectionViewPage
+/**
+ * @category Notion Block
+ */
+export type DatabaseBlock = CollectionViewInline | CollectionViewPage

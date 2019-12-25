@@ -8,6 +8,11 @@ export type UUID = string
  */
 export type Timestamp = number
 
+/**
+ * tz database name "*Area/Location*", e.g. "Asia/Taipei".
+ */
+export type TimeZone = string
+
 /** A number `0 <= n <= 1`. */
 export type Proportion = number
 

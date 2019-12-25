@@ -15,8 +15,8 @@ export type ColumnID = string
 export type ColumnPropertyType =
   "title" | "text" | "number" | "select" | "multi_select" | "date"
   | "person" | "file" | "checkbox" | "url" | "email" | "phone_number"
-  | "formula" | "created_time" | "created_by" | "last_edited_time"
-  | "last_edited_by"
+  | "formula" | "relation" | "created_time" | "created_by"
+  | "last_edited_time" | "last_edited_by"
 
 export interface CollectionFormat {
   collection_cover_position?: number
@@ -38,6 +38,10 @@ export interface ColumnProperty {
   name: string
   options?: ColumnPropertyOption[]
   type: ColumnPropertyType
+  /** Related collection. Defined if `type` = `relation`. */
+  collection_id?: UUID
+  /** Related column in the collection. Defined if `type` = `relation`. */
+  property?: ColumnID
 }
 
 export interface Collection {

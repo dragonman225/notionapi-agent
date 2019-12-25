@@ -3,6 +3,11 @@ import { EmptyBlock } from "./empty_block"
 import { BlockFormat } from "./block_format"
 import { SemanticString } from "../semantic_string"
 
+/**
+ * Image block.
+ * 
+ * @category Notion Block
+ */
 export interface Image extends EmptyBlock {
   type: "image"
   format?: BlockFormat
@@ -18,6 +23,11 @@ export interface Image extends EmptyBlock {
   file_ids?: UUID[]
 }
 
+/**
+ * Video block.
+ * 
+ * @category Notion Block
+ */
 export interface Video extends EmptyBlock {
   type: "video"
   format?: BlockFormat
@@ -33,6 +43,11 @@ export interface Video extends EmptyBlock {
   file_ids?: UUID[]
 }
 
+/**
+ * Audio block.
+ * 
+ * @category Notion Block
+ */
 export interface Audio extends EmptyBlock {
   type: "audio"
   format?: BlockFormat
@@ -43,6 +58,11 @@ export interface Audio extends EmptyBlock {
   file_ids?: UUID[]
 }
 
+/**
+ * Web Bookmark block.
+ * 
+ * @category Notion Block
+ */
 export interface Bookmark extends EmptyBlock {
   type: "bookmark"
   format?: BlockFormat
@@ -56,6 +76,11 @@ export interface Bookmark extends EmptyBlock {
   }
 }
 
+/**
+ * Code block.
+ * 
+ * @category Notion Block
+ */
 export interface Code extends EmptyBlock {
   type: "code"
   format?: BlockFormat
@@ -66,6 +91,11 @@ export interface Code extends EmptyBlock {
   }
 }
 
+/**
+ * File block.
+ * 
+ * @category Notion Block
+ */
 export interface File extends EmptyBlock {
   type: "file"
   properties?: {
@@ -80,4 +110,7 @@ export interface File extends EmptyBlock {
   file_ids?: UUID[]
 }
 
+/**
+ * @category Notion Block
+ */
 export type MediaBlock = Image | Video | Audio | Bookmark | Code | File

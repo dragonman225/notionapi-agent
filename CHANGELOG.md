@@ -1,10 +1,10 @@
 ### 2019.11.01
 
-* New documentation using TypeDoc, hosted on [https://notionapi.netlify.com](https://notionapi.netlify.com/classes/_index_.notionagent.html).
+Release new documentation generated with TypeDoc, hosted on [https://notionapi.netlify.com](https://notionapi.netlify.com/classes/_index_.notionagent.html).
 
 ### 2019.10.13
 
-* Finish TypeScript definitions for all APIs exposed by NotionAgent class. Hope this will make development easier !
+Finish TypeScript definitions for all APIs exposed by `NotionAgent` class. Hope this will make development easier !
 
 ### 2019.10.08
 

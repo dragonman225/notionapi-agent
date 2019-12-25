@@ -6,13 +6,29 @@ import { BlockFormat } from "./block_format"
 import { Permission } from "../permission"
 
 /**
- * Page, Link To Page
+ * Embedded Sub-Page block or Link To Page block.
+ * 
+ * @category Notion Block
  */
 export interface Page extends EmptyBlock {
   type: "page"
   /** Children blocks' ID. */
   content?: UUID[]
   format?: BlockFormat
+  /**
+   * In a database, every record is a page. Properties set in a database 
+   * are stored here.
+   * Content of all types of property can be expressed as 
+   * a {@link SemanticString} array. Some interesting types are listed below:
+   * 
+   * Relation — They use {@link InlineMentionPage} to represent related  
+   * pages, so for example, if a page is related to another 3 pages, 
+   * it looks like 
+   * 
+   * ```
+   * [InlineMentionPage, [","], InlineMentionPage, [","], InlineMentionPage]
+   * ```
+   */
   properties?: {
     [key in ColumnID]: SemanticString[]
   }
@@ -24,9 +40,10 @@ export interface Page extends EmptyBlock {
 }
 
 /**
- * Editable, has children.
+ * Text block. Editable, can have children.
+ * 
+ * @category Notion Block
  */
-
 export interface Text extends EmptyBlock {
   type: "text"
   content?: UUID[]
@@ -36,6 +53,11 @@ export interface Text extends EmptyBlock {
   }
 }
 
+/**
+ * Bulleted List block. Editable, can have children.
+ * 
+ * @category Notion Block
+ */
 export interface BulletedList extends EmptyBlock {
   type: "bulleted_list"
   content?: UUID[]
@@ -45,6 +67,11 @@ export interface BulletedList extends EmptyBlock {
   }
 }
 
+/**
+ * Numbered List block. Editable, can have children.
+ * 
+ * @category Notion Block
+ */
 export interface NumberedList extends EmptyBlock {
   type: "numbered_list"
   content?: UUID[]
@@ -54,6 +81,11 @@ export interface NumberedList extends EmptyBlock {
   }
 }
 
+/**
+ * To Do block. Editable, can have children.
+ * 
+ * @category Notion Block
+ */
 export interface ToDo extends EmptyBlock {
   type: "to_do"
   content?: UUID[]
@@ -64,6 +96,11 @@ export interface ToDo extends EmptyBlock {
   }
 }
 
+/**
+ * Toggle block. Editable, can have children.
+ * 
+ * @category Notion Block
+ */
 export interface Toggle extends EmptyBlock {
   type: "toggle"
   content?: UUID[]
@@ -74,9 +111,10 @@ export interface Toggle extends EmptyBlock {
 }
 
 /**
- * Editable, no children.
+ * Heading1 block. Editable, can't have children.
+ * 
+ * @category Notion Block
  */
-
 export interface Header extends EmptyBlock {
   type: "header"
   format?: BlockFormat
@@ -85,6 +123,11 @@ export interface Header extends EmptyBlock {
   }
 }
 
+/**
+ * Heading2 block. Editable, can't have children.
+ * 
+ * @category Notion Block
+ */
 export interface SubHeader extends EmptyBlock {
   type: "sub_header"
   format?: BlockFormat
@@ -93,6 +136,11 @@ export interface SubHeader extends EmptyBlock {
   }
 }
 
+/**
+ * Heading3 block. Editable, can't have children.
+ * 
+ * @category Notion Block
+ */
 export interface SubSubHeader extends EmptyBlock {
   type: "sub_sub_header"
   format?: BlockFormat
@@ -101,6 +149,11 @@ export interface SubSubHeader extends EmptyBlock {
   }
 }
 
+/**
+ * Quote block. Editable, can't have children.
+ * 
+ * @category Notion Block
+ */
 export interface Quote extends EmptyBlock {
   type: "quote"
   format?: BlockFormat
@@ -109,6 +162,11 @@ export interface Quote extends EmptyBlock {
   }
 }
 
+/**
+ * Callout block. Editable, can't have children.
+ * 
+ * @category Notion Block
+ */
 export interface Callout extends EmptyBlock {
   type: "callout"
   format?: BlockFormat
@@ -120,15 +178,26 @@ export interface Callout extends EmptyBlock {
 }
 
 /**
- * Not editable, has children.
+ * Column List block. Not editable, can have children.
+ * 
+ * This is used to wrap blocks that should be displayed in the same row.
+ * 
+ * Children of this block must be {@link Column}.
+ * 
+ * @category Notion Block
  */
-
 export interface ColumnList extends EmptyBlock {
   type: "column_list"
-  /** Children must be {@link Column}. */
   content?: UUID[]
 }
 
+/**
+ * Column block. Not editable, can have children.
+ * 
+ * Parent of this block must be {@link ColumnList}.
+ * 
+ * @category Notion Block
+ */
 export interface Column extends EmptyBlock {
   type: "column"
   content?: UUID[]
@@ -136,13 +205,17 @@ export interface Column extends EmptyBlock {
 }
 
 /**
- * Not editable, no children.
+ * Divider block. Not editable, can't have children.
+ * 
+ * @category Notion Block
  */
-
 export interface Divider extends EmptyBlock {
   type: "divider"
 }
 
+/**
+ * @category Notion Block
+ */
 export type BasicBlock =
   Page
   | Text | BulletedList | NumberedList | ToDo | Toggle

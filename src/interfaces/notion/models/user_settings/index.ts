@@ -1,4 +1,4 @@
-import { UUID, Timestamp } from "../common"
+import { UUID, Timestamp, TimeZone } from "../common"
 
 export interface UserSettings {
   /** User ID. */
@@ -11,8 +11,7 @@ export interface UserSettings {
     persona: string
     /** e.g. `personal_notes_to_dos` */
     use_case: string
-    /** tz database name "*Area/Location*", e.g. "Asia/Taipei". */
-    time_zone: string
+    time_zone: TimeZone
     /** e.g. `personal_notes_to_dos` */
     user_case: string
     signup_time: Timestamp

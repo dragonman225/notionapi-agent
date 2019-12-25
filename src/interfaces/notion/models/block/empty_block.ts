@@ -1,5 +1,10 @@
 import { UUID, Timestamp, TableName } from "../common"
 
+/**
+ * All block names.
+ * 
+ * @category Notion Block
+ */
 export type BlockType =
   "page" | "text" | "bulleted_list" | "numbered_list" | "to_do" | "toggle"
   | "header" | "sub_header" | "sub_sub_header" | "quote" | "callout"
@@ -11,7 +16,11 @@ export type BlockType =
   | "table_of_contents" | "equation" | "factory" | "breadcrumb"
 
 /**
- * Describe properties every block have.
+ * An abstract block, used to hold common properties of all blocks.
+ * 
+ * Doesn't actually exist in Notion.
+ * 
+ * @category Notion Block
  */
 export interface EmptyBlock {
   id: UUID
