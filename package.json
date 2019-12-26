@@ -44,5 +44,5 @@
     "url": "https://github.com/dragonman225/notionapi-agent/issues"
   },
   "typeScriptVersion": "3.7",
-  "runkitExampleFilename": "documentation/examples/loadPageChunk.js"
+  "runkitExampleFilename": ""
 }
