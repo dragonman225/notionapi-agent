@@ -12,8 +12,6 @@ import { Permission } from "../permission"
  */
 export interface Page extends EmptyBlock {
   type: "page"
-  /** Children blocks' ID. */
-  content?: UUID[]
   format?: BlockFormat
   /**
    * In a database, every record is a page. Properties set in a database 
@@ -46,7 +44,6 @@ export interface Page extends EmptyBlock {
  */
 export interface Text extends EmptyBlock {
   type: "text"
-  content?: UUID[]
   format?: BlockFormat
   properties?: {
     title?: SemanticString[]
@@ -60,7 +57,6 @@ export interface Text extends EmptyBlock {
  */
 export interface BulletedList extends EmptyBlock {
   type: "bulleted_list"
-  content?: UUID[]
   format?: BlockFormat
   properties?: {
     title?: SemanticString[]
@@ -74,7 +70,6 @@ export interface BulletedList extends EmptyBlock {
  */
 export interface NumberedList extends EmptyBlock {
   type: "numbered_list"
-  content?: UUID[]
   format?: BlockFormat
   properties?: {
     title?: SemanticString[]
@@ -88,7 +83,6 @@ export interface NumberedList extends EmptyBlock {
  */
 export interface ToDo extends EmptyBlock {
   type: "to_do"
-  content?: UUID[]
   format?: BlockFormat
   properties?: {
     title?: SemanticString[]
@@ -103,7 +97,6 @@ export interface ToDo extends EmptyBlock {
  */
 export interface Toggle extends EmptyBlock {
   type: "toggle"
-  content?: UUID[]
   format?: BlockFormat
   properties?: {
     title?: SemanticString[]
@@ -188,7 +181,6 @@ export interface Callout extends EmptyBlock {
  */
 export interface ColumnList extends EmptyBlock {
   type: "column_list"
-  content?: UUID[]
 }
 
 /**
@@ -200,7 +192,6 @@ export interface ColumnList extends EmptyBlock {
  */
 export interface Column extends EmptyBlock {
   type: "column"
-  content?: UUID[]
   format?: BlockFormat
 }
 

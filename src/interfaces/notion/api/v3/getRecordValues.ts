@@ -1,9 +1,9 @@
-import { UUID, TableName } from "../../models/common"
+import { UUID, Table } from "../../models/common"
 import { AnyRecord } from "./Record";
 
 interface RecordRequest {
   id: UUID
-  table: TableName
+  table: Table
 }
 
 export interface GetRecordValuesRequest {

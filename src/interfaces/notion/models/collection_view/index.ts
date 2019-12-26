@@ -1,4 +1,4 @@
-import { UUID, TableName } from "../common"
+import { UUID, Table } from "../common"
 import { Query, Query2 } from "./query"
 import { CollectionViewFormat } from "./format"
 
@@ -27,7 +27,7 @@ export interface CollectionView {
    */
   format: CollectionViewFormat
   parent_id: UUID
-  parent_table: TableName
+  parent_table: Table
   alive: boolean
   page_sort: UUID[]
 }

@@ -1,4 +1,4 @@
-import { UUID, Timestamp, TableName } from "../common"
+import { UUID, Timestamp, Table } from "../common"
 
 /**
  * All block names.
@@ -26,20 +26,22 @@ export interface EmptyBlock {
   id: UUID
   version: number
   type: BlockType
+  /** Ids of children blocks */
+  content?: UUID[]
   created_by: UUID
   /** Appear in recently created blocks. */
   created_by_id?: UUID
   /** Appear in recently created blocks. */
-  created_by_table?: TableName
+  created_by_table?: Table
   created_time: Timestamp
   last_edited_by: UUID
   /** Appear in recently created blocks. */
   last_edited_by_id?: UUID
   /** Appear in recently created blocks. */
-  last_edited_by_table?: TableName
+  last_edited_by_table?: Table
   last_edited_time: Timestamp
   parent_id: UUID
-  parent_table: TableName
+  parent_table: Table
   alive: boolean
   /** Copied from another block. */
   copied_from?: UUID

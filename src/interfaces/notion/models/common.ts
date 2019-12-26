@@ -49,8 +49,16 @@ export type NotionColor =
 /**
  * Notion's database table names.
  */
-export type TableName =
-  "block" | "collection" | "collection_view"
-  | "notion_user" | "user_root" | "user_settings"
-  | "space" | "space_view"
-  | "activity" | "follow" | "slack_integration"
+export enum Table {
+  Block = "block",
+  Collection = "collection",
+  CollectionView = "collection_view",
+  NotionUser = "notion_user",
+  UserRoot = "user_root",
+  UserSettings = "user_settings",
+  Space = "space",
+  SpaceView = "space_view",
+  Activity = "activity",
+  Follow = "follow",
+  SlackIntegration = "slack_integration"
+}

@@ -1,4 +1,4 @@
-import { UUID, TableName, Emoji, NotionSecureUrl, PublicUrl, NotionRelativePath } from "../common"
+import { UUID, Table, Emoji, NotionSecureUrl, PublicUrl, NotionRelativePath } from "../common"
 import { SemanticString } from "../semantic_string"
 import { GalleryProperty } from "../collection_view/format"
 
@@ -53,7 +53,7 @@ export interface Collection {
   description?: SemanticString[]
   format?: CollectionFormat
   parent_id: UUID
-  parent_table: TableName
+  parent_table: Table
   schema: {
     [key in ColumnID]: ColumnProperty
   }

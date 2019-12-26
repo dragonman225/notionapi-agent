@@ -1,12 +1,6 @@
-const strings = {
-  DEFAULT_SERVER: 'https://www.notion.so',
-  REQUEST_USER_AGENT: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
-  NO_TOKEN_WARNING: 'Without a token, only data of public pages can be get, also some APIs may not work.',
-  PAGEID_NOT_FOUND: 'You need to provide a page ID.',
-  IDS_NOT_ARRAY: 'Block IDs should be an array.',
-  COLLECTION_ID_NOT_FOUND: 'You need to provide a collection ID.',
-  COLLECTION_VIEW_ID_NOT_FOUND: 'You need to provide a collection_view ID.',
-  AGGREGATEQUERIES_NOT_ARRAY: 'Aggregate queries should be an array.'
+const Default = {
+  server: "https://www.notion.so",
+  userAgent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36"
 }
 
-export { strings }
+export { Default }

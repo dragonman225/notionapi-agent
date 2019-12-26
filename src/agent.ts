@@ -1,7 +1,7 @@
 /** Import other sripts. */
 import { post } from "./http-util"
 import { log } from "./log"
-import { strings } from "./strings"
+import { Default } from "./strings"
 
 /** Import typings. */
 import {
@@ -51,9 +51,9 @@ function createAPI<Req, Res>(url: string, token: string) {
       .setHeader("accept", "*/*")
       .setHeader("accept-language", "en-US,en;q=0.9")
       .setHeader("cookie", `token_v2=${token};`)
-      .setHeader("origin", strings.DEFAULT_SERVER)
-      .setHeader("referer", strings.DEFAULT_SERVER)
-      .setHeader("user-agent", strings.REQUEST_USER_AGENT)
+      .setHeader("origin", Default.server)
+      .setHeader("referer", Default.server)
+      .setHeader("user-agent", Default.userAgent)
       .sendAsJson(req)
 
     if (result.hasOwnProperty("errorId")) {
@@ -75,7 +75,7 @@ function createAPI<Req, Res>(url: string, token: string) {
  */
 function createAgent(opts: AgentOptions = {}) {
   const token = opts.token ? opts.token : ""
-  const server = opts.server ? opts.server : strings.DEFAULT_SERVER
+  const server = opts.server ? opts.server : Default.server
 
   if (opts.debug) {
     log.setLogLevel("debug")

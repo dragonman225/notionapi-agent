@@ -1,4 +1,3 @@
-import { UUID } from "../common"
 import { EmptyBlock } from "./empty_block"
 import { BlockFormat } from "./block_format"
 
@@ -30,8 +29,6 @@ export interface Equation extends EmptyBlock {
  */
 export interface Factory extends EmptyBlock {
   type: "factory"
-  /** Template content. */
-  content?: UUID[]
   properties?: {
     /** Button name. */
     title?: [[string]]
