@@ -15,8 +15,6 @@ async function main() {
   /** Create an API agent. */
   const notion = createAgent({ debug: true })
 
-  // const page = await getPageContent(pageId, notion)
-
   let ctx = {
     start: true,
     childrenIds: [pageId],
@@ -27,7 +25,7 @@ async function main() {
   }
   while (ctx.childrenIds.length > 0) {
     console.log(`Start downloading next ${ctx.childrenIds.length} blocks.`)
-    const life = await getChildrenBlocks2(ctx)
+    const life = await getChildrenBlocks(ctx)
     ctx = life.nextCtx
     life.result.forEach(r => page.block[r.id] = r)
   }
@@ -38,56 +36,6 @@ async function main() {
     { encoding: "utf-8" }
   )
 }
-
-// async function getPageContent(
-//   pageId: string, agent: ReturnType<typeof createAgent>
-// ) {
-//   let result = {
-//     block: {},
-//     collection: {},
-//     collection_view: {},
-//     file_ids: []
-//   }
-
-//   await getChildrenBlocks([pageId], result, agent, true)
-
-//   return result
-// }
-
-// async function getChildrenBlocks(
-//   childrenIds: string[], result,
-//   agent: ReturnType<typeof createAgent>, start = false
-// ) {
-//   try {
-//     const req = childrenIds.map(id => {
-//       return { id, table: Table.Block }
-//     })
-
-//     const res = await agent.getRecordValues({
-//       requests: req
-//     })
-
-//     let nextChildrenIds = []
-//     res.results.forEach(record => {
-//       if (record.role !== "none" && record.value) {
-//         const block = record.value as Block
-
-//         /** Store the record. */
-//         result.block[block.id] = block
-
-//         /** Collect ids of next batch of blocks. */
-//         if (start || block.type !== "page" && block.content) {
-//           nextChildrenIds = nextChildrenIds.concat(block.content as any)
-//         }
-//       }
-//     })
-
-//     if (nextChildrenIds.length > 0)
-//       await getChildrenBlocks(nextChildrenIds, result, agent)
-//   } catch (error) {
-//     throw error
-//   }
-// }
 
 type Context = {
   start: boolean
@@ -100,7 +48,7 @@ type Life = {
   nextCtx: Context
 }
 
-async function getChildrenBlocks2(ctx: Context): Promise<Life> {
+async function getChildrenBlocks(ctx: Context): Promise<Life> {
 
   const req = ctx.childrenIds.map(id => {
     return { id, table: Table.Block }
@@ -117,9 +65,9 @@ async function getChildrenBlocks2(ctx: Context): Promise<Life> {
   const nextCtx = {
     start: false,
     childrenIds: result
-      .reduce((childrenIds, block) => {
-        if (ctx.start || block.type !== "page" && block.content) {
-          return childrenIds.concat(block.content as any)
+      .reduce((childrenIds: string[], block) => {
+        if ((ctx.start || block.type !== "page") && block.content) {
+          return childrenIds.concat(block.content)
         } else {
           return childrenIds
         }
