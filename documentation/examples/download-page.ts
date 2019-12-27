@@ -15,65 +15,75 @@ async function main() {
   /** Create an API agent. */
   const notion = createAgent({ debug: true })
 
-  let ctx = {
-    start: true,
-    childrenIds: [pageId],
+  /** Set initial state. */
+  let state: GetBlocksState = {
+    initial: true,
+    blockIds: [pageId],
     agent: notion
   }
-  let page = {
+
+  /** A variable to store content. */
+  let content = {
     block: {}
   }
-  while (ctx.childrenIds.length > 0) {
-    console.log(`Start downloading next ${ctx.childrenIds.length} blocks.`)
-    const life = await getChildrenBlocks(ctx)
-    ctx = life.nextCtx
-    life.result.forEach(r => page.block[r.id] = r)
+
+  /** Keep traversing until there're no more children blocks. */
+  while (state.blockIds.length > 0) {
+    console.log(`Start downloading next ${state.blockIds.length} blocks.`)
+    const [blocks, nextState] = await getBlocks(state)
+    blocks.forEach(r => content.block[r.id] = r)
+    state = nextState
   }
 
+  /** Save content to file. */
   fs.writeFileSync(
     path.join(__dirname, `Page-${pageId}.json`),
-    JSON.stringify(page),
+    JSON.stringify(content),
     { encoding: "utf-8" }
   )
 }
 
-type Context = {
-  start: boolean
-  childrenIds: string[]
+type GetBlocksState = {
+  /** Whether this is the initial state. */
+  initial: boolean
+  /** Ids of blocks to get. */
+  blockIds: string[]
+  /** A compatible API agent. */
   agent: ReturnType<typeof createAgent>
 }
 
-type Life = {
-  result: Block[]
-  nextCtx: Context
-}
+/**
+ * Get blocks by ids.
+ * @param state 
+ */
+async function getBlocks(
+  state: GetBlocksState
+): Promise<[Block[], GetBlocksState]> {
 
-async function getChildrenBlocks(ctx: Context): Promise<Life> {
-
-  const req = ctx.childrenIds.map(id => {
-    return { id, table: Table.Block }
+  const req = state.blockIds.map(id => {
+    return { id, table: "block" as Table }
   })
 
-  const res = await ctx.agent.getRecordValues({
+  const res = await state.agent.getRecordValues({
     requests: req
   })
 
-  const result = res.results
+  const validBlocks = res.results
     .filter(r => r.role !== "none")
-    .map(r => r.value) as Block[]
+    .map(r => r.value as Block)
 
-  const nextCtx = {
-    start: false,
-    childrenIds: result
+  const nextState = {
+    initial: false,
+    blockIds: validBlocks
       .reduce((childrenIds: string[], block) => {
-        if ((ctx.start || block.type !== "page") && block.content) {
+        if ((state.initial || block.type !== "page") && block.content) {
           return childrenIds.concat(block.content)
         } else {
           return childrenIds
         }
       }, []),
-    agent: ctx.agent
+    agent: state.agent
   }
 
-  return { nextCtx, result }
+  return [validBlocks, nextState]
 }

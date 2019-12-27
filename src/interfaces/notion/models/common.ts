@@ -1,29 +1,45 @@
 /**
  * An UUID string, e.g. `0297b381-6319-417b-a4f8-2ca1f2a96a81`
+ * 
+ * @category Common
  */
 export type UUID = string
 
 /**
  * Unix timestamp in milliseconds.
+ * 
+ * @category Common
  */
 export type Timestamp = number
 
 /**
- * tz database name "*Area/Location*", e.g. "Asia/Taipei".
+ * TZ database name in "*Area/Location*" format, e.g. "Asia/Taipei".
+ * 
+ * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+ * 
+ * @category Common
  */
 export type TimeZone = string
 
-/** A number `0 <= n <= 1`. */
+/**
+ * A decimal between and including 0 and 1.
+ * 
+ * @category Common
+ */
 export type Proportion = number
 
 /**
  * A publicly accessible URL.
+ * 
+ * @category Common
  */
 export type PublicUrl = string
 
 /**
  * A path relative to `www.notion.so`, 
  * e.g. `/images/page-cover/gradients_10.jpg`.
+ * 
+ * @category Common
  */
 export type NotionRelativePath = string
 
@@ -31,14 +47,23 @@ export type NotionRelativePath = string
  * An URL starting with 
  * `https://s3-us-west-2.amazonaws.com/secure.notion-static.com/`. 
  * Must be authenticated before access.
+ * 
+ * @category Common
  */
 export type NotionSecureUrl = string
 
 /**
  * A string containing exactly one emoji character.
+ * 
+ * @category Common
  */
 export type Emoji = string
 
+/**
+ * Color names.
+ * 
+ * @category Common
+ */
 export type NotionColor =
   "gray" | "brown" | "orange" | "yellow" | "teal" | "blue" | "purple"
   | "pink" | "red" | "gray_background" | "brown_background"
@@ -47,18 +72,13 @@ export type NotionColor =
   | "red_background"
 
 /**
- * Notion's database table names.
+ * Record table names.
+ * 
+ * @category Common
  */
-export enum Table {
-  Block = "block",
-  Collection = "collection",
-  CollectionView = "collection_view",
-  NotionUser = "notion_user",
-  UserRoot = "user_root",
-  UserSettings = "user_settings",
-  Space = "space",
-  SpaceView = "space_view",
-  Activity = "activity",
-  Follow = "follow",
-  SlackIntegration = "slack_integration"
-}
+export type Table =
+  "block" | "collection" | "collection_view"
+  | "notion_user" | "user_root" | "user_settings"
+  | "space" | "space_view"
+  | "activity" | "follow" | "slack_integration"
+  | "comment" | "discussion"
