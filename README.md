@@ -4,9 +4,10 @@
 
 Unofficial Node.js API client for [Notion.so](https://www.notion.so).
 
-> :warning: This is a work-in-progress project. If you need to use Notion's API in production, I recommend waiting for their official release.
+> :warning: If you need to use Notion's API in production, I recommend waiting for their official release.
 
 * [CHANGELOG](CHANGELOG.md)
+* [API Documentation](https://notionapi-develop.netlify.com/globals.html)
 
 ## Installation
 
@@ -16,22 +17,24 @@ npm install notionapi-agent
 
 ## Getting Started
 
-[![Try notionapi-agent on RunKit](https://badge.runkitcdn.com/notionapi-agent.svg)](https://npm.runkit.com/notionapi-agent)
+### Basic Usage
 
 ```typescript
-const { NotionAgent } = require('notionapi-agent')
+const { createAgent } = require('notionapi-agent')
 
-const agent = new NotionAgent()
+const agent = createAgent()
 
 async function main() {
 
-  let pageId = '181e961a-eb5c-4ee6-9153-07c0dfd5156d'
+  const pageId = '181e961a-eb5c-4ee6-9153-07c0dfd5156d'
 
-  let page = await agent.loadPageChunk(pageId)
-  if (page.error) {
-    console.log(`Error:\n`, page.error)
-  } else if (page.data) {
-    console.log(`Blocks:\n`, page.data)
+  try {
+    const result = await agent.getRecordValues({
+      requests: [{ id: pageId, table: "block" }]
+    })
+    console.log(result)
+  } catch (error) {
+    console.log(error)
   }
 
 }
@@ -39,7 +42,11 @@ async function main() {
 main()
 ```
 
-See more API in [documentation](https://notionapi-develop.netlify.com/globals.html#createagent).
+The `result` is always the response of a successful request (HTTP status `200 OK`). If Notion responds with other status code or the request failed, an error is thrown.
+
+### Advanced Usage
+
+There is an [example](documentation/examples/download-page.ts) to download all blocks of a page.
 
 ## Development
 
