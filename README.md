@@ -20,13 +20,13 @@ npm install notionapi-agent
 ### Basic Usage
 
 ```typescript
-const { createAgent } = require('notionapi-agent')
+const { createAgent } = require("notionapi-agent")
 
 const agent = createAgent()
 
 async function main() {
 
-  const pageId = '181e961a-eb5c-4ee6-9153-07c0dfd5156d'
+  const pageId = "181e961a-eb5c-4ee6-9153-07c0dfd5156d"
 
   try {
     const result = await agent.getRecordValues({
@@ -46,7 +46,7 @@ The `result` is always the response of a successful request (HTTP status `200 OK
 
 ### Advanced Usage
 
-There is an [example](documentation/examples/download-page.ts) to download all blocks of a page.
+There is an [example](documentation/examples/download-page.ts) to demonstrate how to download all blocks of a page.
 
 To access private content, one need the [token](documentation/get-token/get-token.md).
 
