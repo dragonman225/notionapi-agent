@@ -48,6 +48,8 @@ The `result` is always the response of a successful request (HTTP status `200 OK
 
 There is an [example](documentation/examples/download-page.ts) to download all blocks of a page.
 
+To access private content, one need the [token](documentation/get-token/get-token.md).
+
 ## Development
 
 ### Project Structure

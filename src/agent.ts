@@ -22,7 +22,7 @@ interface AgentOptions {
   server?: string
   /**
    * Notion API token. Default: `""`. 
-   * {@link https://github.com/dragonman225/notionapi-agent/blob/master/documentation/obtain-token/obtain-token.md | Tutorial}
+   * {@link https://github.com/dragonman225/notionapi-agent/blob/master/documentation/obtain-token/obtain-token.md | How to get it ?}
    */
   token?: string
   /** Whether to trun on debug message. Default: `false`. */
