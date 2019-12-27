@@ -1,8 +1,7 @@
 import * as fs from "fs"
 import * as path from "path"
-import { createAgent } from "../../"
-import { Block } from "../../dist/interfaces/notion/models/block/"
-import { Table } from "../../dist/interfaces/notion/models/common"
+import { createAgent } from "../../dist"
+import { Block, Table } from "../../dist/interfaces/notion-models"
 
 main()
 

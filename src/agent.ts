@@ -10,7 +10,7 @@ import {
   LoadUserContentResponse,
   QueryCollectionRequest, QueryCollectionResponse,
   ErrorResponse
-} from "./interfaces/notion/api"
+} from "./interfaces/notion-api"
 
 /**
  * Options to config Notion API agent.
