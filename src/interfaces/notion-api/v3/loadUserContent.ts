@@ -15,16 +15,3 @@ export interface LoadUserContentResponse {
     space_view: Map<SpaceViewRecord>
   }
 }
-
-/**
- * POST /api/v3/loadUserContent
- * 
- * Get top level page blocks (`block` in 
- * {@link LoadUserContentResponse.recordMap}), 
- * user information, and workspace information.
- * 
- * @category Notion API
- */
-export interface LoadUserContent {
-  (): Promise<LoadUserContentResponse>
-}

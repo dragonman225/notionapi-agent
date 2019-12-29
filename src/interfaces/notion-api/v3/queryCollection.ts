@@ -41,20 +41,3 @@ export interface QueryCollectionResponse {
     space: Map<SpaceRecord>
   }
 }
-
-/**
- * POST /api/v3/queryCollection
- * 
- * Query a collection by id, view id, 
- * and aggregate, filter, sort parameters.
- * 
- * @category Notion API
- */
-export interface QueryCollection {
-  /**
-   * Set aggregate parameters with {@link Request.query}.
-   * 
-   * Set maximum number of records to get with {@link Request.loader}.
-   */
-  (request: QueryCollectionRequest): Promise<QueryCollectionResponse>
-}
