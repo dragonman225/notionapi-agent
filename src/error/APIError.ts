@@ -1,5 +1,8 @@
 import { ErrorResponse } from "../interfaces/notion-api"
 
+/**
+ * @category Error
+ */
 export class APIError extends Error {
   name = "APIError"
 

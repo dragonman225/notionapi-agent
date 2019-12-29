@@ -4,7 +4,7 @@
 
 Unofficial Node.js API client for [Notion.so](https://www.notion.so).
 
-> :warning: If you need to use Notion's API in production, I recommend waiting for their official release.
+> ⚠ If you need to use Notion's API in production, I recommend waiting for their official release.
 
 * [CHANGELOG](CHANGELOG.md)
 * [API Documentation](https://notionapi-develop.netlify.com/globals.html)
@@ -18,6 +18,8 @@ npm install notionapi-agent
 ## Getting Started
 
 ### Basic Usage
+
+[![Try notionapi-agent on RunKit](https://badge.runkitcdn.com/notionapi-agent.svg)](https://npm.runkit.com/notionapi-agent)
 
 ```typescript
 const { createAgent } = require("notionapi-agent")

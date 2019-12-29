@@ -1,3 +1,6 @@
+/**
+ * @category Error
+ */
 export class RequestError extends Error {
   name = "RequestError"
 
