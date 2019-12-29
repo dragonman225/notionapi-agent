@@ -4,6 +4,7 @@ import { makeHTTPRequest, makeHTTPSRequest } from "@dnpr/make-request"
 
 /** Import other sripts. */
 import { log } from "./log"
+import { RequestError } from "./error/RequestError"
 
 /**
  * @category Library Internal
@@ -13,7 +14,7 @@ function post(url: string) {
   const myURL = new URL(url)
 
   if (myURL.protocol !== 'http:' && myURL.protocol !== 'https:') {
-    throw new Error('Unsupported protocol')
+    throw new RequestError(`Unsupported protocol: ${myURL.protocol}`)
   }
 
   const port = myURL.port

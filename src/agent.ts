@@ -2,6 +2,7 @@
 import { post } from "./http-util"
 import { log } from "./log"
 import { Default } from "./strings"
+import { APIError } from "./error/APIError"
 
 /** Import typings. */
 import {
@@ -58,7 +59,7 @@ function createAPI<Req, Res>(url: string, token: string) {
 
     if (result.hasOwnProperty("errorId")) {
       const error = result as ErrorResponse
-      throw new Error(`Notion says "${error.name}: ${error.message}"`)
+      throw new APIError(error)
     }
 
     return result
