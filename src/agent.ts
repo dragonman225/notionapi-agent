@@ -1,5 +1,5 @@
 /** Import other sripts. */
-import { post } from "./http-util"
+import { post } from "./httputil"
 import { log } from "./log"
 import { Default } from "./strings"
 import { APIError } from "./error/APIError"
