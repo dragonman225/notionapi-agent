@@ -5,6 +5,11 @@ import {
   SpaceRecord, SpaceViewRecord
 } from "./Record"
 
+/**
+ * An empty object.
+ */
+export interface LoadUserContentRequest {}
+
 export interface LoadUserContentResponse {
   recordMap: {
     block: Map<BlockRecord>

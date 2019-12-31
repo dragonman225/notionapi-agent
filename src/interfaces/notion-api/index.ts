@@ -6,7 +6,10 @@ import {
   GetUserSharedPagesRequest,
   GetUserSharedPagesResponse
 } from "./v3/getUserSharedPages"
-import { LoadUserContentResponse } from "./v3/loadUserContent"
+import {
+  LoadUserContentRequest,
+  LoadUserContentResponse
+} from "./v3/loadUserContent"
 import {
   QueryCollectionRequest,
   QueryCollectionResponse
@@ -16,7 +19,7 @@ import { ErrorResponse } from "./v3/APIError"
 export {
   GetRecordValuesRequest, GetRecordValuesResponse,
   GetUserSharedPagesRequest, GetUserSharedPagesResponse,
-  LoadUserContentResponse,
+  LoadUserContentRequest, LoadUserContentResponse,
   QueryCollectionRequest, QueryCollectionResponse,
   ErrorResponse
 }

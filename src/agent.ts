@@ -8,7 +8,7 @@ import { APIError } from "./error/APIError"
 import {
   GetRecordValuesRequest, GetRecordValuesResponse,
   GetUserSharedPagesRequest, GetUserSharedPagesResponse,
-  LoadUserContentResponse,
+  LoadUserContentRequest, LoadUserContentResponse,
   QueryCollectionRequest, QueryCollectionResponse,
   ErrorResponse
 } from "./interfaces/notion-api"
@@ -64,7 +64,7 @@ interface Agent {
    * {@link LoadUserContentResponse.recordMap}), 
    * user information, and workspace information.
    */
-  loadUserContent: (req: {}) => Promise<LoadUserContentResponse>
+  loadUserContent: (req: LoadUserContentRequest) => Promise<LoadUserContentResponse>
   /**
    * POST /api/v3/queryCollection
    * 
@@ -143,7 +143,7 @@ function createAgent(opts: CreateAgentOptions = {}): Agent {
       `${server}/api/v3/getUserSharedPages`, token)
 
   const loadUserContent =
-    createAPI<{}, LoadUserContentResponse>(
+    createAPI<LoadUserContentRequest, LoadUserContentResponse>(
       `${server}/api/v3/loadUserContent`, token)
 
   const queryCollection =
