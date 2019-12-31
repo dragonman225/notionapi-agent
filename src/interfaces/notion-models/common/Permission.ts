@@ -22,13 +22,27 @@ export interface PublicPermission {
 
 /** 
  * Permission a Notion user has.
+ * 
+ * A {@link NotionUser} is a registered user.
  */
 export interface UserPermission {
   type: "user_permission"
   /** The Notion user's role. */
   role: PermissionRole
-  /** The Notion user's ID. */
   user_id: UUID
 }
 
-export type Permission = PublicPermission | UserPermission
+/** 
+ * Permission a group has.
+ * 
+ * A {@link Group} consists of Notion users.
+ */
+export interface GroupPermission {
+  type: "group_permission"
+  /** The group's role. */
+  role: PermissionRole
+  group_id: UUID
+}
+
+export type Permission =
+  PublicPermission | UserPermission | GroupPermission

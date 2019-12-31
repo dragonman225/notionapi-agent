@@ -1,6 +1,12 @@
 import { UUID, Timestamp, Table } from "./common/util"
 import { UserPermission } from "./common/Permission"
 
+export interface Group {
+  id: UUID
+  name: string
+  user_ids?: UUID[]
+}
+
 /**
  * Describe a workspace.
  */
@@ -9,6 +15,7 @@ export interface Space {
   version: number
   name: string
   permissions: UserPermission[]
+  permission_groups?: Group[]
   beta_enabled: boolean
   /** Top level pages. */
   pages: UUID[]

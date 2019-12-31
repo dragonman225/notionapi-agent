@@ -78,6 +78,11 @@ interface Agent {
    * to limit maximum number of items in response data.
    */
   queryCollection: (req: QueryCollectionRequest) => Promise<QueryCollectionResponse>
+  /**
+   * POST /api/v3/submitTransaction
+   * 
+   * Make changes to documents and settings.
+   */
   submitTransaction: (req: SubmitTransactionRequest) => Promise<SubmitTransactionResponse>
 }
 
