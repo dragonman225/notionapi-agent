@@ -10,6 +10,7 @@ import {
   GetUserSharedPagesRequest, GetUserSharedPagesResponse,
   LoadUserContentRequest, LoadUserContentResponse,
   QueryCollectionRequest, QueryCollectionResponse,
+  SubmitTransactionRequest, SubmitTransactionResponse,
   ErrorResponse
 } from "./interfaces/notion-api"
 
@@ -77,6 +78,7 @@ interface Agent {
    * to limit maximum number of items in response data.
    */
   queryCollection: (req: QueryCollectionRequest) => Promise<QueryCollectionResponse>
+  submitTransaction: (req: SubmitTransactionRequest) => Promise<SubmitTransactionResponse>
 }
 
 
@@ -150,11 +152,16 @@ function createAgent(opts: CreateAgentOptions = {}): Agent {
     createAPI<QueryCollectionRequest, QueryCollectionResponse>(
       `${server}/api/v3/queryCollection`, token)
 
+  const submitTransaction =
+    createAPI<SubmitTransactionRequest, SubmitTransactionResponse>(
+      `${server}/api/v3/submitTransaction`, token)
+
   return {
     getRecordValues,
     getUserSharedPages,
     loadUserContent,
-    queryCollection
+    queryCollection,
+    submitTransaction
   }
 }
 

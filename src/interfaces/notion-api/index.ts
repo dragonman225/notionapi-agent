@@ -18,6 +18,11 @@ import {
   QueryCollectionResponse
 } from "./v3/queryCollection"
 
+import {
+  SubmitTransactionRequest,
+  SubmitTransactionResponse
+} from "./v3/submitTransaction"
+
 import { ErrorResponse } from "./v3/ErrorResponse"
 
 export {
@@ -25,5 +30,6 @@ export {
   GetUserSharedPagesRequest, GetUserSharedPagesResponse,
   LoadUserContentRequest, LoadUserContentResponse,
   QueryCollectionRequest, QueryCollectionResponse,
+  SubmitTransactionRequest, SubmitTransactionResponse,
   ErrorResponse
 }
