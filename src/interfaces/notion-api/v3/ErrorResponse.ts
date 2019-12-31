@@ -1,6 +1,8 @@
 import { UUID } from "../../notion-models/common/util";
 
 /**
+ * The error object Notion responds when an API request is invalid.
+ * 
  * Example :
  * 
  * ```
