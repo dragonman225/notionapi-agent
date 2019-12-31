@@ -98,7 +98,7 @@ interface Agent {
 function createAPI<Req, Res>(url: string, token: string) {
 
   log.debug(`agent.ts: Create API function with\
- URL "${url}" and token "${token}".`)
+ URL "${url}"`)
 
   return async function (req: Req): Promise<Res> {
 
@@ -139,7 +139,7 @@ function createAgent(opts: CreateAgentOptions = {}): Agent {
   }
 
   log.debug(`agent.ts: Create API agent with\
- server "${server}" and token "${token}".`)
+ server "${server}" and token "${token.substr(0, 9)}..."`)
 
   const getRecordValues =
     createAPI<GetRecordValuesRequest, GetRecordValuesResponse>(
