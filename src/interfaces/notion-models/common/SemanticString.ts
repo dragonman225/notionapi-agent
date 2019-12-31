@@ -114,13 +114,19 @@ export type InlineMentionPage = ["‣", [["p", UUID]]]
 export type InlineMentionDate = ["‣", [["d", DateTime]]]
 
 /** 
- * TODO: Some collection only structures not included.
+ * TODO: Some collection-only structures not included.
  * 
  * This is what Notion uses to represent a rich text string. 
  * 
- * For example, if we want to express bold in HTML, we write 
- * `<strong>Hello</strong>`, while in Notion, the equivalent is 
- * `["Hello", ["b"]]`.
+ * For example, an HTML string `<strong><em>Hello</em></strong>World` 
+ * can be translated into
+ * 
+ * ```javascript
+ * [
+ *   ["Hello", [["b"], ["i"]]], // A SemanticString
+ *   ["World"] // Another SemanticString
+ * ]
+ * ```
  * 
  * @category Notion Semantic String
  */
