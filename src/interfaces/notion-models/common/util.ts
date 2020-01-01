@@ -6,11 +6,18 @@
 export type UUID = string
 
 /**
- * Unix timestamp in milliseconds.
+ * An Unix timestamp number in milliseconds.
  * 
  * @category Notion Common
  */
 export type Timestamp = number
+
+/**
+ * An Unix timestamp string in milliseconds.
+ * 
+ * @category Notion Common
+ */
+export type TimestampString = string
 
 /**
  * TZ database name in "*Area/Location*" format, e.g. "Asia/Taipei".

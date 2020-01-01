@@ -7,6 +7,7 @@ import { APIError } from "./error/APIError"
 /** Import typings. */
 import {
   ErrorResponse,
+  GetActivityLogRequest, GetActivityLogResponse,
   GetAssetsJsonRequest, GetAssetsJsonResponse,
   GetRecordValuesRequest, GetRecordValuesResponse,
   GetUserSharedPagesRequest, GetUserSharedPagesResponse,
@@ -39,6 +40,15 @@ interface CreateAgentOptions {
  * @category Library
  */
 interface Agent {
+  /**
+   * POST /api/v3/getActivityLog
+   * 
+   * Get user activities of a navigable block, e.g. a page. 
+   * Equivalent to the "Updates" button in Notion's UI.
+   * 
+   * @remark Must be authenticated even for public pages.
+   */
+  getActivityLog: (req: GetActivityLogRequest) => Promise<GetActivityLogResponse>
   /**
    * POST /api/v3/getAssetsJson
    * 
@@ -157,6 +167,10 @@ function createAgent(opts: CreateAgentOptions = {}): Agent {
   log.debug(`agent.ts: Create API agent with\
  server "${server}" and token "${token.substr(0, 9)}..."`)
 
+  const getActivityLog =
+    createAPI<GetActivityLogRequest, GetActivityLogResponse>(
+      `${server}/api/v3/getActivityLog`, token)
+
   const getAssetsJson =
     createAPI<GetAssetsJsonRequest, GetAssetsJsonResponse>(
       `${server}/api/v3/getAssetsJson`, token)
@@ -186,6 +200,7 @@ function createAgent(opts: CreateAgentOptions = {}): Agent {
       `${server}/api/v3/submitTransaction`, token)
 
   return {
+    getActivityLog,
     getAssetsJson,
     getRecordValues,
     getUserSharedPages,

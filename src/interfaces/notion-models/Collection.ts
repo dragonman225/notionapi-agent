@@ -47,6 +47,10 @@ export interface ColumnProperty {
   property?: ColumnID
 }
 
+export type CollectionSchema = {
+  [key in ColumnID]: ColumnProperty
+}
+
 export interface Collection {
   id: UUID
   /** `name[0][0]` is the collection's name. */
@@ -57,9 +61,7 @@ export interface Collection {
   format?: CollectionFormat
   parent_id: UUID
   parent_table: Table
-  schema: {
-    [key in ColumnID]: ColumnProperty
-  }
+  schema: CollectionSchema
   version: number
   alive: boolean
 }

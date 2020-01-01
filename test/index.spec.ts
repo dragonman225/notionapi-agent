@@ -18,6 +18,20 @@ async function main() {
   const testCollectionId = "57d27a94-610a-4266-9441-7da3b7e976ff"
   const testCollectionViewId = "1529a5d4-d982-4767-92b4-96e93ec2ef0c"
 
+  /** getActivityLog */
+  try {
+    const activity = await agent.getActivityLog({
+      limit: 5,
+      navigableBlockId: testPageId,
+      spaceId: ""
+    })
+
+    console.dir(activity, consoleCfg)
+    saveData("getActivityLog.json", activity)
+  } catch (error) {
+    console.log(error)
+  }
+
   /** getAssetsJson */
   try {
     const assets = await agent.getAssetsJson({})

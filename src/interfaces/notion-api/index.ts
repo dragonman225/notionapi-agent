@@ -1,4 +1,8 @@
 export {
+  GetActivityLogRequest, GetActivityLogResponse
+} from "./v3/getActivityLog"
+
+export {
   GetAssetsJsonRequest, GetAssetsJsonResponse
 } from "./v3/getAssetsJson"
 
