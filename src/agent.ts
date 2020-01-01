@@ -6,12 +6,13 @@ import { APIError } from "./error/APIError"
 
 /** Import typings. */
 import {
+  ErrorResponse,
   GetRecordValuesRequest, GetRecordValuesResponse,
   GetUserSharedPagesRequest, GetUserSharedPagesResponse,
+  LoadPageChunkRequest, LoadPageChunkResponse,
   LoadUserContentRequest, LoadUserContentResponse,
   QueryCollectionRequest, QueryCollectionResponse,
-  SubmitTransactionRequest, SubmitTransactionResponse,
-  ErrorResponse
+  SubmitTransactionRequest, SubmitTransactionResponse
 } from "./interfaces/notion-api"
 
 /**
@@ -58,6 +59,12 @@ interface Agent {
    * use {@link Agent.loadUserContent}.
    */
   getUserSharedPages: (req: GetUserSharedPagesRequest) => Promise<GetUserSharedPagesResponse>
+  /**
+   * POST /api/v3/loadPageChunk
+   * 
+   * Load some data related to a page.
+   */
+  loadPageChunk: (req: LoadPageChunkRequest) => Promise<LoadPageChunkResponse>
   /**
    * POST /api/v3/loadUserContent
    * 
@@ -149,6 +156,10 @@ function createAgent(opts: CreateAgentOptions = {}): Agent {
     createAPI<GetUserSharedPagesRequest, GetUserSharedPagesResponse>(
       `${server}/api/v3/getUserSharedPages`, token)
 
+  const loadPageChunk =
+    createAPI<LoadPageChunkRequest, LoadPageChunkResponse>(
+      `${server}/api/v3/loadPageChunk`, token)
+
   const loadUserContent =
     createAPI<LoadUserContentRequest, LoadUserContentResponse>(
       `${server}/api/v3/loadUserContent`, token)
@@ -164,6 +175,7 @@ function createAgent(opts: CreateAgentOptions = {}): Agent {
   return {
     getRecordValues,
     getUserSharedPages,
+    loadPageChunk,
     loadUserContent,
     queryCollection,
     submitTransaction
