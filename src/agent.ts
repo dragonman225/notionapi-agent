@@ -58,9 +58,10 @@ interface Agent {
   /**
    * POST /api/v3/getUserSharedPages
    * 
-   * Get ids of pages created with **+ New Page** button at the top level of 
-   * the user's workspace *AND* created not at the top level but had been 
-   * moved to the top level some time after created.
+   * Get ids of pages created with **+ New Page** button at the top level 
+   * of the user's workspace *AND* those not created at the top level of 
+   * the user's workspace but had been moved to the top level some time 
+   * after created.
    * 
    * To always get the top level pages of the user's workspace, 
    * use {@link Agent.loadUserContent}.
@@ -86,7 +87,8 @@ interface Agent {
    * Query a collection by id, view id, 
    * with aggregate, filter, sort functions.
    * 
-   * Set aggregate parameters with {@link QueryCollectionRequest.query}.
+   * To configure aggregate, filter, sort parameters, see 
+   * {@link QueryCollectionRequest.query}.
    * 
    * Set `limit` in {@link QueryCollectionRequest.loader} 
    * to limit maximum number of items in response data.
