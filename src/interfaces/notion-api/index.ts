@@ -1,4 +1,8 @@
 export {
+  GetAssetsJsonRequest, GetAssetsJsonResponse
+} from "./v3/getAssetsJson"
+
+export {
   GetRecordValuesRequest, GetRecordValuesResponse
 } from "./v3/getRecordValues"
 

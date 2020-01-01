@@ -7,6 +7,7 @@ import { APIError } from "./error/APIError"
 /** Import typings. */
 import {
   ErrorResponse,
+  GetAssetsJsonRequest, GetAssetsJsonResponse,
   GetRecordValuesRequest, GetRecordValuesResponse,
   GetUserSharedPagesRequest, GetUserSharedPagesResponse,
   LoadPageChunkRequest, LoadPageChunkResponse,
@@ -38,6 +39,12 @@ interface CreateAgentOptions {
  * @category Library
  */
 interface Agent {
+  /**
+   * POST /api/v3/getAssetsJson
+   * 
+   * Get a list of static asset paths, current version number, and more.
+   */
+  getAssetsJson: (req: GetAssetsJsonRequest) => Promise<GetAssetsJsonResponse>
   /**
    * POST /api/v3/getRecordValues
    * 
@@ -148,6 +155,10 @@ function createAgent(opts: CreateAgentOptions = {}): Agent {
   log.debug(`agent.ts: Create API agent with\
  server "${server}" and token "${token.substr(0, 9)}..."`)
 
+  const getAssetsJson =
+    createAPI<GetAssetsJsonRequest, GetAssetsJsonResponse>(
+      `${server}/api/v3/getAssetsJson`, token)
+
   const getRecordValues =
     createAPI<GetRecordValuesRequest, GetRecordValuesResponse>(
       `${server}/api/v3/getRecordValues`, token)
@@ -173,6 +184,7 @@ function createAgent(opts: CreateAgentOptions = {}): Agent {
       `${server}/api/v3/submitTransaction`, token)
 
   return {
+    getAssetsJson,
     getRecordValues,
     getUserSharedPages,
     loadPageChunk,

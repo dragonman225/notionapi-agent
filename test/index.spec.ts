@@ -2,6 +2,10 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { createAgent } from '../src'
 
+const consoleCfg = {
+  maxArrayLength: 5
+}
+
 const agent = createAgent({ debug: true })
 
 function saveData(filename, obj) {
@@ -14,13 +18,23 @@ async function main() {
   const testCollectionId = "57d27a94-610a-4266-9441-7da3b7e976ff"
   const testCollectionViewId = "1529a5d4-d982-4767-92b4-96e93ec2ef0c"
 
+  /** getAssetsJson */
+  try {
+    const assets = await agent.getAssetsJson({})
+
+    console.dir(assets, consoleCfg)
+    saveData("getAssetsJson.json", assets)
+  } catch (error) {
+    console.log(error)
+  }
+
   /** getRecordValues */
   try {
     const record = await agent.getRecordValues({
       requests: [{ id: testPageId, table: "block" }]
     })
 
-    console.log(record)
+    console.dir(record, consoleCfg)
     saveData("getRecordValues.json", record)
   } catch (error) {
     console.log(error)
@@ -32,8 +46,24 @@ async function main() {
       includeDeleted: true
     })
 
-    console.log(sharedPages)
+    console.dir(sharedPages, consoleCfg)
     saveData("getUserSharedPages.json", sharedPages)
+  } catch (error) {
+    console.log(error)
+  }
+
+  /** loadPageChunk */
+  try {
+    const chunk = await agent.loadPageChunk({
+      pageId: testPageId,
+      limit: 50,
+      chunkNumber: 0,
+      cursor: { stack: [] },
+      verticalColumns: false
+    })
+
+    console.dir(chunk, consoleCfg)
+    saveData("loadPageChunk.json", chunk)
   } catch (error) {
     console.log(error)
   }
@@ -42,7 +72,7 @@ async function main() {
   try {
     const userContent = await agent.loadUserContent({})
 
-    console.log(userContent)
+    console.dir(userContent, consoleCfg)
     saveData("loadUserContent.json", userContent)
   } catch (error) {
     console.log(error)
@@ -68,7 +98,7 @@ async function main() {
       }
     })
 
-    console.log(collection)
+    console.dir(collection, consoleCfg)
     saveData("queryCollection.json", collection)
   } catch (error) {
     console.log(error)
