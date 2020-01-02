@@ -87,5 +87,5 @@ export type Table =
   "block" | "collection" | "collection_view"
   | "notion_user" | "user_root" | "user_settings"
   | "space" | "space_view"
-  | "activity" | "follow" | "slack_integration"
-  | "comment" | "discussion"
+  | "activity" | "snapshot" | "follow" | "slack_integration"
+  | "comment" | "discussion" 

@@ -7,6 +7,7 @@ export type EditType =
   | "collection-view-changed" | "collection-property-deleted"
 
 export interface EditAuthor {
+  /** Usually "notion_user". */
   table: Table
   id: UUID
 }

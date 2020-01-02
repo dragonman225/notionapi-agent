@@ -11,6 +11,10 @@ export {
 } from "./v3/getRecordValues"
 
 export {
+  GetSnapshotsListRequest, GetSnapshotsListResponse
+} from "./v3/getSnapshotsList"
+
+export {
   GetUserSharedPagesRequest, GetUserSharedPagesResponse
 } from "./v3/getUserSharedPages"
 

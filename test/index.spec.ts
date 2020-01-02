@@ -54,6 +54,19 @@ async function main() {
     console.log(error)
   }
 
+  /** getSnapshotsList */
+  try {
+    const snapshotsList = await agent.getSnapshotsList({
+      blockId: testPageId,
+      size: 50
+    })
+
+    console.dir(snapshotsList, consoleCfg)
+    saveData("getSnapshotsList.json", snapshotsList)
+  } catch (error) {
+    console.log(error)
+  }
+
   /** getSharedPages */
   try {
     const sharedPages = await agent.getUserSharedPages({

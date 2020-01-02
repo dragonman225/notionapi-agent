@@ -10,6 +10,7 @@ import {
   GetActivityLogRequest, GetActivityLogResponse,
   GetAssetsJsonRequest, GetAssetsJsonResponse,
   GetRecordValuesRequest, GetRecordValuesResponse,
+  GetSnapshotsListRequest, GetSnapshotsListResponse,
   GetUserSharedPagesRequest, GetUserSharedPagesResponse,
   LoadPageChunkRequest, LoadPageChunkResponse,
   LoadUserContentRequest, LoadUserContentResponse,
@@ -46,7 +47,7 @@ interface Agent {
    * Get user activities of a navigable block, e.g. a page. 
    * Equivalent to the "Updates" button in Notion's UI.
    * 
-   * @remark Must be authenticated even for public pages.
+   * @remark Must be authenticated even for public blocks.
    */
   getActivityLog: (req: GetActivityLogRequest) => Promise<GetActivityLogResponse>
   /**
@@ -65,6 +66,12 @@ interface Agent {
    * the i<sup>th</sup> element of {@link GetRecordValuesResponse.results}.
    */
   getRecordValues: (req: GetRecordValuesRequest) => Promise<GetRecordValuesResponse>
+  /**
+   * POST /api/v3/getSnapshotsList
+   * 
+   * @remark Must be authenticated even for public blocks.
+   */
+  getSnapshotsList: (req: GetSnapshotsListRequest) => Promise<GetSnapshotsListResponse>
   /**
    * POST /api/v3/getUserSharedPages
    * 
@@ -179,6 +186,10 @@ function createAgent(opts: CreateAgentOptions = {}): Agent {
     createAPI<GetRecordValuesRequest, GetRecordValuesResponse>(
       `${server}/api/v3/getRecordValues`, token)
 
+  const getSnapshotsList =
+    createAPI<GetSnapshotsListRequest, GetSnapshotsListResponse>(
+      `${server}/api/v3/getSnapshotsList`, token)
+
   const getUserSharedPages =
     createAPI<GetUserSharedPagesRequest, GetUserSharedPagesResponse>(
       `${server}/api/v3/getUserSharedPages`, token)
@@ -203,6 +214,7 @@ function createAgent(opts: CreateAgentOptions = {}): Agent {
     getActivityLog,
     getAssetsJson,
     getRecordValues,
+    getSnapshotsList,
     getUserSharedPages,
     loadPageChunk,
     loadUserContent,
