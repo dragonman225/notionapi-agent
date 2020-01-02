@@ -3,22 +3,28 @@ import * as path from "path"
 import { createAgent } from "../../dist"
 import { Block, Table } from "../../dist/interfaces/notion-models"
 
-main()
+/**
+ * https://www.notion.so/Writing-editing-guide-68c7c67047494fdb87d50185429df93e
+ */
+const pageId = "68c7c670-4749-4fdb-87d5-0185429df93e"
 
-async function main() {
-  /**
-   * https://www.notion.so/Writing-editing-guide-68c7c67047494fdb87d50185429df93e
-   */
-  const pageId = "68c7c670-4749-4fdb-87d5-0185429df93e"
+downloadPage(pageId)
+
+/**
+ * Download all blocks in a page.
+ * 
+ * Note: This is a POC implementation, which is not very robust.
+ */
+async function downloadPage(pageId) {
 
   /** Create an API agent. */
-  const notion = createAgent({ debug: true })
+  const agent = createAgent({ debug: true })
 
   /** Set initial state. */
   let state: GetBlocksState = {
     initial: true,
     blockIds: [pageId],
-    agent: notion
+    agent
   }
 
   /** A variable to store content. */

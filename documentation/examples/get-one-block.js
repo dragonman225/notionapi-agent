@@ -1,14 +1,16 @@
 const { createAgent } = require("notionapi-agent")
 
-const agent = createAgent()
+const blockId = "181e961a-eb5c-4ee6-9153-07c0dfd5156d"
 
-async function main() {
+getBlock(blockId)
 
-  const pageId = "181e961a-eb5c-4ee6-9153-07c0dfd5156d"
+async function getBlock(id) {
+
+  const agent = createAgent()
 
   try {
     const result = await agent.getRecordValues({
-      requests: [{ id: pageId, table: "block" }]
+      requests: [{ id, table: "block" }]
     })
     console.log(result)
   } catch (error) {
@@ -16,5 +18,3 @@ async function main() {
   }
 
 }
-
-main()
