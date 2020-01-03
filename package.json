@@ -1,6 +1,6 @@
 {
   "name": "notionapi-agent",
-  "version": "0.7.2",
+  "version": "1.0.0",
   "description": "Unofficial Notion.so API client.",
   "author": "dragonman225",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "typescript": "^3.7.4"
   },
   "files": [
-    "documentation/",
+    "documentation/examples/get-one-block.js",
     "dist/"
   ],
   "keywords": [

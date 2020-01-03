@@ -58,10 +58,14 @@ To access private content, one need the [token](documentation/get-token/get-toke
 
 ![project structure graph](documentation/dependency-graph.svg)
 
-### External Dependencies
+### Documentation
 
-* [TypeStrong/typedoc](https://github.com/TypeStrong/typedoc)
+Use [TypeStrong/typedoc](https://github.com/TypeStrong/typedoc) to generate reference documentation. It needs to be installed globally.
 
-  ```bash
-  npm i -g typedoc
-  ```
+```bash
+npm i -g typedoc
+```
+
+### Packaging
+
+Use [rollup/rollup](https://github.com/rollup/rollup) to package multiple source files into one `cjs` module (`dist/index.js`) and one `esm` module (`dist/index.esm.js`). Use `tsc --emitDeclarationOnly` to generate TypeScript declaration files.
