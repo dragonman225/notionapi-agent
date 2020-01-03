@@ -7,7 +7,7 @@ Unofficial Node.js API client for [Notion.so](https://www.notion.so).
 > ⚠ If you need to use Notion's API in production, I recommend waiting for their official release.
 
 * [CHANGELOG](CHANGELOG.md)
-* [API Documentation](https://notionapi-develop.netlify.com/globals.html)
+* [API Documentation](https://notionapi.netlify.com/globals.html)
 
 ## Installation
 
