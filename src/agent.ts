@@ -141,8 +141,8 @@ function createAPI<Req, Res>(url: string, token: string) {
       .setHeader("accept", "*/*")
       .setHeader("accept-language", "en-US,en;q=0.9")
       .setHeader("cookie", `token_v2=${token};`)
-      .setHeader("origin", Default.server)
-      .setHeader("referer", Default.server)
+      .setHeader("origin", Default.apiServer)
+      .setHeader("referer", Default.apiServer)
       .setHeader("user-agent", Default.userAgent)
       .sendAsJson(req)
 
@@ -165,7 +165,7 @@ function createAPI<Req, Res>(url: string, token: string) {
  */
 function createAgent(opts: CreateAgentOptions = {}): Agent {
   const token = opts.token ? opts.token : ""
-  const server = opts.server ? opts.server : Default.server
+  const server = opts.server ? opts.server : Default.apiServer
 
   if (opts.debug) {
     log.setLogLevel("debug")
@@ -176,39 +176,39 @@ function createAgent(opts: CreateAgentOptions = {}): Agent {
 
   const getActivityLog =
     createAPI<GetActivityLogRequest, GetActivityLogResponse>(
-      `${server}/api/v3/getActivityLog`, token)
+      `${server}/v3/getActivityLog`, token)
 
   const getAssetsJson =
     createAPI<GetAssetsJsonRequest, GetAssetsJsonResponse>(
-      `${server}/api/v3/getAssetsJson`, token)
+      `${server}/v3/getAssetsJson`, token)
 
   const getRecordValues =
     createAPI<GetRecordValuesRequest, GetRecordValuesResponse>(
-      `${server}/api/v3/getRecordValues`, token)
+      `${server}/v3/getRecordValues`, token)
 
   const getSnapshotsList =
     createAPI<GetSnapshotsListRequest, GetSnapshotsListResponse>(
-      `${server}/api/v3/getSnapshotsList`, token)
+      `${server}/v3/getSnapshotsList`, token)
 
   const getUserSharedPages =
     createAPI<GetUserSharedPagesRequest, GetUserSharedPagesResponse>(
-      `${server}/api/v3/getUserSharedPages`, token)
+      `${server}/v3/getUserSharedPages`, token)
 
   const loadPageChunk =
     createAPI<LoadPageChunkRequest, LoadPageChunkResponse>(
-      `${server}/api/v3/loadPageChunk`, token)
+      `${server}/v3/loadPageChunk`, token)
 
   const loadUserContent =
     createAPI<LoadUserContentRequest, LoadUserContentResponse>(
-      `${server}/api/v3/loadUserContent`, token)
+      `${server}/v3/loadUserContent`, token)
 
   const queryCollection =
     createAPI<QueryCollectionRequest, QueryCollectionResponse>(
-      `${server}/api/v3/queryCollection`, token)
+      `${server}/v3/queryCollection`, token)
 
   const submitTransaction =
     createAPI<SubmitTransactionRequest, SubmitTransactionResponse>(
-      `${server}/api/v3/submitTransaction`, token)
+      `${server}/v3/submitTransaction`, token)
 
   return {
     getActivityLog,
