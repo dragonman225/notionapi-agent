@@ -1,4 +1,5 @@
 import { UUID, Timestamp, Table } from "../common/util"
+import { BlockFormat } from "./BlockFormat"
 
 /**
  * All block names.
@@ -26,6 +27,7 @@ export interface EmptyBlock {
   id: UUID
   version: number
   type: BlockType
+  format?: BlockFormat
   /** Ids of children blocks */
   content?: UUID[]
   created_by: UUID

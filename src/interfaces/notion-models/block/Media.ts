@@ -1,6 +1,5 @@
 import { UUID, NotionSecureUrl, PublicUrl } from "../common/util"
 import { EmptyBlock } from "./EmptyBlock"
-import { BlockFormat } from "./BlockFormat"
 import { SemanticString } from "../common/SemanticString"
 
 /**
@@ -10,7 +9,6 @@ import { SemanticString } from "../common/SemanticString"
  */
 export interface Image extends EmptyBlock {
   type: "image"
-  format?: BlockFormat
   properties?: {
     /** 
      * Normally, the same as `display_source` in {@link BlockFormat}.
@@ -30,7 +28,6 @@ export interface Image extends EmptyBlock {
  */
 export interface Video extends EmptyBlock {
   type: "video"
-  format?: BlockFormat
   properties?: {
     /** 
      * Normally, the same as `display_source` in {@link BlockFormat}.
@@ -50,7 +47,6 @@ export interface Video extends EmptyBlock {
  */
 export interface Audio extends EmptyBlock {
   type: "audio"
-  format?: BlockFormat
   properties?: {
     source: [[NotionSecureUrl | PublicUrl]]
   }
@@ -65,7 +61,6 @@ export interface Audio extends EmptyBlock {
  */
 export interface Bookmark extends EmptyBlock {
   type: "bookmark"
-  format?: BlockFormat
   properties?: {
     /** Link of the bookmarked web page. */
     link: [[string]]
@@ -83,7 +78,6 @@ export interface Bookmark extends EmptyBlock {
  */
 export interface Code extends EmptyBlock {
   type: "code"
-  format?: BlockFormat
   properties?: {
     /** Code content. */
     title?: [[string]]

@@ -1,6 +1,5 @@
 import { UUID, NotionSecureUrl, PublicUrl } from "../common/util"
 import { EmptyBlock } from "./EmptyBlock"
-import { BlockFormat } from "./BlockFormat"
 import { SemanticString } from "../common/SemanticString"
 
 /**
@@ -10,7 +9,6 @@ import { SemanticString } from "../common/SemanticString"
  */
 export interface Embed extends EmptyBlock {
   type: "embed"
-  format?: BlockFormat
   properties?: {
     /**
      * This is a normal link.
@@ -29,7 +27,6 @@ export interface Embed extends EmptyBlock {
  */
 export interface Codepen extends EmptyBlock {
   type: "codepen"
-  format?: BlockFormat
   properties?: {
     /**
      * This is a normal link.
@@ -48,7 +45,6 @@ export interface Codepen extends EmptyBlock {
  */
 export interface Invision extends EmptyBlock {
   type: "invision"
-  format?: BlockFormat
   properties?: {
     source?: [[PublicUrl]]
   }
@@ -61,7 +57,6 @@ export interface Invision extends EmptyBlock {
  */
 export interface PDF extends EmptyBlock {
   type: "pdf"
-  format?: BlockFormat
   properties?: {
     source?: [[NotionSecureUrl | PublicUrl]]
   }

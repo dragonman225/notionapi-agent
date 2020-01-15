@@ -1,12 +1,10 @@
 import { EmptyBlock } from "./EmptyBlock"
-import { BlockFormat } from "./BlockFormat"
 
 /**
  * @category Notion Block
  */
 export interface TableOfContent extends EmptyBlock {
   type: "table_of_contents"
-  format?: BlockFormat
 }
 
 /**

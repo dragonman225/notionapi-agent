@@ -2,7 +2,6 @@ import { UUID } from "../common/util"
 import { EmptyBlock } from "./EmptyBlock"
 import { ColumnID } from "../Collection"
 import { SemanticString } from "../common/SemanticString"
-import { BlockFormat } from "./BlockFormat"
 import { Permission } from "../common/Permission"
 
 /**
@@ -12,7 +11,6 @@ import { Permission } from "../common/Permission"
  */
 export interface Page extends EmptyBlock {
   type: "page"
-  format?: BlockFormat
   /**
    * In a database, every record is a page. Properties set in a database 
    * are stored here.
@@ -44,7 +42,6 @@ export interface Page extends EmptyBlock {
  */
 export interface Text extends EmptyBlock {
   type: "text"
-  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -57,7 +54,6 @@ export interface Text extends EmptyBlock {
  */
 export interface BulletedList extends EmptyBlock {
   type: "bulleted_list"
-  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -70,7 +66,6 @@ export interface BulletedList extends EmptyBlock {
  */
 export interface NumberedList extends EmptyBlock {
   type: "numbered_list"
-  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -83,7 +78,6 @@ export interface NumberedList extends EmptyBlock {
  */
 export interface ToDo extends EmptyBlock {
   type: "to_do"
-  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
     checked?: [["Yes" | "No"]]
@@ -97,7 +91,6 @@ export interface ToDo extends EmptyBlock {
  */
 export interface Toggle extends EmptyBlock {
   type: "toggle"
-  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -110,7 +103,6 @@ export interface Toggle extends EmptyBlock {
  */
 export interface Header extends EmptyBlock {
   type: "header"
-  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -123,7 +115,6 @@ export interface Header extends EmptyBlock {
  */
 export interface SubHeader extends EmptyBlock {
   type: "sub_header"
-  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -136,7 +127,6 @@ export interface SubHeader extends EmptyBlock {
  */
 export interface SubSubHeader extends EmptyBlock {
   type: "sub_sub_header"
-  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -149,7 +139,6 @@ export interface SubSubHeader extends EmptyBlock {
  */
 export interface Quote extends EmptyBlock {
   type: "quote"
-  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -162,7 +151,6 @@ export interface Quote extends EmptyBlock {
  */
 export interface Callout extends EmptyBlock {
   type: "callout"
-  format?: BlockFormat
   properties?: {
     title?: SemanticString[]
   }
@@ -181,7 +169,6 @@ export interface Callout extends EmptyBlock {
  */
 export interface ColumnList extends EmptyBlock {
   type: "column_list"
-  format?: BlockFormat
 }
 
 /**
@@ -193,7 +180,6 @@ export interface ColumnList extends EmptyBlock {
  */
 export interface Column extends EmptyBlock {
   type: "column"
-  format?: BlockFormat
 }
 
 /**
