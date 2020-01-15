@@ -15,9 +15,13 @@ export interface BlockFormat {
   block_color?: NotionColor
   block_width?: number
   block_height?: number
+  /** Full viewport width. */
   block_full_width?: boolean
+  /** The same width as the parent page. */
   block_page_width?: boolean
-  block_aspect_ratio?: Proportion
+  /** Height divided by width. */
+  block_aspect_ratio?: number
+  /** Whether to force isotropic [scaling](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/scale). */
   block_preserve_scale?: boolean
   /** Icon URL of the bookmarked web page. */
   bookmark_icon?: PublicUrl

@@ -181,6 +181,7 @@ export interface Callout extends EmptyBlock {
  */
 export interface ColumnList extends EmptyBlock {
   type: "column_list"
+  format?: BlockFormat
 }
 
 /**
