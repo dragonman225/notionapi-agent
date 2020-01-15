@@ -54,7 +54,7 @@ export type CollectionSchema = {
 export interface Collection {
   id: UUID
   /** `name[0][0]` is the collection's name. */
-  name: [[string]]
+  name?: [[string]]
   icon?: Emoji | NotionSecureUrl | PublicUrl
   cover?: NotionRelativePath | NotionSecureUrl | PublicUrl
   description?: SemanticString[]
