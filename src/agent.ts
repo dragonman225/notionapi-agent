@@ -5,18 +5,7 @@ import { Default } from "./strings"
 import { APIError } from "./error/APIError"
 
 /** Import typings. */
-import {
-  ErrorResponse,
-  GetActivityLogRequest, GetActivityLogResponse,
-  GetAssetsJsonRequest, GetAssetsJsonResponse,
-  GetRecordValuesRequest, GetRecordValuesResponse,
-  GetSnapshotsListRequest, GetSnapshotsListResponse,
-  GetUserSharedPagesRequest, GetUserSharedPagesResponse,
-  LoadPageChunkRequest, LoadPageChunkResponse,
-  LoadUserContentRequest, LoadUserContentResponse,
-  QueryCollectionRequest, QueryCollectionResponse,
-  SubmitTransactionRequest, SubmitTransactionResponse
-} from "./interfaces/notion-api"
+import { API } from "./interfaces"
 
 /**
  * Options to config a Notion API agent instance.
@@ -49,29 +38,33 @@ interface Agent {
    * 
    * @remark Must be authenticated even for public blocks.
    */
-  getActivityLog: (req: GetActivityLogRequest) => Promise<GetActivityLogResponse>
+  getActivityLog: (req: API.GetActivityLog.Request) =>
+    Promise<API.GetActivityLog.Response>
   /**
    * POST /api/v3/getAssetsJson
    * 
    * Get a list of static asset paths, current version number, and more.
    */
-  getAssetsJson: (req: GetAssetsJsonRequest) => Promise<GetAssetsJsonResponse>
+  getAssetsJson: (req: API.GetAssetsJson.Request) =>
+    Promise<API.GetAssetsJson.Response>
   /**
    * POST /api/v3/getRecordValues
    * 
    * Get records by table name and id.
    * 
    * If a {@link RecordRequest} is the i<sup>th</sup> element 
-   * of {@link GetRecordValuesRequest.requests}, its result is 
-   * the i<sup>th</sup> element of {@link GetRecordValuesResponse.results}.
+   * of {@link GetRecordValues.Request.requests}, its result is 
+   * the i<sup>th</sup> element of {@link GetRecordValues.Response.results}.
    */
-  getRecordValues: (req: GetRecordValuesRequest) => Promise<GetRecordValuesResponse>
+  getRecordValues: (req: API.GetRecordValues.Request) =>
+    Promise<API.GetRecordValues.Response>
   /**
    * POST /api/v3/getSnapshotsList
    * 
    * @remark Must be authenticated even for public blocks.
    */
-  getSnapshotsList: (req: GetSnapshotsListRequest) => Promise<GetSnapshotsListResponse>
+  getSnapshotsList: (req: API.GetSnapshotsList.Request) =>
+    Promise<API.GetSnapshotsList.Response>
   /**
    * POST /api/v3/getUserSharedPages
    * 
@@ -83,21 +76,24 @@ interface Agent {
    * To always get the top level pages of the user's workspace, 
    * use {@link Agent.loadUserContent}.
    */
-  getUserSharedPages: (req: GetUserSharedPagesRequest) => Promise<GetUserSharedPagesResponse>
+  getUserSharedPages: (req: API.GetUserSharedPages.Request) =>
+    Promise<API.GetUserSharedPages.Response>
   /**
    * POST /api/v3/loadPageChunk
    * 
    * Load some data related to a page.
    */
-  loadPageChunk: (req: LoadPageChunkRequest) => Promise<LoadPageChunkResponse>
+  loadPageChunk: (req: API.LoadPageChunk.Request) =>
+    Promise<API.LoadPageChunk.Response>
   /**
    * POST /api/v3/loadUserContent
    * 
    * Get top level page blocks (`block` in 
-   * {@link LoadUserContentResponse.recordMap}), 
+   * {@link LoadUserContent.Response.recordMap}), 
    * user information, and workspace information.
    */
-  loadUserContent: (req: LoadUserContentRequest) => Promise<LoadUserContentResponse>
+  loadUserContent: (req: API.LoadUserContent.Request) =>
+    Promise<API.LoadUserContent.Response>
   /**
    * POST /api/v3/queryCollection
    * 
@@ -105,18 +101,20 @@ interface Agent {
    * with aggregate, filter, sort functions.
    * 
    * To configure aggregate, filter, sort parameters, see 
-   * {@link QueryCollectionRequest.query}.
+   * {@link QueryCollection.Request.query}.
    * 
-   * Set `limit` in {@link QueryCollectionRequest.loader} 
+   * Set `limit` in {@link QueryCollection.Request.loader} 
    * to limit maximum number of items in response data.
    */
-  queryCollection: (req: QueryCollectionRequest) => Promise<QueryCollectionResponse>
+  queryCollection: (req: API.QueryCollection.Request) =>
+    Promise<API.QueryCollection.Response>
   /**
    * POST /api/v3/submitTransaction
    * 
    * Make changes to documents and settings.
    */
-  submitTransaction: (req: SubmitTransactionRequest) => Promise<SubmitTransactionResponse>
+  submitTransaction: (req: API.SubmitTransaction.Request) =>
+    Promise<API.SubmitTransaction.Response>
 }
 
 
@@ -147,7 +145,7 @@ function createAPI<Req, Res>(url: string, token: string) {
       .sendAsJson(req)
 
     if (result.hasOwnProperty("errorId")) {
-      const error = result as ErrorResponse
+      const error = result as API.ErrorResponse
       throw new APIError(error)
     }
 
@@ -175,39 +173,39 @@ function createAgent(opts: CreateAgentOptions = {}): Agent {
  server "${server}" and token "${token.substr(0, 9)}..."`)
 
   const getActivityLog =
-    createAPI<GetActivityLogRequest, GetActivityLogResponse>(
+    createAPI<API.GetActivityLog.Request, API.GetActivityLog.Response>(
       `${server}/api/v3/getActivityLog`, token)
 
   const getAssetsJson =
-    createAPI<GetAssetsJsonRequest, GetAssetsJsonResponse>(
+    createAPI<API.GetAssetsJson.Request, API.GetAssetsJson.Response>(
       `${server}/api/v3/getAssetsJson`, token)
 
   const getRecordValues =
-    createAPI<GetRecordValuesRequest, GetRecordValuesResponse>(
+    createAPI<API.GetRecordValues.Request, API.GetRecordValues.Response>(
       `${server}/api/v3/getRecordValues`, token)
 
   const getSnapshotsList =
-    createAPI<GetSnapshotsListRequest, GetSnapshotsListResponse>(
+    createAPI<API.GetSnapshotsList.Request, API.GetSnapshotsList.Response>(
       `${server}/api/v3/getSnapshotsList`, token)
 
   const getUserSharedPages =
-    createAPI<GetUserSharedPagesRequest, GetUserSharedPagesResponse>(
+    createAPI<API.GetUserSharedPages.Request, API.GetUserSharedPages.Response>(
       `${server}/api/v3/getUserSharedPages`, token)
 
   const loadPageChunk =
-    createAPI<LoadPageChunkRequest, LoadPageChunkResponse>(
+    createAPI<API.LoadPageChunk.Request, API.LoadPageChunk.Response>(
       `${server}/api/v3/loadPageChunk`, token)
 
   const loadUserContent =
-    createAPI<LoadUserContentRequest, LoadUserContentResponse>(
+    createAPI<API.LoadUserContent.Request, API.LoadUserContent.Response>(
       `${server}/api/v3/loadUserContent`, token)
 
   const queryCollection =
-    createAPI<QueryCollectionRequest, QueryCollectionResponse>(
+    createAPI<API.QueryCollection.Request, API.QueryCollection.Response>(
       `${server}/api/v3/queryCollection`, token)
 
   const submitTransaction =
-    createAPI<SubmitTransactionRequest, SubmitTransactionResponse>(
+    createAPI<API.SubmitTransaction.Request, API.SubmitTransaction.Response>(
       `${server}/api/v3/submitTransaction`, token)
 
   return {

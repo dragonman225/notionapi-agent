@@ -44,9 +44,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="233.59,-53.32 239.5,-50.97 233.42,-49.12 233.59,-53.32"/>
 </g>
 <!-- src/httputil.ts -->
-<g id="node4" class="node">
+<g id="node3" class="node">
 <title>src/httputil.ts</title>
-<g id="a_node4"><a xlink:href="https://github.com/dragonman225/notionapi-agent/tree/master/src/httputil.ts" xlink:title="httputil.ts">
+<g id="a_node3"><a xlink:href="https://github.com/dragonman225/notionapi-agent/tree/master/src/httputil.ts" xlink:title="httputil.ts">
 <path fill="#ddfeff" stroke="black" d="M206,-90C206,-90 156,-90 156,-90 153,-90 150,-87 150,-84 150,-84 150,-78 150,-78 150,-75 153,-72 156,-72 156,-72 206,-72 206,-72 209,-72 212,-75 212,-78 212,-78 212,-84 212,-84 212,-87 209,-90 206,-90"/>
 <text text-anchor="middle" x="181" y="-78.8" font-family="Helvetica,sans-Serif" font-size="9.00">httputil.ts</text>
 </a>
@@ -59,9 +59,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="144.11,-88.85 149.71,-85.83 143.45,-84.7 144.11,-88.85"/>
 </g>
 <!-- src/log.ts -->
-<g id="node6" class="node">
+<g id="node4" class="node">
 <title>src/log.ts</title>
-<g id="a_node6"><a xlink:href="https://github.com/dragonman225/notionapi-agent/tree/master/src/log.ts" xlink:title="log.ts">
+<g id="a_node4"><a xlink:href="https://github.com/dragonman225/notionapi-agent/tree/master/src/log.ts" xlink:title="log.ts">
 <path fill="#ddfeff" stroke="black" d="M292,-142C292,-142 250,-142 250,-142 247,-142 244,-139 244,-136 244,-136 244,-130 244,-130 244,-127 247,-124 250,-124 250,-124 292,-124 292,-124 295,-124 298,-127 298,-130 298,-130 298,-136 298,-136 298,-139 295,-142 292,-142"/>
 <text text-anchor="middle" x="271" y="-130.8" font-family="Helvetica,sans-Serif" font-size="9.00">log.ts</text>
 </a>
@@ -74,9 +74,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="237.56,-129.03 243.91,-128.67 238.72,-124.99 237.56,-129.03"/>
 </g>
 <!-- src/strings.ts -->
-<g id="node7" class="node">
+<g id="node5" class="node">
 <title>src/strings.ts</title>
-<g id="a_node7"><a xlink:href="https://github.com/dragonman225/notionapi-agent/tree/master/src/strings.ts" xlink:title="strings.ts">
+<g id="a_node5"><a xlink:href="https://github.com/dragonman225/notionapi-agent/tree/master/src/strings.ts" xlink:title="strings.ts">
 <path fill="#ddfeff" stroke="black" d="M204.5,-134C204.5,-134 157.5,-134 157.5,-134 154.5,-134 151.5,-131 151.5,-128 151.5,-128 151.5,-122 151.5,-122 151.5,-119 154.5,-116 157.5,-116 157.5,-116 204.5,-116 204.5,-116 207.5,-116 210.5,-119 210.5,-122 210.5,-122 210.5,-128 210.5,-128 210.5,-131 207.5,-134 204.5,-134"/>
 <text text-anchor="middle" x="181" y="-122.8" font-family="Helvetica,sans-Serif" font-size="9.00">strings.ts</text>
 </a>
@@ -88,10 +88,16 @@
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M129.85,-101.02C137.77,-104.8 147.07,-109.25 155.5,-113.28"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="154.85,-115.3 161.17,-115.99 156.66,-111.51 154.85,-115.3"/>
 </g>
+<!-- src/httputil.ts&#45;&gt;src/log.ts -->
+<g id="edge6" class="edge">
+<title>src/httputil.ts&#45;&gt;src/log.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M201.51,-90.17C205.35,-92.63 209.09,-95.58 212,-99 218.21,-106.29 212.88,-112.6 220,-119 225.03,-123.52 231.41,-126.59 237.91,-128.68"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="237.54,-130.75 243.88,-130.33 238.66,-126.71 237.54,-130.75"/>
+</g>
 <!-- src/error/RequestError.ts -->
-<g id="node3" class="node">
+<g id="node6" class="node">
 <title>src/error/RequestError.ts</title>
-<g id="a_node3"><a xlink:href="https://github.com/dragonman225/notionapi-agent/tree/master/src/error/RequestError.ts" xlink:title="RequestError.ts">
+<g id="a_node6"><a xlink:href="https://github.com/dragonman225/notionapi-agent/tree/master/src/error/RequestError.ts" xlink:title="RequestError.ts">
 <path fill="#ddfeff" stroke="black" d="M308,-90C308,-90 234,-90 234,-90 231,-90 228,-87 228,-84 228,-84 228,-78 228,-78 228,-75 231,-72 234,-72 234,-72 308,-72 308,-72 311,-72 314,-75 314,-78 314,-78 314,-84 314,-84 314,-87 311,-90 308,-90"/>
 <text text-anchor="middle" x="271" y="-78.8" font-family="Helvetica,sans-Serif" font-size="9.00">RequestError.ts</text>
 </a>
@@ -103,14 +109,8 @@
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M212.28,-81C215.3,-81 218.4,-81 221.54,-81"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="222,-83.1 228,-81 222,-78.9 222,-83.1"/>
 </g>
-<!-- src/httputil.ts&#45;&gt;src/log.ts -->
-<g id="edge6" class="edge">
-<title>src/httputil.ts&#45;&gt;src/log.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M201.51,-90.17C205.35,-92.63 209.09,-95.58 212,-99 218.21,-106.29 212.88,-112.6 220,-119 225.03,-123.52 231.41,-126.59 237.91,-128.68"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="237.54,-130.75 243.88,-130.33 238.66,-126.71 237.54,-130.75"/>
-</g>
 <!-- url -->
-<g id="node8" class="node">
+<g id="node7" class="node">
 <title>url</title>
 <path fill="#ffffcc" stroke="grey" d="M292,-18C292,-18 250,-18 250,-18 247,-18 244,-15 244,-12 244,-12 244,-6 244,-6 244,-3 247,0 250,0 250,0 292,0 292,0 295,0 298,-3 298,-6 298,-6 298,-12 298,-12 298,-15 295,-18 292,-18"/>
 <text text-anchor="middle" x="271" y="-6.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="grey">url</text>
@@ -122,9 +122,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="239.31,-21.89 243.94,-17.54 237.6,-18.06 239.31,-21.89"/>
 </g>
 <!-- src/index.ts -->
-<g id="node5" class="node">
+<g id="node8" class="node">
 <title>src/index.ts</title>
-<g id="a_node5"><a xlink:href="https://github.com/dragonman225/notionapi-agent/tree/master/src/index.ts" xlink:title="index.ts">
+<g id="a_node8"><a xlink:href="https://github.com/dragonman225/notionapi-agent/tree/master/src/index.ts" xlink:title="index.ts">
 <path fill="#ddfeff" stroke="black" d="M64,-101C64,-101 22,-101 22,-101 19,-101 16,-98 16,-95 16,-95 16,-89 16,-89 16,-86 19,-83 22,-83 22,-83 64,-83 64,-83 67,-83 70,-86 70,-89 70,-89 70,-95 70,-95 70,-98 67,-101 64,-101"/>
 <text text-anchor="middle" x="43" y="-89.8" font-family="Helvetica,sans-Serif" font-size="9.00">index.ts</text>
 </a>
