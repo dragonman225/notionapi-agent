@@ -1,11 +1,10 @@
-import { Util } from "../"
-import { ColumnID, ColumnPropertyType } from "../collection"
+import { Util, Collection } from "../"
 
 export type SortDirection = "ascending" | "descending"
 
 export interface Sort {
   id: Util.UUID
   direction: SortDirection
-  property: ColumnID
-  type: ColumnPropertyType
+  property: Collection.ColumnID
+  type: Collection.ColumnPropertyType
 }

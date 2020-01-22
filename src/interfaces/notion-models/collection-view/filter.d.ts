@@ -1,5 +1,4 @@
-import { Util } from "../"
-import { ColumnID, ColumnPropertyType } from "../collection"
+import { Util, Collection } from "../"
 
 /** Fundamental comparators. */
 export type EmptinessComparator =
@@ -89,8 +88,8 @@ export type FilterOperator = "and" | "or"
 export interface Filter {
   comparator: Comparator
   id: Util.UUID
-  property: ColumnID
-  type: ColumnPropertyType
+  property: Collection.ColumnID
+  type: Collection.ColumnPropertyType
   /**
    * `value_type` exists when `type` is "date" or "person".
    */
@@ -120,5 +119,5 @@ export interface Filter2 {
     }
     operator: Comparator
   }
-  property: ColumnID
+  property: Collection.ColumnID
 }

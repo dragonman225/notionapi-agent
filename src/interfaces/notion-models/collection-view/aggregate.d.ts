@@ -1,5 +1,4 @@
-import { Util } from "../"
-import { ColumnID, ColumnPropertyType } from "../collection"
+import { Util, Collection } from "../"
 
 /** Fundamental aggregation types. */
 export type CountAggregationType =
@@ -44,8 +43,8 @@ export type AggregationType =
   | CreatedEditedByAggregationType
 
 export interface Aggregate {
-  property: ColumnID
-  type: ColumnPropertyType
+  property: Collection.ColumnID
+  type: Collection.ColumnPropertyType
   aggregation_type: AggregationType
   /**
    * When `aggregation_type` is "count", `id` is "count".
@@ -62,6 +61,6 @@ export interface Aggregate {
  * Experimental. Do not use.
  */
 export interface Aggregate2 {
-  property: ColumnID
+  property: Collection.ColumnID
   aggregator: AggregationType
 }

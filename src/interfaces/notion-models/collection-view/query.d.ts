@@ -1,7 +1,7 @@
 import { Aggregate, Aggregate2 } from "./aggregate"
 import { Filter, Filter2, FilterOperator } from "./filter"
 import { Sort } from "./sort"
-import { ColumnID } from "../collection"
+import { Collection } from "../"
 
 /**
  * Settings for the stable version of query engine.
@@ -15,7 +15,7 @@ export interface Query {
   /** The "Sort" button at the top right of table UI. */
   sort: Sort[]
   /** Only appear in calendar view. */
-  calendar_by?: ColumnID
+  calendar_by?: Collection.ColumnID
 }
 
 /**
