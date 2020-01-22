@@ -4,8 +4,6 @@ import { ColumnID } from "../collection"
 
 /**
  * Embedded Sub-Page block or Link To Page block.
- * 
- * @category Notion Block
  */
 export interface Page extends EmptyBlock {
   type: "page"
@@ -35,8 +33,6 @@ export interface Page extends EmptyBlock {
 
 /**
  * Text block. Editable, can have children.
- * 
- * @category Notion Block
  */
 export interface Text extends EmptyBlock {
   type: "text"
@@ -47,8 +43,6 @@ export interface Text extends EmptyBlock {
 
 /**
  * Bulleted List block. Editable, can have children.
- * 
- * @category Notion Block
  */
 export interface BulletedList extends EmptyBlock {
   type: "bulleted_list"
@@ -59,8 +53,6 @@ export interface BulletedList extends EmptyBlock {
 
 /**
  * Numbered List block. Editable, can have children.
- * 
- * @category Notion Block
  */
 export interface NumberedList extends EmptyBlock {
   type: "numbered_list"
@@ -71,8 +63,6 @@ export interface NumberedList extends EmptyBlock {
 
 /**
  * To Do block. Editable, can have children.
- * 
- * @category Notion Block
  */
 export interface ToDo extends EmptyBlock {
   type: "to_do"
@@ -84,8 +74,6 @@ export interface ToDo extends EmptyBlock {
 
 /**
  * Toggle block. Editable, can have children.
- * 
- * @category Notion Block
  */
 export interface Toggle extends EmptyBlock {
   type: "toggle"
@@ -96,8 +84,6 @@ export interface Toggle extends EmptyBlock {
 
 /**
  * Heading1 block. Editable, can't have children.
- * 
- * @category Notion Block
  */
 export interface Header extends EmptyBlock {
   type: "header"
@@ -108,8 +94,6 @@ export interface Header extends EmptyBlock {
 
 /**
  * Heading2 block. Editable, can't have children.
- * 
- * @category Notion Block
  */
 export interface SubHeader extends EmptyBlock {
   type: "sub_header"
@@ -120,8 +104,6 @@ export interface SubHeader extends EmptyBlock {
 
 /**
  * Heading3 block. Editable, can't have children.
- * 
- * @category Notion Block
  */
 export interface SubSubHeader extends EmptyBlock {
   type: "sub_sub_header"
@@ -132,8 +114,6 @@ export interface SubSubHeader extends EmptyBlock {
 
 /**
  * Quote block. Editable, can't have children.
- * 
- * @category Notion Block
  */
 export interface Quote extends EmptyBlock {
   type: "quote"
@@ -144,8 +124,6 @@ export interface Quote extends EmptyBlock {
 
 /**
  * Callout block. Editable, can't have children.
- * 
- * @category Notion Block
  */
 export interface Callout extends EmptyBlock {
   type: "callout"
@@ -162,8 +140,6 @@ export interface Callout extends EmptyBlock {
  * This is used to wrap blocks that should be displayed in the same row.
  * 
  * Children of this block must be {@link Column}.
- * 
- * @category Notion Block
  */
 export interface ColumnList extends EmptyBlock {
   type: "column_list"
@@ -173,8 +149,6 @@ export interface ColumnList extends EmptyBlock {
  * Column block. Not editable, can have children.
  * 
  * Parent of this block must be {@link ColumnList}.
- * 
- * @category Notion Block
  */
 export interface Column extends EmptyBlock {
   type: "column"
@@ -182,17 +156,12 @@ export interface Column extends EmptyBlock {
 
 /**
  * Divider block. Not editable, can't have children.
- * 
- * @category Notion Block
  */
 export interface Divider extends EmptyBlock {
   type: "divider"
 }
 
-/**
- * @category Notion Block
- */
-export type BasicBlock =
+export type BasicBlockUnion =
   Page | Text | BulletedList | NumberedList | ToDo | Toggle |
   Header | SubHeader | SubSubHeader | Quote | Callout |
   ColumnList | Column | Divider

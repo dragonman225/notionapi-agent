@@ -1,16 +1,11 @@
 import { EmptyBlock } from "./empty_block"
 
-/**
- * @category Notion Block
- */
-export interface TableOfContent extends EmptyBlock {
+export interface TableOfContents extends EmptyBlock {
   type: "table_of_contents"
 }
 
 /**
  * Math Equation block.
- * 
- * @category Notion Block
  */
 export interface Equation extends EmptyBlock {
   type: "equation"
@@ -22,8 +17,6 @@ export interface Equation extends EmptyBlock {
 
 /**
  * Template button block.
- * 
- * @category Notion Block
  */
 export interface Factory extends EmptyBlock {
   type: "factory"
@@ -33,15 +26,9 @@ export interface Factory extends EmptyBlock {
   }
 }
 
-/**
- * @category Notion Block
- */
 export interface Breadcrumb extends EmptyBlock {
   type: "breadcrumb"
 }
 
-/**
- * @category Notion Block
- */
-export type AdvancedBlock =
-  TableOfContent | Equation | Factory | Breadcrumb
+export type AdvancedBlockUnion =
+  TableOfContents | Equation | Factory | Breadcrumb

@@ -3,8 +3,6 @@ import { EmptyBlock } from "./empty_block"
 
 /**
  * Image block.
- * 
- * @category Notion Block
  */
 export interface Image extends EmptyBlock {
   type: "image"
@@ -22,8 +20,6 @@ export interface Image extends EmptyBlock {
 
 /**
  * Video block.
- * 
- * @category Notion Block
  */
 export interface Video extends EmptyBlock {
   type: "video"
@@ -41,8 +37,6 @@ export interface Video extends EmptyBlock {
 
 /**
  * Audio block.
- * 
- * @category Notion Block
  */
 export interface Audio extends EmptyBlock {
   type: "audio"
@@ -55,8 +49,6 @@ export interface Audio extends EmptyBlock {
 
 /**
  * Web Bookmark block.
- * 
- * @category Notion Block
  */
 export interface Bookmark extends EmptyBlock {
   type: "bookmark"
@@ -72,8 +64,6 @@ export interface Bookmark extends EmptyBlock {
 
 /**
  * Code block.
- * 
- * @category Notion Block
  */
 export interface Code extends EmptyBlock {
   type: "code"
@@ -86,8 +76,6 @@ export interface Code extends EmptyBlock {
 
 /**
  * File block.
- * 
- * @category Notion Block
  */
 export interface File extends EmptyBlock {
   type: "file"
@@ -103,7 +91,4 @@ export interface File extends EmptyBlock {
   file_ids?: Util.UUID[]
 }
 
-/**
- * @category Notion Block
- */
-export type MediaBlock = Image | Video | Audio | Bookmark | Code | File
+export type MediaBlockUnion = Image | Video | Audio | Bookmark | Code | File

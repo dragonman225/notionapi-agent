@@ -2,8 +2,6 @@ import { Util } from "../"
 
 /**
  * Everything about how to layout a block.
- * 
- * @category Notion Block
  */
 export interface BlockFormat {
   block_locked?: boolean

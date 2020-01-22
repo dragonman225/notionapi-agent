@@ -3,8 +3,6 @@ import { EmptyBlock } from "./empty_block"
 
 /**
  * Inline database block or Linked database block.
- * 
- * @category Notion Block
  */
 export interface CollectionViewInline extends EmptyBlock {
   type: "collection_view"
@@ -14,8 +12,6 @@ export interface CollectionViewInline extends EmptyBlock {
 
 /**
  * Full page database block.
- * 
- * @category Notion Block
  */
 export interface CollectionViewPage extends EmptyBlock {
   type: "collection_view_page"
@@ -23,7 +19,4 @@ export interface CollectionViewPage extends EmptyBlock {
   collection_id: Util.UUID
 }
 
-/**
- * @category Notion Block
- */
-export type DatabaseBlock = CollectionViewInline | CollectionViewPage
+export type DatabaseBlockUnion = CollectionViewInline | CollectionViewPage

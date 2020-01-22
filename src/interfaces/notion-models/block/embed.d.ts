@@ -3,8 +3,6 @@ import { EmptyBlock } from "./empty_block"
 
 /**
  * General purpose embed block.
- * 
- * @category Notion Block
  */
 export interface Embed extends EmptyBlock {
   type: "embed"
@@ -21,8 +19,6 @@ export interface Embed extends EmptyBlock {
 
 /**
  * Codepen embed block.
- * 
- * @category Notion Block
  */
 export interface Codepen extends EmptyBlock {
   type: "codepen"
@@ -39,8 +35,6 @@ export interface Codepen extends EmptyBlock {
 
 /**
  * Invision embed block.
- * 
- * @category Notion Block
  */
 export interface Invision extends EmptyBlock {
   type: "invision"
@@ -51,8 +45,6 @@ export interface Invision extends EmptyBlock {
 
 /**
  * PDF embed block.
- * 
- * @category Notion Block
  */
 export interface PDF extends EmptyBlock {
   type: "pdf"
@@ -63,7 +55,4 @@ export interface PDF extends EmptyBlock {
   file_ids?: Util.UUID[]
 }
 
-/**
- * @category Notion Block
- */
-export type EmbedBlock = Embed | Codepen | Invision | PDF
+export type EmbedBlockUnion = Embed | Codepen | Invision | PDF
