@@ -62,6 +62,6 @@ export interface Aggregate {
  * Experimental. Do not use.
  */
 export interface Aggregate2 {
-  property: PropertyKey
+  property: ColumnID
   aggregator: AggregationType
 }

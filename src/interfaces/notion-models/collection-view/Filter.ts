@@ -110,8 +110,7 @@ export interface Filter {
 }
 
 /**
- * @remarks
- * Experimental. Do not use.
+ * TODO: Look into the new `Filter2.filter.value.type`
  */
 export interface Filter2 {
   filter: {
@@ -121,5 +120,5 @@ export interface Filter2 {
     }
     operator: Comparator
   }
-  property: PropertyKey
+  property: ColumnID
 }

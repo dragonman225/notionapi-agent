@@ -41,8 +41,14 @@ export interface CollectionView {
   type: CollectionViewType
   /** The name of a view. */
   name: string
-  /** Settings for aggregation, filtering, and sorting. */
-  query: Query
+  /** 
+   * Settings for aggregation, filtering, and sorting. It may not exist 
+   * in newer collection views.
+   */
+  query?: Query
+  /** 
+   * The new version of `query`.
+   */
   query2: Query2
   /**
    * Equivalent to these settings in Notion :

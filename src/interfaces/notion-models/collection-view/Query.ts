@@ -19,10 +19,7 @@ export interface Query {
 }
 
 /**
- * Settings for the experimental version (?) of query engine.
- * 
- * @remarks
- * Experimental. Do not use.
+ * The new version of query settings.
  */
 export interface Query2 {
   aggregate: Aggregate[]
