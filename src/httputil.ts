@@ -13,15 +13,15 @@ function post(url: string) {
 
   const myURL = new URL(url)
 
-  if (myURL.protocol !== 'http:' && myURL.protocol !== 'https:') {
+  if (myURL.protocol !== "http:" && myURL.protocol !== "https:") {
     throw new RequestError(`Unsupported protocol: ${myURL.protocol}`)
   }
 
   const port = myURL.port
-    ? myURL.port : (myURL.protocol === 'http:')
+    ? myURL.port : (myURL.protocol === "http:")
       ? 80 : 443
 
-  let agentOptions = {
+  const agentOptions = {
     hostname: myURL.hostname,
     authority: myURL.hostname,
     port: port,
@@ -56,7 +56,7 @@ ${agentOptions.port} ${agentOptions.path}`)
       let response
 
       try {
-        if (myURL.protocol === 'http:') {
+        if (myURL.protocol === "http:") {
           response = await makeHTTPRequest(agentOptions, payload)
         } else {
           response = await makeHTTPSRequest(agentOptions, payload)
