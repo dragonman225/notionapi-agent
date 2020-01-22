@@ -1,6 +1,6 @@
-import * as fs from 'fs'
-import * as path from 'path'
-import { createAgent } from '../src'
+import * as fs from "fs"
+import * as path from "path"
+import { createAgent } from "../src"
 
 const consoleCfg = {
   maxArrayLength: 5
