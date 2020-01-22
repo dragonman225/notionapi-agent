@@ -1,7 +1,7 @@
 import * as fs from "fs"
 import * as path from "path"
 import { createAgent } from "../../dist"
-import { Block, Table } from "../../dist/interfaces/notion-models"
+import * as Notion from "../../dist/interfaces"
 
 /**
  * https://www.notion.so/Writing-editing-guide-68c7c67047494fdb87d50185429df93e
@@ -63,10 +63,10 @@ type GetBlocksState = {
  */
 async function getBlocks(
   state: GetBlocksState
-): Promise<[Block[], GetBlocksState]> {
+): Promise<[Notion.Block[], GetBlocksState]> {
 
   const req = state.blockIds.map(id => {
-    return { id, table: "block" as Table }
+    return { id, table: "block" as Notion.Util.Table }
   })
 
   const res = await state.agent.getRecordValues({
@@ -75,7 +75,7 @@ async function getBlocks(
 
   const validBlocks = res.results
     .filter(r => r.role !== "none")
-    .map(r => r.value as Block)
+    .map(r => r.value as Notion.Block)
 
   const nextState = {
     initial: false,
