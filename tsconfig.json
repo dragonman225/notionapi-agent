@@ -4,7 +4,8 @@
     "target": "esnext",
     "module": "commonjs",
     "lib": [
-      "es7"
+      "es7",
+      "dom"
     ],
     "moduleResolution": "node",
     "strict": true,
