@@ -31,6 +31,10 @@ export interface CollectionView {
   parent_id: Util.UUID
   parent_table: Util.Table
   alive: boolean
+  /**
+   * Use queryCollection() with an empty query to get pages 
+   * in a collection. `page_sort` does not include all pages.
+   */
   page_sort: Util.UUID[]
 }
 
