@@ -1,5 +1,5 @@
 import { Util } from "../../"
-import { Query } from "../../notion-models/collection-view/query"
+import { Query2 } from "../../notion-models/collection-view/query"
 import { Map } from "./Map"
 import {
   BlockRecord, CollectionRecord, CollectionViewRecord,
@@ -25,7 +25,7 @@ export namespace QueryCollection {
       userLocale: string
       userTimeZone: Util.TimeZone
     }
-    query: Query
+    query: Query2
   }
 
   interface Response {
