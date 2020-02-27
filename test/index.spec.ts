@@ -119,8 +119,11 @@ async function main() {
       },
       query: {
         aggregate: [],
-        filter: [],
-        filter_operator: "and",
+        aggregations: [],
+        filter: {
+          filters: [],
+          operator: "and"
+        },
         sort: []
       }
     })
