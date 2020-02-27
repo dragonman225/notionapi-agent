@@ -1,5 +1,6 @@
 /** Import libraries. */
-const URL = (typeof window !== 'undefined' && window.URL) ? window.URL : require('url').URL
+const URL = (typeof window !== "undefined" && window.URL) ?
+  window.URL : require("url").URL
 import { makeHTTPRequest, makeHTTPSRequest } from "@dnpr/make-request"
 
 /** Import other sripts. */

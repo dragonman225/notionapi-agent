@@ -40,6 +40,7 @@ interface Agent {
    */
   getActivityLog: (req: API.GetActivityLog.Request) =>
     Promise<API.GetActivityLog.Response>
+
   /**
    * POST /api/v3/getAssetsJson
    * 
@@ -47,6 +48,7 @@ interface Agent {
    */
   getAssetsJson: (req: API.GetAssetsJson.Request) =>
     Promise<API.GetAssetsJson.Response>
+
   /**
    * POST /api/v3/getRecordValues
    * 
@@ -58,6 +60,7 @@ interface Agent {
    */
   getRecordValues: (req: API.GetRecordValues.Request) =>
     Promise<API.GetRecordValues.Response>
+
   /**
    * POST /api/v3/getSnapshotsList
    * 
@@ -65,6 +68,7 @@ interface Agent {
    */
   getSnapshotsList: (req: API.GetSnapshotsList.Request) =>
     Promise<API.GetSnapshotsList.Response>
+
   /**
    * POST /api/v3/getUserSharedPages
    * 
@@ -78,6 +82,7 @@ interface Agent {
    */
   getUserSharedPages: (req: API.GetUserSharedPages.Request) =>
     Promise<API.GetUserSharedPages.Response>
+
   /**
    * POST /api/v3/loadPageChunk
    * 
@@ -85,6 +90,7 @@ interface Agent {
    */
   loadPageChunk: (req: API.LoadPageChunk.Request) =>
     Promise<API.LoadPageChunk.Response>
+
   /**
    * POST /api/v3/loadUserContent
    * 
@@ -94,6 +100,7 @@ interface Agent {
    */
   loadUserContent: (req: API.LoadUserContent.Request) =>
     Promise<API.LoadUserContent.Response>
+
   /**
    * POST /api/v3/queryCollection
    * 
@@ -108,6 +115,7 @@ interface Agent {
    */
   queryCollection: (req: API.QueryCollection.Request) =>
     Promise<API.QueryCollection.Response>
+
   /**
    * POST /api/v3/submitTransaction
    * 
