@@ -18,6 +18,7 @@ import { Util } from "./"
 export type SemanticString =
   SemanticString.BasicString | SemanticString.InlineMentionUser
   | SemanticString.InlineMentionPage | SemanticString.InlineMentionDate
+  | SemanticString.InlineMath
 
 export namespace SemanticString {
 
@@ -88,5 +89,10 @@ export namespace SemanticString {
    * Mention a date only or a date with reminder.
    */
   export type InlineMentionDate = ["‣", [["d", DateTime]]]
+
+  /**
+   * Inline math.
+   */
+  export type InlineMath = ["⁍", [["e", Util.Latex]]]
 
 }

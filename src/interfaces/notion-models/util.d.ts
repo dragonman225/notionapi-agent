@@ -92,4 +92,11 @@ export namespace Util {
     | "activity" | "snapshot" | "follow" | "slack_integration"
     | "comment" | "discussion"
 
+  /**
+   * A LaTeX string representing math.
+   * 
+   * @category Notion Common
+   */
+  type Latex = string
+
 }
