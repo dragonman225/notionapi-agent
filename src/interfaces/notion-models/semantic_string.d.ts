@@ -68,7 +68,8 @@ export namespace SemanticString {
   export type InlineCode = ["c"]
   /** Color or background color. */
   export type Colored = ["h", Util.NotionColor]
-  export type Commented = ["m"]
+  /** The UUID is the id of the associated ["discussion" entity]{@link Discussion}. */
+  export type Commented = ["m", Util.UUID]
 
   export type BasicStringFormatting =
     Bold | Italic | Strike | Link | InlineCode | Colored | Commented

@@ -43,4 +43,6 @@ export interface EmptyBlock {
   alive: boolean
   /** Copied from another block. */
   copied_from?: Util.UUID
+  /** Discussions associated with this block. */
+  discussions?: Util.UUID[]
 }

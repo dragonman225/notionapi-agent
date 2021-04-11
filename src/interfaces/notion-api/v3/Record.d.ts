@@ -1,7 +1,8 @@
 import {
   Block, Collection, CollectionView,
   NotionUser, UserRoot, UserSettings,
-  Space, SpaceView, Activity, Follow, SlackIntegration, Permission
+  Space, SpaceView, Activity, Follow, SlackIntegration, Permission,
+  Comment, Discussion
 } from "../../"
 
 export type Record<T> = {
@@ -13,7 +14,7 @@ export type Record<T> = {
 export type RecordUnion =
   Block | Collection | CollectionView | NotionUser | UserRoot
   | UserSettings | Space | SpaceView | Activity | Follow
-  | SlackIntegration
+  | SlackIntegration | Comment | Discussion
 
 export type AnyRecord = Record<RecordUnion>
 export type BlockRecord = Record<Block>
@@ -27,3 +28,5 @@ export type SpaceViewRecord = Record<SpaceView>
 export type ActivityRecord = Record<Activity>
 export type FollowRecord = Record<Follow>
 export type SlackIntegrationRecord = Record<SlackIntegration>
+export type CommentRecord = Record<Comment>
+export type DiscussionRecord = Record<Discussion>

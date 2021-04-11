@@ -10,10 +10,13 @@ import { Activity } from "./activity"
 import { Follow } from "./follow"
 import { SlackIntegration } from "./slack_integration"
 import { Permission } from "./permission"
+import { Comment } from "./comment"
+import { Discussion } from "./discussion"
 
 export {
   Block, Collection, CollectionView, NotionUser, UserRoot, UserSettings,
-  Space, SpaceView, Activity, Follow, SlackIntegration, Permission
+  Space, SpaceView, Activity, Follow, SlackIntegration, Permission, 
+  Comment, Discussion
 }
 
 export * from "./util"
