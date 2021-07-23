@@ -14,7 +14,7 @@ function saveData(filename, obj) {
 }
 
 async function main() {
-  const testPageId = "181e961a-eb5c-4ee6-9153-07c0dfd5156d"
+  const testPageId = "1c4d63a8-ffc7-47be-a565-8672797a595a"
   const testCollectionId = "57d27a94-610a-4266-9441-7da3b7e976ff"
   const testCollectionViewId = "1529a5d4-d982-4767-92b4-96e93ec2ef0c"
 
