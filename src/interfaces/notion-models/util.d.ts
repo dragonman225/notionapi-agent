@@ -99,4 +99,15 @@ export namespace Util {
    */
   type Latex = string
 
+  /**
+   * A pointer to a record in Notion.
+   * 
+   * @category Notion Common
+   */
+  type Pointer = {
+    id: UUID
+    table: Table
+    spaceId: UUID
+  }
+
 }

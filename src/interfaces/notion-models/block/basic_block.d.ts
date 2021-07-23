@@ -1,9 +1,11 @@
-import { Util, SemanticString, Permission } from "../"
 import { EmptyBlock } from "./empty_block"
+import { Util, SemanticString, Permission } from "../"
 import { ColumnID } from "../collection"
 
 /**
- * Embedded Sub-Page block or Link To Page block.
+ * Embedded Sub-Page block or old Link To Page block.
+ * 
+ * For new Link To Page block, see {@link Alias}.
  */
 export interface Page extends EmptyBlock {
   type: "page"
@@ -29,6 +31,17 @@ export interface Page extends EmptyBlock {
    * Defined if the user upload images for page icon and page cover.
    */
   file_ids?: Util.UUID[]
+}
+
+/**
+ * New Link To Page block.
+ */
+export interface Alias extends EmptyBlock {
+  type: "alias"
+  format: {
+    /** The page block to link to. */
+    alias_pointer: Util.Pointer
+  }
 }
 
 /**
