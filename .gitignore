@@ -30,3 +30,4 @@ test/*
 *.log
 dist/
 typedoc/
+tools/get-block*.json

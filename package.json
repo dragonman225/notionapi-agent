@@ -21,6 +21,7 @@
     "@dnpr/make-request": "^0.1.1"
   },
   "devDependencies": {
+    "@dnpr/cli": "^2.0.0",
     "@rollup/plugin-typescript": "^2.0.1",
     "@types/node": "^13.1.1",
     "@typescript-eslint/eslint-plugin": "^2.13.0",
