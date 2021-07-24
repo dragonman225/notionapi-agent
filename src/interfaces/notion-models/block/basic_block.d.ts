@@ -177,4 +177,4 @@ export interface Divider extends EmptyBlock {
 export type BasicBlockUnion =
   Page | Text | BulletedList | NumberedList | ToDo | Toggle |
   Header | SubHeader | SubSubHeader | Quote | Callout |
-  ColumnList | Column | Divider
+  ColumnList | Column | Divider | Alias

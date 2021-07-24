@@ -18,6 +18,8 @@ export namespace Block {
   type Equation = AdvancedBlock.Equation
   type Factory = AdvancedBlock.Factory
   type TableOfContents = AdvancedBlock.TableOfContents
+  type TransclusionContainer = AdvancedBlock.TransclusionContainer
+  type TransclusionReference = AdvancedBlock.TransclusionReference
 
   type BulletedList = BasicBlock.BulletedList
   type Callout = BasicBlock.Callout
@@ -27,6 +29,7 @@ export namespace Block {
   type Header = BasicBlock.Header
   type NumberedList = BasicBlock.NumberedList
   type Page = BasicBlock.Page
+  type Alias = BasicBlock.Alias
   type Quote = BasicBlock.Quote
   type SubHeader = BasicBlock.SubHeader
   type SubSubHeader = BasicBlock.SubSubHeader
