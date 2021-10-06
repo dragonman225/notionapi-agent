@@ -1,5 +1,7 @@
 import { Util } from "../../"
-import { Query2 } from "../../notion-models/collection-view/query"
+import { Aggregation } from "../../notion-models/collection-view/aggregate"
+import { Filter2, FilterOperator } from "../../notion-models/collection-view/filter"
+import { Sort } from "../../notion-models/collection-view/sort"
 import { Map } from "./Map"
 import {
   BlockRecord, CollectionRecord, CollectionViewRecord,
@@ -8,35 +10,72 @@ import {
 
 export namespace QueryCollection {
 
-  interface AggregationResult {
-    /** {@link Aggregate.id}. */
-    id: Util.UUID
-    value: number
+  interface ResultsReducer {
+    type: "results"
+    limit: number
+    loadContentCover: boolean
+  }
+
+  interface ResultsReducerResult {
+    type: "results"
+    blockIds: Util.UUID[]
+    total: number
+  }
+  
+  interface AggregationReducer {
+    type: "aggregation"
+    aggregation: Aggregation
+  }
+  
+  interface AggregationReducerResult {
+    type: "aggregation"
+    aggregationResult: AggregationResult
+  }
+
+  type Reducer = ResultsReducer | AggregationReducer
+  type ReducerResult = ResultsReducerResult | AggregationReducerResult
+
+  interface Loader {
+    filter?: {
+      filters: Filter2[]
+      operator: FilterOperator
+    }
+    sort?: Sort[]
+    /**
+     * A dictionary of reducers. Keys are customizable and are used to 
+     * retrieve results in {@link Response.result}.
+     */
+    reducers: Record<string, Reducer>
+    searchQuery: string
+    type: "reducer"
+    userTimeZone: Util.TimeZone
   }
 
   interface Request {
-    collectionId: Util.UUID
-    collectionViewId: Util.UUID
-    loader: {
-      limit: number
-      loadContentCover: boolean
-      type: "table"
-      /** `locale` in {@link UserSettings.settings} */
-      userLocale: string
-      userTimeZone: Util.TimeZone
+    collection: {
+      id: Util.UUID
+      spaceId?: Util.UUID
     }
-    query: Query2
+    collectionView: {
+      id: Util.UUID
+      spaceId?: Util.UUID
+    }
+    loader: Loader
   }
 
   interface Response {
     result: {
-      type: "table"
-      blockIds: Util.UUID[]
-      aggregationResults: AggregationResult[]
-      /** Number of blocks in this result.  */
-      total: number
+      type: "reducer"
+      reducerResults: Record<string, ReducerResult>
     }
+    /** `__version__: 3` exists in the browser, but not in the requests made by notionapi-agent. */
     recordMap: {
+      block: Map<Util.WithSpaceId<BlockRecord>>
+      collection: Map<Util.WithSpaceId<CollectionRecord>>
+      collection_view: Map<Util.WithSpaceId<CollectionViewRecord>>
+      space: Map<Util.WithSpaceId<SpaceRecord>>
+      __version__: 3
+    } | {
       block: Map<BlockRecord>
       collection: Map<CollectionRecord>
       collection_view: Map<CollectionViewRecord>

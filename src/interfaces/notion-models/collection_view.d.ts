@@ -1,5 +1,5 @@
 import { Util } from "./"
-import { Query, Query2 } from "./collection-view/query"
+import { Query2 } from "./collection-view/query"
 import { Collection } from "./collection"
 
 /**
@@ -12,17 +12,12 @@ export interface CollectionView {
   type: CollectionView.Type
   /** The name of a view. */
   name: string
-  /** 
-   * Settings for aggregation, filtering, and sorting. It may not exist 
-   * in newer collection views.
-   */
-  query?: Query
-  /** 
-   * The new version of `query`.
-   */
+  /** Legacy, deprecated query settings. */
+  query?: unknown
+  /** Settings for aggregation, filtering, and sorting. */
   query2: Query2
   /**
-   * Equivalent to these settings in Notion :
+   * Equivalent to these settings in Notion:
    * 1. Visibility switches in the **Properties** button dropdown.
    * 2. **Wrap Cells** switch in the **···** button dropdown.
    * 3. Table column width.

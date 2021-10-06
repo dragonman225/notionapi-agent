@@ -110,4 +110,10 @@ export namespace Util {
     spaceId: UUID
   }
 
+  type WithSpaceId<T> = {
+    /** Some values have `spaceId` while some don't. */
+    spaceId?: UUID
+    value: T
+  }
+
 }

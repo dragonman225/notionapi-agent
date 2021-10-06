@@ -1,4 +1,5 @@
-import { Util, Collection } from "../"
+import { Collection } from "../"
+import { SemanticString } from "../semantic_string"
 
 /** Fundamental aggregation types. */
 export type CountAggregationType =
@@ -42,25 +43,21 @@ export type AggregationType =
   | PhoneAggregationType | CreatedEditedTimeAggregationType
   | CreatedEditedByAggregationType
 
-export interface Aggregate {
-  property: Collection.ColumnID
-  type: Collection.ColumnPropertyType
-  aggregation_type: AggregationType
-  /**
-   * When `aggregation_type` is "count", `id` is "count".
-   * 
-   * Otherwise, `id` is an Util.UUID string.
-   */
-  id: "count" | Util.UUID
-  /** Aggregate is useless on other types of views. */
-  view_type: "table" | "board"
-}
-
-/**
- * @remarks
- * Experimental. Do not use.
- */
-export interface Aggregate2 {
+export interface Aggregation {
   property: Collection.ColumnID
   aggregator: AggregationType
 }
+
+/** Count, Percent. */
+export interface NumberAggregationResult {
+  type: "number"
+  value: 0
+}
+
+/** Date. */
+export interface DateAggregationResult {
+  type: "date"
+  value: SemanticString.DateTime
+}
+
+export type AggregationResult = NumberAggregationResult | DateAggregationResult
