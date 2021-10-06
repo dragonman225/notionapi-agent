@@ -1,3 +1,7 @@
+### v3.0.0 (2021.10.06)
+
+Update types related to changes in `/api/v3/queryCollection`.
+
 ### 2020.01.03
 
 Refactor TypeScript definitions and code.
