@@ -108,23 +108,23 @@ async function main() {
   /** queryCollection */
   try {
     const collection = await agent.queryCollection({
-      collectionId: testCollectionId,
-      collectionViewId: testCollectionViewId,
-      loader: {
-        limit: 100,
-        loadContentCover: false,
-        type: "table",
-        userLocale: "en",
-        userTimeZone: "Asia/Taipei"
+      collection: {
+        id: testCollectionId,
       },
-      query: {
-        aggregate: [],
-        aggregations: [],
-        filter: {
-          filters: [],
-          operator: "and"
+      collectionView: {
+        id: testCollectionViewId,
+      },
+      loader: {
+        reducers: {
+          pages: {
+            type: "results",
+            limit: 100,
+            loadContentCover: false
+          }
         },
-        sort: []
+        searchQuery: "",
+        type: "reducer",
+        userTimeZone: "Asia/Taipei",
       }
     })
 
