@@ -69,13 +69,13 @@ export namespace QueryCollection {
       reducerResults: Record<string, ReducerResult>
     }
     /** `__version__: 3` exists in the browser, but not in the requests made by notionapi-agent. */
-    recordMap: {
+    recordMap: /*{
       block: Map<Util.WithSpaceId<BlockRecord>>
       collection: Map<Util.WithSpaceId<CollectionRecord>>
       collection_view: Map<Util.WithSpaceId<CollectionViewRecord>>
       space: Map<Util.WithSpaceId<SpaceRecord>>
       __version__: 3
-    } | {
+    } |*/ {
       block: Map<BlockRecord>
       collection: Map<CollectionRecord>
       collection_view: Map<CollectionViewRecord>
